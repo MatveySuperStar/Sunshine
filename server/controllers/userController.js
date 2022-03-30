@@ -83,10 +83,13 @@ class UserController {
   }
 
   async login(req, res, next) {
-    const {email, password} = req.query
+    const {email, password} = req.body
+
+    console.log(req.body)
 
     const user = await db.execute('SELECT * FROM users WHERE mail=?', [email])
       .then( result => {
+        console.log(result[0])
         return result[0][0]
       })
       .catch( err => {
@@ -104,7 +107,7 @@ class UserController {
     }
 
     const token = generateJwt(user.id, user.email, user.role)
-    
+
     return res.json({token})
   }
 

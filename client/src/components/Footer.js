@@ -1,9 +1,9 @@
 import React from 'react';
-import './Footer.scss';
-import instagram from './instagram.png';
-import vk from './vk.png';
-import telegram from './telegram.png';
-import tiktok from './tiktok.png';
+import '../scss/Footer.scss';
+import instagram from '../image/icons/instagram.png';
+import vk from '../image/icons/vk.png';
+import telegram from '../image/icons/telegram.png';
+import tiktok from '../image/icons/tiktok.png';
 
 
 const Footer = () => {
@@ -83,7 +83,7 @@ const Footer = () => {
             @Copyright 2022 Sunshine with <a href='https://github.com/MatveySuperStar'>MatveySuperStar</a>
             <h3>Контакты</h3>
             <div className='icons'>
-              {icons.map( icon => <a key={icon.path} href={icon.path}><img src={icon.label} /></a>) }
+              {icons.map( icon => <a key={icon.label} href={icon.path}><img src={icon.label} /></a>) }
             </div>
           </div>
         </div>

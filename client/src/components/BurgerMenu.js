@@ -35,7 +35,7 @@ const BurgerMenu = () => {
         </div>
         <ul className={` ${activeBurgerMenu ? 'change' : ''}`}>
         {
-          linksData.map( item => <li><a href={item.path} >{item.label}</a></li>)
+          linksData.map( item => <li key={item.label}><a href={item.path} >{item.label}</a></li>)
         }
         </ul>
       </div>

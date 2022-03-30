@@ -1,6 +1,6 @@
 import React from 'react';
-import './Kurs.scss'
-import backgroundImage from './Walves3.png'
+import '../scss/Kurs.scss'
+import backgroundImage from '../image/Walves3.png'
 
 const Kurs = ({refKurs}) => {
 
@@ -46,7 +46,7 @@ const Kurs = ({refKurs}) => {
       <div className='container'>
         <h2>Наши услуги</h2>
         <div className='row kurs_boxes'>
-            {kurs.map( item => <div className='col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3'><div><p>{item.text}</p><p>{item.description} - {item.price}</p></div></div>)}
+            {kurs.map( item => <div key={item.text} className='col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3'><div><p>{item.text}</p><p>{item.description} - {item.price}</p></div></div>)}
         </div>
       </div>
       <div className='walve' style={{background: `url(${backgroundImage}) no-repeat`}}></div>

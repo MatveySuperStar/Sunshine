@@ -1,7 +1,7 @@
 import React from 'react';
-import './Benefits.scss';
-import lev from './lev.png';
-import backgroundImage from './Walves2.png' 
+import '../scss/Benefits.scss';
+import lev from '../image/lev.png';
+import backgroundImage from '../image/Walves2.png' 
 
 const Benefits = ({refBenefits}) => {
 

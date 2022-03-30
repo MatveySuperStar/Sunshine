@@ -1,10 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import './Head.scss';
-import backgroundImage from './bacground-head.jpg' 
+import '../scss/Head.scss';
+import backgroundImage from '../image/bacground-head.jpg' 
 import BurgerMenu from './BurgerMenu';
-import exit from './exit.png';
+import exit from '../image/icons/exit.png';
+import { login } from '../../http/userAPI';
 
 const Head = ({refBenefits, refKurs, refAbout}) => {
+  const [email, setEmail] = useState()
+  const [password, setPassword] = useState()
+
+  const authIn = async (e) => {
+    e.preventDefault();
+    try {
+      console.log('ss')
+      const data = await login(email, password)
+      console.log(data)
+    } catch(e) {
+      console.log('ff')
+      alert(e.responce.data.message)
+    }
+  }
+
   const ar = useRef()
   const linksData = [
     {
@@ -81,7 +97,7 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
             <div className='col-6 col-sm-10 col-lg-11'>
               <ul>
                 {
-                  links.map( item => <li><a className={item.exact && 'active'} onClick={() => moveScrollClick(item.path)} >{item.label}</a></li>)
+                  links.map( item => <li key={item.path}><a className={item.exact ? 'active' : ''} onClick={() => moveScrollClick(item.path)} >{item.label}</a></li>)
                 }
                 <div className='button_enter'>
                   <li><a onClick={() => setActiveModal(!activeModal)}>Войти</a></li>
@@ -99,16 +115,16 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
             <h3>Авторизация</h3>
             <div className='col-md-12'>
               <p>Логин</p>
-              <input />
+              <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} />
               <p className='error'></p>
             </div>
             <div className='col-md-12'>
               <p>Пароль</p>
-              <input />
+              <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
               <p className='error'></p>
             </div>
             <div className='col-md-12'>
-              <input type='submit' />
+              <input type='submit' onClick={authIn}/>
             </div>
           </form>
         </div>

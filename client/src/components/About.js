@@ -1,7 +1,7 @@
 import React from 'react'
-import './About.scss'
-import foto from './Foto1.jpg'
-import foto2 from './Foto2.jpg'
+import '../scss/About.scss'
+import foto from '../image/Foto1.jpg'
+import foto2 from '../image/Foto2.jpg'
 
 const About = ({refAbout}) => {
   return (
