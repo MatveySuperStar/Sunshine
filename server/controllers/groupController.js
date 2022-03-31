@@ -1,6 +1,7 @@
 const db = require('../db')
 const GroupService = require('../service/groupService') 
 const { validationResult } = require('express-validator')
+const ApiError = require('../exceptions/apiError')
 
 class GroupController {
   async getAll(req, res, next) {
@@ -17,7 +18,7 @@ class GroupController {
     try {
       const errors = validationResult(req)
       if(!errors.isEmpty()){
-        return res.status(400).json({message: 'Ошибка при регистрации', errors})
+        return next(ApiError.BadRequest('Ошибка при регистрации', errors.array()))
       }
 
       const {name} = req.body

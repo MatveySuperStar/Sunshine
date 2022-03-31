@@ -21,9 +21,13 @@ class UserController {
       }
 
       const {email, password} = req.body
-      const userData = await userService.login(email, password)
+      const {refreshToken, id_device} = req.cookies
+    
+      const userData = await userService.login(email, password, refreshToken, id_device)
+      
+      res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
 
-    return res.status(200).json(userData)
+      return res.status(200).json(userData)
     } catch (e) {
       next(e) 
     }
@@ -45,6 +49,17 @@ class UserController {
     }
   }
 
+  async logout(req, res, next) {
+    try{
+      const {refreshToken} = req.cookies
+      const token = await userService.logout(refreshToken)
+      
+      res.clearCookie('refreshToken')
+      res.json(token)
+    } catch {
+
+    }
+  }
 
   async put(req, res, next) {
     try {
@@ -74,6 +89,18 @@ class UserController {
     }
   }
 
+  async refresh(req, res, next) {
+    try {
+      const {refreshToken} = req.cookies
+      const userData = await userService.refresh(refreshToken)
+      
+      res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
+
+      return res.status(200).json(userData)
+    } catch(e) {
+      next(e)
+    }
+  }
 
   async check(req, res, next) {
     const token = generateJwt(req.user.id, req.user.email, req.user.role)

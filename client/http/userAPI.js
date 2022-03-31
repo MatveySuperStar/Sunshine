@@ -1,4 +1,4 @@
-import { $host, $authHost } from "."
+import $api from "."
 import jwt_decode from 'jwt-decode'
 
 export const login = async (email, password) => {
