@@ -1,6 +1,6 @@
 import React from 'react'
-import LeftNavigation from './Navbar/LeftNavigation'
-import Navbar from './Navbar/Navbar'
+import LeftNavigation from './LeftNavigation'
+import Navbar from './Navbar'
 
 
 const index = () => {
