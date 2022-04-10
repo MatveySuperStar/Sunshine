@@ -36,6 +36,8 @@ class UserController {
   async registration(req, res, next) {
     try {
       const errors = validationResult(req)
+      console.log(errors)
+      console.log(req.body)
       if(!errors.isEmpty()){
         return res.status(400).json({message: 'Ошибка при регистрации', errors})
       }
@@ -78,10 +80,11 @@ class UserController {
 
   }
 
-  async delete(req, res, next) {
+  async delete(req, res, next) { 
     try{
-      const {email} = req.body
-      const users = await userService.delete(email)
+      const {id} = req.body
+      console.log(req.body)
+      const users = await userService.delete(id)
 
       return res.status(200).json(users)
     } catch(e) {

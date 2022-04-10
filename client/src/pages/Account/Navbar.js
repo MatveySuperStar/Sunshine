@@ -1,6 +1,7 @@
 import React from 'react'
 import './Navbar.scss'
 import logo from './logo2.png'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   return (
@@ -18,6 +19,9 @@ const Navbar = () => {
 
                 </ul>
               </li>
+              <li><Link to="account/users">Пользователи</Link></li>
+              <li><Link to="account/tests">Тесты</Link></li>
+              <li><Link to="account/groups">Группы</Link></li>
             </ul>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import Question from './Question';
-import { addFormAction, changeTypeAction } from '../../store/reducers/testReducer';
+import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction } from '../../store/reducers/testReducer';
 
 const Form = ({form}) => {
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const Form = ({form}) => {
       return (
       <div className={`question_type`} onClick={() => {changeType(type.type)}}>
         <img src={type.img} />
-        <span>{type.type}</span>
+        <span>{type.rusType}</span>
       </div> 
       )
     })
@@ -29,7 +29,7 @@ const Form = ({form}) => {
       if(type.active) {
         return <div className={`question_type`} onClick={() => setActiveTypes(!activeTypes)}>
           <img src={type.img} />
-          <span>{type.type}</span>
+          <span>{type.rusType}</span>
         </div>             
       }    
      })
@@ -38,42 +38,57 @@ const Form = ({form}) => {
   const Questions = () => {
     return form.types.map( type => {
       if(type.active) {
-        return form.questions.map( questions => {
-          if(questions.type === 'button') {
-            return questions.data.map( question => {
-              return <Question
-                id_form={form.id}
-                type={questions.type}
-                img={type.img}
-                questions={questions.data}
-                question={question}/>
-            })
-          }
+        return type.questions.map( question => {
+          console.log(question)
+          return <Question
+            id_form={form.id}
+            img={type.activeImg || type.activeImg}
+            type={type.type}
+            questions={type.questions || []}
+            question={question}/>
         })
       }
     })
   }
 
+  const deleteForm = () =>{
+    dispatch(deleteFormAction({id: form.id}))
+  }
 
+  const activeAnswer = () => {
+    dispatch(activeAnswerAction({id: form.id}))
+  }
   return (
-    <div className='row question'>
-      <div className='col-md-6'>
-        <textarea />
-      </div>
-      <div className='col-md-1'>
-        <img src="https://img.icons8.com/small/32/000000/gallery.png"/>
-      </div>
-      <div className='col-md-5'>
-        <div className='all_type'>
-          <div className={`burger_type ${activeTypes ? 'active' : 'noActive'}`}>
-            {allTypes()}
+    <div className='col-md-8 form'>
+      <div className='row'>
+        <div className='col-md-6'>
+          <textarea name='description' placeholder='Описание' rows={1}/>
+        </div>
+        <div className='col-md-1'>
+          <img src="https://img.icons8.com/small/32/000000/gallery.png"/>
+        </div>
+        <div className='col-md-5'>
+          <div className='all_type'>
+            <div className={`burger_type ${activeTypes ? 'active' : 'noActive'}`}>
+              {allTypes()}
+            </div>
+            {activeType()}
           </div>
-          {activeType()}
         </div>
       </div>
       {Questions()}
-      <div><button onClick={() => dispatch(addFormAction())}></button></div>
-  </div>
+      <div className='row answer'>
+        <div className='col-md-10'>
+          <button onClick={activeAnswer}>Answer</button>
+        </div>
+        <div className='col-md-1'>
+          <button onClick={deleteForm}>Delete</button>
+        </div>
+        <div className='col-md-1'>
+          <button onClick={() => { dispatch(addFormAction()) }}>Add</button>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -12,13 +12,13 @@ const Main = () => {
   const refAbout = useRef();
 
   return (
-    <div>
+    <>
       <Head refBenefits={refBenefits} refKurs={refKurs} refAbout={refAbout}/>
       <Benefits refBenefits={refBenefits} />
       <Kurs refKurs={refKurs} />
       <About refAbout={refAbout} />
       <Footer />
-    </div>
+    </>
   );
 };
 

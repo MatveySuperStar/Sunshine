@@ -95,8 +95,8 @@ class UserService {
     return users
   }
 
-  async delete(email) {
-    const users = await db.execute("DELETE FROM users WHERE mail=?", [email])
+  async delete(id) {
+    const users = await db.execute("DELETE FROM users WHERE id=?", [id])
       .then(result =>{ 
         return db.execute("SELECT * FROM users")
       })

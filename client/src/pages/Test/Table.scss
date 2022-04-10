@@ -1,0 +1,103 @@
+@mixin button{
+  button{
+    display: block;
+    margin: 0 auto;
+    border: 0px;
+    background: none;
+    padding: 12px;
+    color:#FF8000;
+
+    &:hover {
+      color: white;
+      background-color: #FF8000;
+    }
+  }
+}
+
+.header_table {
+  
+  h3 {
+    padding: 12px;
+  }
+
+  &>div:last-child {
+    align-self: center;
+
+    @include button
+  }
+}
+
+.add_form {
+  position: relative;
+  height: fit-content;
+  background-color: white;
+  box-shadow: 1px 5px 10px rgb(0 0 0 / 25%);
+  border-radius: 15px;
+  margin: 0 0px 12px 0px;
+  padding: 24px 12px;
+  transition: height 1s linear;
+
+  div {
+    margin-bottom: 12px;
+  }
+
+  input {
+    outline: none;
+    height: auto;
+    overflow: hidden;
+    width: 100%;
+    border: 0px;
+    font-size: 16px;
+    border-bottom: 1px solid #FF8000;
+  }
+
+  select {
+    width: 100%;
+  }
+
+    @include button;
+
+    .active {
+      display: block;
+    }
+    
+    .noActive {
+      display: none;
+    }
+    
+}
+
+table {
+  overflow:hidden;
+  width: 100%;
+  background-color: white;
+  box-shadow: 1px 5px 10px rgb(0 0 0 / 25%);
+  border-radius: 15px;
+  
+  td, th {
+    padding: 12px;
+  }
+
+  thead {
+    
+    tr {
+      border-radius: 100px;
+      background-color: #FF8000;
+      color: white
+    }
+  }
+
+  tbody {
+    tr{
+      cursor: pointer;
+      border-top: 1px solid #FF8000;
+
+
+      &:hover, &.active{
+        color: white;
+        background-color: #FF8000;
+      }
+    }
+  }
+
+}
