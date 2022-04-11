@@ -5,7 +5,8 @@ const { validationResult } = require('express-validator')
 class UserController {
   async getAll(req, res, next) {
     try{
-      const users = await userService.getAll()
+      const {page} = req.query
+      const users = await userService.getAll(page)
       
       return res.status(200).json(users)
     } catch(e) {
@@ -36,8 +37,7 @@ class UserController {
   async registration(req, res, next) {
     try {
       const errors = validationResult(req)
-      console.log(errors)
-      console.log(req.body)
+
       if(!errors.isEmpty()){
         return res.status(400).json({message: 'Ошибка при регистрации', errors})
       }
@@ -70,9 +70,12 @@ class UserController {
         return res.status(400).json({message: 'Ошибка при регистрации', errors})
       }
 
-      let {id, name, surname, patronymic, email, password, phone, status, group} = req.body
-      const usersData = await userService.put(id, name, surname, patronymic, email, password, phone, status, group)
+      let {id, name, surname, patronymic, email, password, phone, status, id_group, page} = req.body
 
+      console.log(req.body)
+
+      const a = await userService.put(id, name, surname, patronymic, email, password, phone, status, id_group)
+      const usersData = await userService.getAll(page)
       return res.status(200).json(usersData)
     } catch(e) {
       next(e)
@@ -82,11 +85,12 @@ class UserController {
 
   async delete(req, res, next) { 
     try{
-      const {id} = req.body
-      console.log(req.body)
-      const users = await userService.delete(id)
+      const {id, page} = req.body
 
-      return res.status(200).json(users)
+      const a = await userService.delete(id)
+      const usersData = await userService.getAll(page)
+
+      return res.status(200).json(usersData)
     } catch(e) {
       next(e)
     }

@@ -1,4 +1,3 @@
-
 import { defaultState } from "../state"
 
 const UPDATE_USER = "UPDATE_USER"
@@ -38,7 +37,7 @@ export const userReducer = (state = defaultState, action) => {
     case UPDATE_PASSWORD :
       return {...state, user: {...state.user, password: action.payload}}
     case UPDATE_GROUP :
-      return {...state, user: {...state.user, group: action.payload}}
+      return {...state, user: {...state.user, groupId: action.payload}}
     case UPDATE_STATUS :
       return {...state, user: {...state.user, status: action.payload}}
     default: 

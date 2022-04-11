@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/*import React, { useEffect, useState } from 'react';
 import Navbar from '../Account/Navbar'
 import './Test.scss'
 import Test from './Test'
@@ -74,4 +74,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default index;*/

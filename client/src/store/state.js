@@ -5,8 +5,11 @@ function randomInt() {
 
 export const defaultState = {
   isAuth: false,
-  user: {id: 0, email: '', name: '', surname: '', patronymic: '', phone: '', group: '', status: '', update: false},
-  users: [],
+  user: {id: 0, email: '', name: '', surname: '', patronymic: '', phone: '', id_group: 0, status: '', update: false},
+  userError: {password: '', email: '', name: '', surname: '', patronymic: '', phone: ''},
+  group:  {id: 0, name: ''},
+  groups: [],
+  users: {data: [], countPage: 0, currentPage: 0},
   test: [
     {
       id: randomInt(),

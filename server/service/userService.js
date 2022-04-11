@@ -5,16 +5,33 @@ const jwt = require('jsonwebtoken')
 const ApiError = require('../exceptions/apiError')
 
 class UserService {
-  async getAll() {
-    const users = await db.execute('SELECT * FROM users')
+
+  async getAll(page, limit = 11) {
+    const offsetPage = (page - 1) * limit
+
+    const countPage = await db.execute(`SELECT COUNT(*) as count FROM users`)
+      .then( ([rows]) => Math.ceil(rows[0].count/ limit))
+
+    const users = await db.execute(`SELECT 
+    users.id as id,
+    users.name as name,
+    users.surname,
+    users.patronymic,
+    users.email,
+    users.phone,
+    users.status,
+    groups.id as groupId,
+    groups.name as groupName
+    FROM users LEFT JOIN groups 
+    ON users.id_group = groups.id ORDER BY id LIMIT ${limit} OFFSET ${offsetPage}`)
       .then( result => result[0])
       .catch( err => console.log(err))
 
-    return {users}
+    return {users: users, countPage: countPage }
   }
 
   async login(email, password, cookeiToken, id_device) {
-    const user = await db.execute('SELECT * FROM users WHERE mail=?', [email])
+    const user = await db.execute('SELECT * FROM users WHERE email=?', [email])
       .then( ([rows]) => rows[0])
       .catch( err => {console.log(err)})
 
@@ -35,7 +52,7 @@ class UserService {
   }
 
   async registration(name, surname, patronymic, email, password, phone, status = 'student', group = null) {
-    const candidate = await db.execute(`SELECT * FROM users WHERE mail=?`, [email])
+    const candidate = await db.execute(`SELECT * FROM users WHERE email=?`, [email])
     
     if(candidate[0][0]) {
       throw ApiError.BadRequest('Пользователь с таким email уже существует') 
@@ -47,18 +64,15 @@ class UserService {
     const tokens = tokenService.generateToken({user})
 
     const users = await db.execute(`INSERT INTO users
-      (first_name, second_name, patronymic, mail, password, phone, status, id_group) 
+      (name, surname, patronymic, email, password, phone, status, id_group) 
       VALUES (?,?,?,?,?,?,?,?)`, user)
       .then( ([rows]) => {
         tokenService.saveToken(rows.insertId, tokens.refreshToken)
-        return db.execute(`SELECT * FROM users`)
       })
-      .then( ([rows]) => { return {users: rows}})
       .catch( err => { throw new Error(err)} )
 
     return {
       ...tokens,
-      users
     }
   }
 
@@ -67,7 +81,7 @@ class UserService {
     return token
   }
 
-  async put(id, name, surname, patronymic, email, password, phone, status = 'student', group = null) {
+  async put(id, name, surname, patronymic, email, password, phone, status = 'student', id_group = null) {
     
     if(!password) {
       password =  await db.execute(`SELECT password FROM users WHERE id=?`, [id])
@@ -77,17 +91,11 @@ class UserService {
       })
     }
 
-    const newUser = [name, surname, patronymic, email, password, phone, status, group]
+    const newUser = [name, surname, patronymic, email, password, phone, status, id_group]
 
     const users = await db.execute(`UPDATE users SET 
-      first_name=?, second_name=?, patronymic=?, mail=?, password=?, phone=?, status=?, id_group=? 
+      name=?, surname=?, patronymic=?, email=?, password=?, phone=?, status=?, id_group=? 
       WHERE id='${id}'`, newUser)
-      .then( result =>{ 
-        return db.execute(`SELECT * FROM users`)
-      })
-      .then(result =>{
-        return {users: result[0]}
-      })
       .catch(e => {
         throw new Error(e) 
       })
@@ -97,11 +105,8 @@ class UserService {
 
   async delete(id) {
     const users = await db.execute("DELETE FROM users WHERE id=?", [id])
-      .then(result =>{ 
-        return db.execute("SELECT * FROM users")
-      })
-      .then(result =>{
-        return {users: result[0]}
+      .catch(e => {
+        throw new Error(e) 
       })
       
     return users

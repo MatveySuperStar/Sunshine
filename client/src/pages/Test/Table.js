@@ -1,7 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import Pagination from '@mui/material/Pagination';
 
-const Table = ({addUpdate, items, legends}) => {
+
+const Table = ({addUpdate, items, legends, countPage, currentPage}) => {
 
   const user = useSelector(state => state.user.user)  
 
@@ -17,7 +19,7 @@ const Table = ({addUpdate, items, legends}) => {
     return items.map( item => {
       return (
         <tr className={`${activeRow(item[0]) ? 'active' : ''}`} onClick={() =>addUpdate(item)}>
-          {item.filter((item, index) => index != 0).map( subitem => {
+          {item.filter((subitem, index) => index != 0).map( subitem => {
             return (
               <td>{subitem}</td>
             )
@@ -26,24 +28,27 @@ const Table = ({addUpdate, items, legends}) => {
       )
     })
   }
-
+  
   return (
     <div className='col-md-9'>
-      <table>
-        <thead>
-          <tr>
-            {legendsTable()}
-          </tr>
-        </thead>
-        <tbody>
-          {itemsTable()}
-        </tbody>
-        <div>
-          <div>1</div>
-          <div>1</div>
+          <table>
+            <thead>
+              <tr>
+                {legendsTable()}
+              </tr>
+            </thead>
+            <tbody>
+              {itemsTable()}
+            </tbody>
+          </table>
+        <div className='pagination'>
+          <Pagination 
+            count={countPage} 
+            variant="outlined" 
+            shape="rounded"
+            onChange={(event, value)=>currentPage(value)}/>
         </div>
-      </table>
-    </div>
+      </div>
   );
 };
 
