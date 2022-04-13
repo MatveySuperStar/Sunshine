@@ -2,13 +2,21 @@ const db = require('../db')
 const GroupService = require('../service/groupService') 
 const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/apiError')
+const e = require('express')
 
 class GroupController {
   async getAll(req, res, next) {
     try {
-      const groupsData = await GroupService.getAll()
+      const {page} = req.query
 
-      return res.status(200).json(groupsData)
+      if(isNaN(page)) {
+        const groupsData = await GroupService.getAll()
+        return res.status(200).json(groupsData)
+      } else {
+        const groupsData = await GroupService.limitGroups(page)
+        return res.status(200).json(groupsData)
+      }
+
     } catch {
       next()
     }
@@ -21,8 +29,9 @@ class GroupController {
         return next(ApiError.BadRequest('Ошибка при регистрации', errors.array()))
       }
 
-      const {name} = req.body
-      const groupsData = await GroupService.add(name)
+      const {name, page} = req.body
+      const a = await GroupService.add(name)
+      const groupsData = await GroupService.limitGroups(page)
 
       return res.status(200).json(groupsData)
     } catch(e) {
@@ -32,8 +41,11 @@ class GroupController {
 
   async delete(req, res, next) {
     try {
-      const {name} = req.body
-      const groupsData = await GroupService.delete(name)
+      
+      const {id, page} = req.body
+      const a = await GroupService.delete(id)
+
+      const groupsData = await GroupService.limitGroups(page)
 
       return res.status(200).json(groupsData)
     } catch(e) {
@@ -45,11 +57,13 @@ class GroupController {
     try {
       const errors = validationResult(req)
       if(!errors.isEmpty()){
-        return res.status(400).json({message: 'Ошибка при регистрации', errors})
+        return res.status(400).json({message: 'Ошибка пе', errors})
       }
 
-      const {id, name} = req.body
-      const groupsData = await GroupService.put(id, name)
+      const {id, name, page} = req.body
+      const a = await GroupService.put(id, name)
+
+      const groupsData = await GroupService.limitGroups(page)
 
       return res.status(200).json(groupsData)
     } catch(e) {

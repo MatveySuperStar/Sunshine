@@ -12,6 +12,11 @@ const UPDATE_PHONE = "UPDATE_PHONE"
 const UPDATE_PASSWORD = "UPDATE_PASSWORD"
 const UPDATE_GROUP = "UPDATE_GROUP"
 const UPDATE_STATUS = "UPDATE_STATUS"
+
+const UPDATE_FIO_USER_LIKE = "UPDATE_FIO_USER_LIKE"
+const UPDATE_PHONE_USER_LIKE = "UPDATE_PHONE_USER_LIKE"
+const UPDATE_DATA_LIST_USER_LIKE = "UPDATE_DATA_LIST_USER_LIKE"
+
 const defaultUser = {id: 0, email: '', name: '', surname: '', patronymic: '', phone: '', group: '', status: '', update: false}
 
 export const userReducer = (state = defaultState, action) => {
@@ -40,6 +45,14 @@ export const userReducer = (state = defaultState, action) => {
       return {...state, user: {...state.user, groupId: action.payload}}
     case UPDATE_STATUS :
       return {...state, user: {...state.user, status: action.payload}}
+
+
+    case UPDATE_FIO_USER_LIKE : 
+      return {...state, userForLike: {...state.userForLike, fio: action.payload}}  
+    case UPDATE_PHONE_USER_LIKE : 
+      return {...state, userForLike: {...state.userForLike, phone: action.payload}}  
+    case UPDATE_DATA_LIST_USER_LIKE : 
+      return {...state, userForLike: {...state.userForLike, update: action.payload}} 
     default: 
       return {...state};
   }
@@ -59,3 +72,7 @@ export const updatePhoneAction = (payload) => ({type: UPDATE_PHONE, payload})
 export const updatePasswordAction = (payload) => ({type: UPDATE_PASSWORD, payload})
 export const updateGroupAction = (payload) => ({type: UPDATE_GROUP, payload})
 export const updateStatusAction = (payload) => ({type: UPDATE_STATUS, payload})
+
+export const updateFioUserLike = (payload) => ({type: UPDATE_FIO_USER_LIKE, payload})
+export const updatePhoneUserLike = (payload) => ({type: UPDATE_PHONE_USER_LIKE, payload})
+export const updateDataListUserLikeLike = (payload) => ({type: UPDATE_DATA_LIST_USER_LIKE, payload})

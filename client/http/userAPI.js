@@ -14,6 +14,21 @@ export const getUsers = async (page = 1) => {
   return {data: data.users, countPage: data.countPage, currentPage: 1}
 }
 
+export const getLikeUsers = async (user) => {
+  const {data} = await $api.get(`api/user/like?fio=${user.fio}&phone=${user.phone}`)
+
+  /*return jwt_decode(data.token)*/
+  return {data: data.users}
+}
+
+
+export const getUsersInGroups = async (idGroup) => {
+  const {data} = await $api.get(`api/user/?idGroup=${idGroup}`)
+
+  /*return jwt_decode(data.token)*/
+  return {data: data.users, idGroup: idGroup}
+}
+
 export const deleteUser = async (id, page) => {
   
   const {data} = await $api.delete('api/user/delete', {data: {id: id, page: page}})

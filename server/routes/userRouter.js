@@ -28,6 +28,9 @@ router.put('/put', [
 ], 
 UserController.put)
 
+router.get('/like', 
+UserController.like)
+
 router.post('/login', [
     check('email', 'Email не соответствует требованиям').isEmail(),
     check('password', 'Пароль должен иметь от 5 до 15 символов').isLength({min: 5, max: 15})
@@ -35,5 +38,7 @@ router.post('/login', [
 UserController.login)
 
 router.get('/refresh', UserController.refresh)
+
+router.put('/patchGroup', UserController.patchGroup)
 
 module.exports = router

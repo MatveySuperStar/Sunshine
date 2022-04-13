@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from './Account/Navbar'
 import './Test/Test.scss'
-import { getUsers } from '../../http/userAPI';
+import { getUsers, deleteUser, addUser, putUser } from '../../http/userAPI';
 import './Test/Table.scss'
-import { addCurrentPageAction, initUsersAction, updateUsersAction } from '../store/reducers/usersReducer';
+import { addCurrentPageAction, initUsersAction, updateUsersAction} from '../store/reducers/usersReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
 
@@ -16,14 +16,18 @@ import {
   updatePhoneAction,
   updateStatusAction,
   updateGroupAction, 
-  updateUserAction
+  updateUserAction,
+  defaultUserAction,
 } from '../store/reducers/userReducer';
    
 import Table from './Test/Table';
 import FormAdmin from './Test/FormAdmin';
 import { getAllGroupsAction } from '../store/reducers/groupsReducer';
-import { getGroups } from '../../http/groupAPI';
+import { getAllGroups } from '../../http/groupAPI';
 import { defaultErrorUserAction } from '../store/reducers/userErrorReducer';
+
+
+import { userErrorAction } from '../store/reducers/userErrorReducer';
 
 const Users = () => {
   const dispatch = useDispatch()
@@ -33,13 +37,13 @@ const Users = () => {
   const userError = useSelector(state => state.userError.userError)
 
   useEffect(async() => {
-    dispatch(getAllGroupsAction(await getGroups()))
+    dispatch(getAllGroupsAction(await getAllGroups()))
     const users = await getUsers()
     dispatch(initUsersAction(users))
   }, [])
 
   const addUpdateUser = (user) => {
-    const group = groups.find(group => group.name === user[7])
+    const group = groups.data.find(group => group.name === user[7])
     dispatch(defaultErrorUserAction())
     dispatch(updateUserAction({
       id: user[0],
@@ -59,6 +63,12 @@ const Users = () => {
     dispatch(updateUsersAction(await getUsers(value)))
   }
 
+  const activeRow = (id) => {
+    return user.id === id
+  }
+
+  const statusUpdate = user.update ? 'active' : 'noActive'
+
   const params = [
     {label: 'Имя', type: 'text', action: updateNameAction, value: user.name, error: userError.name},
     {label: 'Фамилия', type: 'text', action: updateSurnameAction, value: user.surname, error: userError.surname},
@@ -71,7 +81,7 @@ const Users = () => {
       {value: 'Преподаватель', name: 'Преподаватель'}]},
     {label: 'Группа', type: 'select', action: updateGroupAction, value: user.groupId, options: 
     [{value: 0, name: 'По умолчанию'}, 
-    ...groups.map( group => 
+    ...groups.data.map( group => 
       {
         return {value: group.id, name: group.name }
       }
@@ -88,6 +98,30 @@ const Users = () => {
       return [ item.id, item.name, item.surname, item.patronymic, item.email, item.phone, item.status, item.groupName]
     })
  
+  const exitItem = () => {
+    dispatch(defaultUserAction())
+  }
+
+  const addItem = async() => {
+    const usersData = await addUser({...user, page: users.currentPage})
+    
+    if(usersData.errors) {
+      dispatch(userErrorAction(usersData.errors))
+    } else {
+    
+    dispatch(updateUsersAction({data: users.data, countPage: users.countPage}))
+    }
+  }
+
+  const putItem = async() => {
+    dispatch(updateUsersAction(await putUser({...user, page: users.currentPage})))
+  }
+
+  const deleteItem = async() => {
+    dispatch(updateUsersAction(await deleteUser(user.id, users.currentPage)))
+    dispatch(defaultUserAction())
+  }
+
   return (
     <div className='container'>
       <div className='row header_table'>
@@ -96,14 +130,25 @@ const Users = () => {
         </div>
       </div>
       <div className='row'>
-        <FormAdmin  params={params}/>
-        <Table 
-          addUpdate={addUpdateUser} 
-          items={items} 
-          legends={legends} 
-          countPage={users.countPage}
-          currentPage={currentPage}
-        /> 
+        <div className='add_form col-md-3'>
+          <FormAdmin  
+            params={params} 
+            statusUpdate={statusUpdate} 
+            exitItem={exitItem} 
+            addIte={addItem}
+            putItem={putItem}
+            deleteItem={deleteItem}/>
+        </div>
+        <div className='col-md-9'>
+          <Table 
+            addUpdate={addUpdateUser} 
+            items={items} 
+            legends={legends} 
+            countPage={users.countPage}
+            currentPage={currentPage}
+            activeRow={activeRow}
+          />
+        </div> 
       </div>
     </div>
   );

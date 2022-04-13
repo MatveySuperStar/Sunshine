@@ -6,10 +6,12 @@ function randomInt() {
 export const defaultState = {
   isAuth: false,
   user: {id: 0, email: '', name: '', surname: '', patronymic: '', phone: '', id_group: 0, status: '', update: false},
+  userForLike: {id: 0, fio: '', phone: '', id_group: '', update: false},
   userError: {password: '', email: '', name: '', surname: '', patronymic: '', phone: ''},
-  group:  {id: 0, name: ''},
-  groups: [],
+  group:  {id: 0, name: '', update: false},
+  groups: {data:[], cointPage: 0, currentPage: 0},
   users: {data: [], countPage: 0, currentPage: 0},
+  dataListUsers: [],
   test: [
     {
       id: randomInt(),

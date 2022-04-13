@@ -5,12 +5,43 @@ const { validationResult } = require('express-validator')
 class UserController {
   async getAll(req, res, next) {
     try{
-      const {page} = req.query
-      const users = await userService.getAll(page)
-      
-      return res.status(200).json(users)
+      const {page, idGroup} = req.query
+
+      if(idGroup) {
+        const users = await userService.getAllUsersInGroups(idGroup)
+
+        return res.status(200).json(users)
+      } else {
+        const users = await userService.getAll(page)
+
+        return res.status(200).json(users)
+      }
     } catch(e) {
       next(e)
+    }
+  }
+
+  async like(req, res, next) {
+    try {
+      const {fio, phone} = req.query
+
+      const users = await userService.like(fio, phone)
+
+        return res.status(200).json(users)
+    } catch(e) {
+      next(e)
+    }
+  }
+
+  async patchGroup(req, res, next) {
+    try{
+      const {fio, phone, idGroup} = req.query
+
+      const users = await userService.patchGroup(fio, phone)
+
+      return res.status(200).json(users)
+    } catch(e) {
+
     }
   }
 

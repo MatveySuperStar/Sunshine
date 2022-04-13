@@ -1,19 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { defaultUserAction} from '../../store/reducers/userReducer';
-import { updateUsersAction } from '../../store/reducers/usersReducer';
-import { deleteUser, addUser, putUser } from '../../../http/userAPI';
-import { userErrorAction } from '../../store/reducers/userErrorReducer';
 
-const FormAdmin = ({params}) => {
+const FormAdmin = ({params, statusUpdate, openSubItem, exitItem, addItem, putItem, deleteItem}) => {
   
   const dispatch = useDispatch()
-  const user = useSelector(state => state.user.user)
-  const users = useSelector(state => state.users.users)
-  const statusUpdate = user.update ? 'active' : 'noActive'
 
   return (
-    <div className={`col-md-3 add_form `}>
+    <>
         {params.map( param => {
           return(
             param.type === 'select' ?
@@ -32,37 +25,28 @@ const FormAdmin = ({params}) => {
             </div>
           )})}
         <div className='row buttons'>
-          <div className={`${!user.update ? 'active' : 'noActive'} col-md-12`}>
-            <button onClick={async() => {
-              const usersData = await addUser({...user, page: users.currentPage})
-              console.log(usersData)
-              if(usersData.errors) {
-                dispatch(userErrorAction(usersData.errors))
-              } else {
-              
-              dispatch(updateUsersAction({data: users.data, countPage: users.countPage}))
-              }
-            }}>
+          <div className={`${statusUpdate === 'noActive'  ? 'active' : 'noActive'} col-md-12`}>
+            <button onClick={addItem}>
               Добавить</button>
           </div>
           <div className={`${statusUpdate} col-md-6 `}>
-            <button onClick={async() => {
-              dispatch(updateUsersAction(await putUser({...user, page: users.currentPage})))
-            }
-              }>Изменить</button>
+            <button onClick={putItem}>
+              Изменить
+            </button>
           </div>
           <div className={`${statusUpdate} col-md-6`}>
-            <button onClick={async() => {
-              dispatch(updateUsersAction(await deleteUser(user.id, users.currentPage)))
-              dispatch(defaultUserAction())
-            }
-              }>Удалить</button>
+            <button onClick={deleteItem}>
+              Удалить
+            </button>
           </div>
           <div className={`${statusUpdate} col-md-6`}>
-            <button onClick={() => dispatch(defaultUserAction())}>Выйти</button>
+            <button onClick={() => dispatch(openSubItem())}>Состав</button>
+          </div>
+          <div className={`${statusUpdate} col-md-6`}>
+            <button onClick={exitItem}>Выйти</button>
           </div>
         </div>
-      </div>
+      </>
   );
 };
 

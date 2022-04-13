@@ -30,6 +30,38 @@ class UserService {
     return {users: users, countPage: countPage }
   }
 
+  async like(fio = ' ', phone='') {
+    const users = await db.execute(
+      `SELECT CONCAT_WS(' ', name, surname, patronymic) as fio, phone FROM users 
+      WHERE CONCAT_WS(' ', name, surname, patronymic) LIKE '%${fio}%' and phone LIKE '%${phone}%'  LIMIT 5 `
+    ).then( result => result[0])
+    .catch( err => console.log(err))
+
+    return {users: users}
+  }
+
+  async patchGroup(fio = '', phone = '', idGroup) {
+    
+  }
+
+  async getAllUsersInGroups(idGroup) {
+
+    const users = await db.execute(`SELECT 
+    users.id as id,
+    users.name as name,
+    users.surname,
+    users.patronymic,
+    users.status,
+    groups.id as groupId,
+    groups.name as groupName
+    FROM users LEFT JOIN groups 
+    ON users.id_group = groups.id WHERE groups.id=?`, [idGroup])
+      .then( result => result[0])
+      .catch( err => console.log(err))
+
+    return {users: users}
+  }
+
   async login(email, password, cookeiToken, id_device) {
     const user = await db.execute('SELECT * FROM users WHERE email=?', [email])
       .then( ([rows]) => rows[0])
