@@ -5,6 +5,9 @@ function randomInt() {
 
 export const defaultState = {
   isAuth: false,
+  email: {name: '', kurs: {value: '', datalist: []}, email: '', phone: '', message: '', errors: {
+    name: '', kurs: '', email: '', phone: '', message: ''
+  }},
   user: {id: 0, email: '', name: '', surname: '', patronymic: '', phone: '', id_group: 0, status: '', update: false},
   userForLike: {id: 0, fio: '', phone: '', id_group: '', update: false},
   userError: {password: '', email: '', name: '', surname: '', patronymic: '', phone: ''},

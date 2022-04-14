@@ -48,7 +48,6 @@ export const addUser = async ({email, name, surname, patronymic, phone, groupId,
     password: password, 
     status: status, 
     page: page})
-     .then(result => console.log(result))
      .catch((e) => {
        if(e.response.data.errors.length !== 0) {
         return e.response.data.errors

@@ -62,6 +62,11 @@
         height: 150px;
       }
 
+      span.error {
+        font-size: 14px;
+        color: rgb(95, 7, 7);
+      }
+
       :last-child {
         p {
           font-size: 16px;

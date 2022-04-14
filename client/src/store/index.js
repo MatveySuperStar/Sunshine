@@ -6,6 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { groupsReducer } from "./reducers/groupsReducer";
 import { userErrorReducer } from "./reducers/userErrorReducer";
 import { groupReducer } from "./reducers/groupReducer";
+import { emailReducer } from "./reducers/emailReducer";
 
 const rootReducer = combineReducers({
   test: testReducer,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   user: userReducer,
   groups: groupsReducer,
   group: groupReducer,
-  userError: userErrorReducer
+  userError: userErrorReducer,
+  email: emailReducer
 })
 
 export const store = createStore(rootReducer, composeWithDevTools());

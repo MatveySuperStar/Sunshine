@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../scss/Kurs.scss'
 import backgroundImage from '../image/Walves3.png'
+import { useDispatch } from 'react-redux';
+import { updateEmailDatalistKursAction } from '../store/reducers/emailReducer';
 
 const Kurs = ({refKurs}) => {
+
+  const dispatch = useDispatch()
 
   const kurs = [
     {
@@ -40,6 +44,12 @@ const Kurs = ({refKurs}) => {
       description: '60 минут',
       price: '75р'}
   ]
+
+  useEffect(()=>{
+    const textKurs = kurs.map(item => item.text)
+    dispatch(updateEmailDatalistKursAction(textKurs))
+  }, [])
+  
 
   return (
     <section ref={refKurs} className='kurs' id='kurs'>
