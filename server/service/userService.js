@@ -67,6 +67,7 @@ class UserService {
       .then( ([rows]) => rows[0])
       .catch( err => {console.log(err)})
 
+      console.log(user)
     if(!user) {
       throw ApiError.BadRequest('Такой почты не существует') 
     }
@@ -83,7 +84,7 @@ class UserService {
     return {...tokens, user}
   }
 
-  async registration(name, surname, patronymic, email, password, phone, status = 'student', group = null) {
+  async registration(name, surname, patronymic, email, password, phone, status = 'ученик', group = null) {
     const candidate = await db.execute(`SELECT * FROM users WHERE email=?`, [email])
     
     if(candidate[0][0]) {
@@ -93,19 +94,15 @@ class UserService {
     const hashPassword = bcrypt.hashSync(password, 2)
     const user = [name, surname, patronymic, email, hashPassword, phone, status, group]
 
-    const tokens = tokenService.generateToken({user})
-
     const users = await db.execute(`INSERT INTO users
       (name, surname, patronymic, email, password, phone, status, id_group) 
       VALUES (?,?,?,?,?,?,?,?)`, user)
       .then( ([rows]) => {
-        tokenService.saveToken(rows.insertId, tokens.refreshToken)
+       
       })
       .catch( err => { throw new Error(err)} )
 
-    return {
-      ...tokens,
-    }
+    return users
   }
 
   async logout(refreshToken) {

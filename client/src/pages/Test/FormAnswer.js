@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import Answer from './Answer';
-import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction } from '../../store/reducers/testReducer';
+import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateRaitingQuestionAction} from '../../store/reducers/testReducer';
 
 const FormAnswer = ({form}) => {
   const dispatch = useDispatch()
@@ -9,7 +9,11 @@ const FormAnswer = ({form}) => {
   const Answers = () => {
     return form.types.map( type => {
       if(type.active) {
-        return type.questions.map( question => {
+        const questions = type.type === "string" ?
+        type.questions
+        : type.questions.filter((item, index) => index !== type.questions.length - 1)
+
+        return questions.map( question => {
           return <Answer
             id_form={form.id}
             img={type.activeImg || type.activeImg}
@@ -21,8 +25,8 @@ const FormAnswer = ({form}) => {
     })
   }
 
-  const deleteForm = () =>{
-    dispatch(deleteFormAction({id: form.id}))
+  const updateRaiting = (raiting) => {
+    dispatch(updateRaitingQuestionAction({id: form.id, raiting: raiting}))
   }
 
   return (
@@ -35,7 +39,7 @@ const FormAnswer = ({form}) => {
           <img src="https://img.icons8.com/small/32/000000/gallery.png"/>
         </div>
         <div className='col-md-5'>
-            <span>Оценка</span><input type='number' />
+            <span>Оценка</span><input min={0} type='number' value={form.raiting} onChange={(e) => updateRaiting(e.target.value)}/>
         </div>
       </div>
       <div>

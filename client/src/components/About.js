@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import '../scss/About.scss'
 import foto from '../image/Foto1.jpg'
@@ -12,11 +12,14 @@ import {
   updateEmailNameAction, 
   updateEmailPhoneAction 
 } from '../store/reducers/emailReducer';
+import { addPlacesAction } from '../store/reducers/placesReducer';
 import { sendMessageEmail } from '../../http/emailAPI';
+import { getAllPlacesWithPage } from '../../http/placesAPI';
 
 const About = ({refAbout}) => {
   const emailData = useSelector(state => state.email.email)
   const dispatch = useDispatch()
+  const places = useSelector(state => state.places.places)
 
   const clickHandler = async (e) => {
     e.preventDefault()
@@ -30,6 +33,10 @@ const About = ({refAbout}) => {
     }
   }
 
+  useEffect(async ()=>{
+    const places = await getAllPlacesWithPage(1)
+    dispatch(addPlacesAction(places))
+  }, [])
   return (
     <section ref={refAbout} id='about_us' className='about_us'>
       <div className='container'>
@@ -52,13 +59,14 @@ const About = ({refAbout}) => {
           </div>
         </div>
         <div className='row about_us_form'>
-          <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
-            <YMaps>
-              <Map width={"100%"} height={"100%"} defaultState={{ center: [53.902283, 27.561805], zoom: 6 }} >
-                <Placemark geometry={[53.695788, 31.706855]} />
-                <Placemark geometry={[53.894577, 30.330530]} />
-              </Map>
-            </YMaps>
+          <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 map'>
+              <YMaps>
+                <Map width={"100%"} height={"578.59px"} defaultState={{ center: [53.902283, 27.561805], zoom: 6 }} >
+                  {places.data.map( place => {
+                    return <Placemark geometry={[place.latitude, place.longitude]} />
+                  })}
+                </Map>
+              </YMaps>
           </div>
           <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
             <form className='row'>

@@ -9,15 +9,19 @@ import Navbar from './pages/Account/Navbar';
 import './index.scss';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import { publicRoutes } from './routes';
+import { CookiesProvider } from 'react-cookie';
+
 
 ReactDOM.render(
+  
   <BrowserRouter>
+    <CookiesProvider>
     <Provider store={store}>
       <Navbar />
       <Routes>
         {publicRoutes.map(({path, childRoutes, Component}) => {
           if(childRoutes) {
-            console.log(childRoutes)
+            
             return (
             <Route key={path} path={path} >
               
@@ -32,6 +36,7 @@ ReactDOM.render(
         })}
       </Routes>
     </Provider>
+    </CookiesProvider>
   </BrowserRouter>,
   document.getElementById('root')
 );

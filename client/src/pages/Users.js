@@ -135,7 +135,7 @@ const Users = () => {
             params={params} 
             statusUpdate={statusUpdate} 
             exitItem={exitItem} 
-            addIte={addItem}
+            addItem={addItem}
             putItem={putItem}
             deleteItem={deleteItem}/>
         </div>

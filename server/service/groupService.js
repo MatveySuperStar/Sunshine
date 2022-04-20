@@ -17,6 +17,19 @@ class GroupService {
 
   }
 
+  async getAccessTest(idGroup) {
+    
+    const groups = await db.execute(`SELECT 
+    groups.id as id,
+    groups.name as name,
+    COUNT(users.id) as count
+    FROM users RIGHT JOIN groups 
+    ON users.id_group = groups.id GROUP bY name  ORDER BY id`)
+      .then( ([rows]) => rows)
+      .catch( err => console.log(err))
+
+    return {groups: groups}
+  }
 
   async limitGroups(page, limit = 11) {
     const offsetPage = (page - 1) * limit

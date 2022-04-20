@@ -5,6 +5,25 @@ function randomInt() {
 
 export const defaultState = {
   isAuth: false,
+  places: {data:[], cointPage: 0, currentPage: 0},
+  place: {name: '', latitude: '', longitude: '', update: false},
+  parametrs : [
+    {
+      title: "Студенты", 
+      img: "https://img.icons8.com/ios/100/000000/student-male--v1.png", 
+      number: 0
+    },
+    {
+      title: "Школы", 
+      img: "https://img.icons8.com/small/100/000000/city-buildings.png", 
+      number: 0
+    },
+    {
+      title: "Преподаватели", 
+      img: "https://img.icons8.com/ios/100/000000/training.png", 
+      number: 0
+    }
+  ],
   email: {name: '', kurs: {value: '', datalist: []}, email: '', phone: '', message: '', errors: {
     name: '', kurs: '', email: '', phone: '', message: ''
   }},
@@ -15,11 +34,26 @@ export const defaultState = {
   groups: {data:[], cointPage: 0, currentPage: 0},
   users: {data: [], countPage: 0, currentPage: 0},
   dataListUsers: [],
+  testHeader: {
+    title: '',
+    description: ''
+  },
+  tests: [
+    
+  ],
+  accessTest : {
+    id: 0,
+    date: new Date(),
+    access: false,
+    id_group: 0,
+    update: false
+  },
   test: [
     {
       id: randomInt(),
-      raiting: 1,
-      answer: false,
+      title: '',
+      raiting: 0,
+      answer: false, 
       types: [
         { 
           type: "radio", 

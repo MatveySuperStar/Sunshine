@@ -4,20 +4,30 @@ import backgroundImage from '../image/bacground-head.jpg'
 import BurgerMenu from './BurgerMenu';
 import exit from '../image/icons/exit.png';
 import { login } from '../../http/userAPI';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const Head = ({refBenefits, refKurs, refAbout}) => {
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
+  const history =  useNavigate()
+  const [cookies, setCookie, removeCookie] = useCookies();
 
   const authIn = async (e) => {
     e.preventDefault();
     try {
-      console.log('ss')
+
       const data = await login(email, password)
-      console.log(data)
+      
+      setCookie('user', data.user)
+      setCookie('isAuth', {value: true})
+
+      console.log(cookies.user)
+      localStorage.setItem('tokenUser', data.user)
+      history('/account/')
     } catch(e) {
       console.log('ff')
-      alert(e.responce.data.message)
+    
     }
   }
 

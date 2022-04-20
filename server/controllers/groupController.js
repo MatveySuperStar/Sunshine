@@ -22,6 +22,18 @@ class GroupController {
     }
   }
 
+  async accessTest(req, res, next) {
+    try {
+     const {groupId}= req.query
+
+     const groupsData = await GroupService.getAccessTest()
+
+     return res.status(200).json(groupsData)
+    } catch {
+      next()
+    }
+  }
+
   async add(req, res, next) {
     try {
       const errors = validationResult(req)

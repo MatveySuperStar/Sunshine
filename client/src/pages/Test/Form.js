@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import Question from './Question';
-import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction } from '../../store/reducers/testReducer';
+import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateQuestionTitle } from '../../store/reducers/testReducer';
 
 const Form = ({form}) => {
   const dispatch = useDispatch()
@@ -62,7 +62,8 @@ const Form = ({form}) => {
     <div className='col-md-8 form'>
       <div className='row'>
         <div className='col-md-6'>
-          <textarea name='description' placeholder='Описание' rows={1}/>
+          <textarea name='description' placeholder='Описание' rows={1}
+          value={form.title} onChange={(e)=>dispatch(updateQuestionTitle({id: form.id, title: e.target.value}))}/>
         </div>
         <div className='col-md-1'>
           <img src="https://img.icons8.com/small/32/000000/gallery.png"/>
@@ -78,14 +79,15 @@ const Form = ({form}) => {
       </div>
       {Questions()}
       <div className='row answer'>
-        <div className='col-md-10'>
-          <button onClick={activeAnswer}>Answer</button>
+        <div className='col-md-8'>
+          <button onClick={activeAnswer}>Ответы</button>
+          <span>({form.raiting} баллов)</span>
         </div>
-        <div className='col-md-1'>
-          <button onClick={deleteForm}>Delete</button>
+        <div className='col-md-2'>
+          <button onClick={deleteForm}>Удалить</button>
         </div>
-        <div className='col-md-1'>
-          <button onClick={() => { dispatch(addFormAction()) }}>Add</button>
+        <div className='col-md-2'>
+          <button onClick={() => { dispatch(addFormAction()) }}>Добавить</button>
         </div>
       </div>
     </div>

@@ -7,6 +7,8 @@ const {body, check} = require('express-validator')
 
 router.get('/', GroupController.getAll)
 
+router.get('/accessTest', GroupController.accessTest)
+
 router.post('/add', check('name', 'Название группы не должно быть пустым').notEmpty(), GroupController.add)
 
 router.put('/put', [

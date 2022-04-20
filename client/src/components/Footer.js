@@ -14,7 +14,8 @@ const Footer = () => {
     {text: 'Дошкольники: 3-4 года'},
     {text: 'Подготовка к школе'},
     {text: 'Немецкий и испанский'},
-    {text: 'Услуги распечатки и ксерокопии'}
+    {text: 'Услуги распечатки и ксерокопии'},
+    {text: 'Продажа учебной литературы'}
   ]
 
   const icons = [
@@ -71,6 +72,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 footer_nav'>
+            <h3>Навигация</h3>
             <ul>
               {linksData.map( link => <li key={link.label}><a>{link.label}</a></li>)}
             </ul>
@@ -81,7 +83,7 @@ const Footer = () => {
             <p>Email: </p>
             <p>Адрес: Ленинская улица, 34, Кричев</p>
             @Copyright 2022 Sunshine with <a href='https://github.com/MatveySuperStar'>MatveySuperStar</a>
-            <h3>Контакты</h3>
+            <h3>Социальные сети</h3>
             <div className='icons'>
               {icons.map( icon => <a key={icon.label} href={icon.path}><img src={icon.label} /></a>) }
             </div>
