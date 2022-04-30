@@ -70,10 +70,14 @@ const Test = () => {
       <div>
         {
         params.get('idTest') ?
-        <button onClick={async()=>{
-          await putTest(tests, header.title, header.description, params.get('idTest'))
-          navigate('../../account/tests')
-        }}>Изменить</button>
+          <button onClick={
+            async()=>{
+              await putTest(tests, header.title, header.description, params.get('idTest'))
+              navigate('../../account/tests')
+            }
+          }>
+            Изменить
+          </button>
         :
         <button onClick={async()=>{await addTest(tests, header.title, header.description, cookies.user.id)}}>Добавить</button>
         }

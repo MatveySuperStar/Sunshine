@@ -24,6 +24,12 @@ class PlacesController {
 
   async add(req, res, next) {
     try{
+      const errors = validationResult(req)
+
+      if(!errors.isEmpty()){
+        return res.status(400).json({message: 'Ошибка пеl', errors})
+      }
+
       let {nameCentre, latitude, longitude, page} = req.body
 
       console.log(req.body)
@@ -38,6 +44,11 @@ class PlacesController {
 
   async put(req, res, next) {
     try{
+      const errors = validationResult(req)
+
+      if(!errors.isEmpty()){
+        return res.status(400).json({message: 'Ошибка пе', errors})
+      }
 
       let {id, nameCentre, latitude, longitude, page} = req.body
 

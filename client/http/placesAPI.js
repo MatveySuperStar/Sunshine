@@ -13,16 +13,15 @@ export const getAllPlaces = async () => {
 }
 
 export const addPlace = async ({name, latitude, longitude, page}) => {
-  console.log( page)
-  const {data} = await $api.post(`api/places/add`, {
+
+  const data = await $api.post(`api/places/add`, {
     nameCentre: name, 
     latitude: latitude, 
     longitude: longitude, 
     page: page
   })
   
-  console.log(data)
-  return data
+  return {data: data.places, error: data.error }
 }
 
 export const putPlace = async ({id, name, latitude, longitude, page}) => {

@@ -6,9 +6,17 @@ const {check, body} = require('express-validator')
 
 router.get('/', /*authMiddleware,*/ placesController.getAll)
 
-router.post('/add', placesController.add)
+router.post('/add', [
+  check('nameCentre', 'Заполниет поле Город').notEmpty(),
+  check('latitude', 'Заполниет поле Широта').notEmpty(),
+  check('longitude', 'Заполниет поле Долгота').notEmpty(),
+], placesController.add)
 
-router.put('/put', placesController.put)
+router.put('/put', [
+  check('nameCentre', 'Заполниет поле Город').notEmpty(),
+  check('latitude', 'Заполниет поле Широта').notEmpty(),
+  check('longitude', 'Заполниет поле Долгота').notEmpty(),
+], placesController.put)
 
 router.delete('/delete', placesController.delete)
 

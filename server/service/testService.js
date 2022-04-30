@@ -53,9 +53,8 @@ class TestService {
 
   async deleteTest(id) {
 
-    const test = await db.execute(`UPDATE test SET 
-    title=?, questions=?, description=? WHERE id=?
-    `, [title, questions, description, id])
+    const test = await db.execute(`DELETE test WHERE id=?
+    `, [id])
       .then( ([rows]) => rows)
       .catch( err => console.log(err))
 

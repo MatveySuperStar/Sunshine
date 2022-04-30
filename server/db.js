@@ -5,8 +5,11 @@ const connection = mysql.createConnection({
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  keepAliveInitialDelay: 10000,
-   enableKeepAlive: true,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
+  debug: false,
+  connectTimeout: 1000000
 }).promise()
 
 connection.connect( error => {
@@ -15,6 +18,6 @@ connection.connect( error => {
   } else {
     return console.log('Подключение успешно')
   }
-})
+}) 
 
 module.exports = connection

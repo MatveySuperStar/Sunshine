@@ -110,22 +110,38 @@ const Tests = () => {
               <div className='delete' onClick={async(e)=> accessTestGroup(e, test.id)}>Удалить</div>
             </div>
           </div>
-          <div className={`item-group ${activeAccess(test.id)}`}>
-            Управление доступом к тесту
-            <DateTimePicker onChange={(value)=>dispatch(updateAccessDateAction(value))} value={accessTest.date} />
-            <input list='groupDataList' type='text' value={accessTest.idgroup}/>
-            <datalist>
-              <option> </option>
-            </datalist>
-            <div>
-              Группы с доступом к тесту
-              {groups.length >= 0 ? groups.map( group => {
-                return <div>{group.name}</div>
-              }) : ''}
+
+
+          <div className={`row item-group ${activeAccess(test.id)}`}>
+            <div className='col-md-4'>
+              <div className='col-md-12'>
+                <label> Управление доступом к тесту </label>
+              </div>
+              <div className='col-md-12'>
+                <DateTimePicker onChange={(value)=>dispatch(updateAccessDateAction(value))} value={accessTest.date} />
+              </div>
             </div>
-          </div>
-          <div>
-            
+            <div className='col-md-4'>
+              <div className='col-md-12'>
+                <label>Доступ к группе</label>
+              </div>
+              <div className='col-md-12'>
+                <input list='groupDataList' type='text' value={accessTest.idgroup}/>
+                <datalist>
+                  <option> </option>
+                </datalist>
+              </div>
+            </div>
+            <div className='col-md-2 d-flex justify-content-center align-items-end'>
+              <button>
+                Сохранить
+              </button>
+            </div>
+            <div className='col-md-2 d-flex justify-content-center align-items-end'>
+              <button onClick={() =>dispatch(updateAccessUpdateAction({idTest: test.id, update: !accessTest.update}))}>
+                Выйти
+              </button>
+            </div>
           </div>
         </div>)
       })}

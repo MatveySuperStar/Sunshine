@@ -5,6 +5,7 @@ function randomInt() {
 
 export const defaultState = {
   isAuth: false,
+  customError: [],
   places: {data:[], cointPage: 0, currentPage: 0},
   place: {name: '', latitude: '', longitude: '', update: false},
   parametrs : [

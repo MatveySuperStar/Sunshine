@@ -9,7 +9,7 @@ const Navbar = () => {
 
   return (
     <>
-    {cookies.isAuth.value ?  
+    {cookies?.isAuth?.value ?  
     <nav>
       <div className='container-fluid'>
         <div className='row'>

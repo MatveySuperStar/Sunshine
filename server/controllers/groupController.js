@@ -2,7 +2,6 @@ const db = require('../db')
 const GroupService = require('../service/groupService') 
 const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/apiError')
-const e = require('express')
 
 class GroupController {
   async getAll(req, res, next) {
