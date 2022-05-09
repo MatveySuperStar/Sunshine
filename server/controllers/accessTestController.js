@@ -18,9 +18,10 @@ class AccessTestController {
 
   async add(req, res, next) {
     try{
-      const {idTest, idGroup, access, dateTime} = req.body
+      const {idTest, idGroup, date} = req.body
 
-      const testData = await accessTestService.addAccessTest(idTest, idGroup, access, dateTime)
+      console.log(req.body)
+      const testData = await accessTestService.addAccessTest(idTest, idGroup, date)
 
       return res.status(200).json(testData)
       
@@ -31,9 +32,9 @@ class AccessTestController {
 
   async put(req, res, next) {
     try{
-      const {accessTest, date, idAccess} = req.body
+      const {idGroup, idTest, date} = req.body
 
-      const testData = await accessTestService.putAccessTest(accessTest, date, idAccess)
+      const testData = await accessTestService.putAccessTest(idGroup, idTest, date)
 
       return res.status(200).json(testData)
       
@@ -44,9 +45,9 @@ class AccessTestController {
 
   async delete(req, res, next) {
     try{
-      const {idAccess} = req.body
+      const {idGroup, idTest} = req.body
 
-      const testData = await accessTestService.deleteAccessTest(idAccess)
+      const testData = await accessTestService.deleteAccessTest(idGroup, idTest)
 
       return res.status(200).json(testData)
       

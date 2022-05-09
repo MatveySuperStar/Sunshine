@@ -119,8 +119,7 @@ class UserService {
     }
 
     const newUser = [name, surname, patronymic, email, password, phone, status ? status : 'Ученик', id_group != 0 ? id_group : null]
-
-    console.log(newUser)
+    
     const users = await db.execute(`UPDATE users SET 
       name=?, surname=?, patronymic=?, email=?, password=?, phone=?, status=?, id_group=? 
       WHERE id='${id}'`, newUser)

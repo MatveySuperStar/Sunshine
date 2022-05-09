@@ -5,18 +5,23 @@ import { useSelector, useDispatch  } from 'react-redux';
 import {getTest, getAllTests } from '../../http/testAPI';
 import { addAllTestsAction } from '../store/reducers/testsReducer';
 import DateTimePicker from 'react-datetime-picker';
-import { getAllTestsGroup } from '../../http/accessTestAPI';
+import { addAccessTest, getAllTestsGroup, putAccessTest, deleteAccessTest } from '../../http/accessTestAPI';
 import { getAllGroupsAction } from '../store/reducers/groupsReducer';
-import { updateAccessDateAction, updateAccessUpdateAction } from '../store/reducers/testReducer';
+import { updateAccessDateAction, updateAccessGroupAction, updateAccessUpdateAction } from '../store/reducers/testReducer';
 import { useCookies } from 'react-cookie';
+import { likeGroup } from '../../http/groupAPI';
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css";
 
 const Tests = () => {
   const tests = useSelector(state => state.tests.tests)
-  const groups = useSelector(state => state.groups.groups.data)
+  const groups = useSelector(state => state.groups?.groups?.data)
   const accessTest = useSelector(state => state.test.accessTest)
   const [cookies, setCookie, removeCookie] = useCookies();
   const authUser = useSelector(state => state.authUser?.authUser)
   
+  const [accessDeleteGroup, setAccessDeleteGroup] = useState(false)
+
   const history =  useNavigate()
 
   const dispatch = useDispatch()
@@ -30,7 +35,15 @@ const Tests = () => {
 
     dispatch(addAllTestsAction(testsData))
   }, [])
+  //actions with the tests
+  const newTest = () => {
+    history('/account/test')
+  }
 
+  const updateTest = (idTest) => {
+    history(`/account/test?idTest=${idTest}`)
+  }
+  /////////////
   const changeActive = async(e, name) => {
     e.preventDefault()
 
@@ -60,24 +73,41 @@ const Tests = () => {
   const accessTestGroup = async(e, idTest, access) => {
     e.stopPropagation()
     dispatch(updateAccessUpdateAction({idTest: idTest, update: !accessTest.update}))
-    const groups = await getAllTestsGroup(idTest)
-
-   dispatch(getAllGroupsAction({data: groups}))
-  }
-
-  const newTest = () => {
-    history('/account/test')
-  }
-
-  const updateTest = (idTest) => {
-    history(`/account/test?idTest=${idTest}`)
   }
 
   const activeAccess = (idTest) => {
-    console.log( accessTest.idTest)
     return accessTest.idTest === idTest && accessTest.update === true ? 'd-flex' : 'd-none'
   }
-  
+
+  //actions with access test
+  const accessGroups = async (value, id) => {
+    dispatch(updateAccessGroupAction(value))
+    const groups = await likeGroup(value, id)
+    dispatch(getAllGroupsAction({data: groups.data}))
+    setAccessDeleteGroup(groups.accessGroups)
+  }
+
+  const saveAccessTest = async(id) => {
+    const idGroup = groups.find( group => group.name === accessTest.idGroup)
+    const dataGroup = await addAccessTest(id, idGroup.id, accessTest.date)
+    dispatch(updateAccessGroupAction(''))
+    setAccessDeleteGroup(false)
+  }
+
+  const putItem = async(id) => {
+    const idGroup = groups.find( group => group.name === accessTest.idGroup)
+    const dataGroup = await putAccessTest(id, idGroup.id, accessTest.date)
+    dispatch(updateAccessGroupAction(''))
+    setAccessDeleteGroup(false)
+  }
+
+  const deleteItem = async(id) => {
+    const idGroup = groups.find( group => group.name === accessTest.idGroup)
+    const dataGroup = await deleteAccessTest(id, idGroup.id)
+    dispatch(updateAccessGroupAction(''))
+    setAccessDeleteGroup(false)
+  }
+
   return (
     <div className='container'>
       <div className='test_add'>
@@ -115,30 +145,54 @@ const Tests = () => {
 
 
           <div className={`row item-group ${activeAccess(test.id)}`}>
-            <div className='col-md-4'>
+            <div className='col-md-3'>
               <div className='col-md-12'>
                 <label> Управление доступом к тесту </label>
               </div>
               <div className='col-md-12'>
-                <DateTimePicker onChange={(value)=>dispatch(updateAccessDateAction(value))} value={accessTest.date} />
+
+                <DatePicker
+                  selected={accessTest.date}
+                  onChange={(value)=>dispatch(updateAccessDateAction(value))}
+                  showTimeSelect
+                  timeFormat="p"
+                  timeIntervals={15}
+                  dateFormat="yyyy-mm-dd h:mm"
+                />
               </div>
             </div>
-            <div className='col-md-4'>
+            <div className='col-md-3'>
               <div className='col-md-12'>
                 <label>Доступ к группе</label>
               </div>
               <div className='col-md-12'>
-                <input list='groupDataList' type='text' value={accessTest.idgroup}/>
-                <datalist>
-                  <option> </option>
+                <input list='groupDataList' type='text' value={accessTest.idGroup} onChange={async(e) => accessGroups(e.target.value, test.id)}/>
+                <datalist id='groupDataList'>
+                  { groups.map( group => {
+                    return <option> {group.name} </option>
+                  })
+                  }
                 </datalist>
               </div>
             </div>
             <div className='col-md-2 d-flex justify-content-center align-items-end'>
-              <button>
+            {
+            accessDeleteGroup ? 
+              <button onClick={async() => putItem(test.id)}>
+                Изменить
+              </button>
+              :
+              <button onClick={async() => saveAccessTest(test.id)}>
                 Сохранить
               </button>
+            }
             </div>
+            {accessDeleteGroup ? 
+            <div className='col-md-2 d-flex justify-content-center align-items-end'>
+              <button onClick={async() => deleteItem(test.id)}>
+                Удалить
+              </button>
+            </div> : ""}
             <div className='col-md-2 d-flex justify-content-center align-items-end'>
               <button onClick={() =>dispatch(updateAccessUpdateAction({idTest: test.id, update: !accessTest.update}))}>
                 Выйти

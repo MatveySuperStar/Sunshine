@@ -20,7 +20,7 @@ class AccessTestService {
 
   async addAccessTest(idTest, idGroup, dateTime) {
       
-    const groups = await db.execute(`INSERT INTO accesstest (id_test, id_group, date) VALUES (?)`,
+    const groups = await db.execute(`INSERT INTO accesstest (id_test, id_group, date) VALUES (?,?,?)`,
     [idTest, idGroup, dateTime])
       .then( ([rows]) => rows)
       .catch( err => console.log(err))
@@ -28,21 +28,21 @@ class AccessTestService {
     return {groups: groups}
   }
 
-  async putAccessTest(accessTest, date, idAccess) {
+  async putAccessTest(idGroup, idTest, date) {
       
     const groups = await db.execute(`UPDATE 
     accesstest
-    SET access=?, date=? WHERE accesstest.id = ?`, [accessTest, date, idAccess])
+    SET date=? WHERE id_test = ? AND id_group=?`, [date, idTest, idGroup])
       .then( ([rows]) => rows)
       .catch( err => console.log(err))
 
     return {groups: groups}
   }
 
-  async deleteAccessTest(idAccess) {
+  async deleteAccessTest(idGroup, idTest) {
       
     const groups = await db.execute(`DELETE FROM accesstest
-    WHERE accesstest.id = ?`, [idAccess])
+    WHERE id_test = ? AND id_group=?`, [idTest, idGroup])
       .then( ([rows]) => rows)
       .catch( err => console.log(err))
 

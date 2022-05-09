@@ -8,6 +8,7 @@ const UPDATE_ALL_GROUPS = "UPDATE_ALL_GROUPS"
 export const groupsReducer = (state = defaultState, action) => {
   switch(action.type) {
     case GET_ALL_GROUPS:
+      console.log(action.payload)
       return {...state, groups: {data: action.payload.data}}
     case UPDATE_ALL_GROUPS:
       return {...state, groups: {...state.groups, data: action.payload.data, countPage: action.payload.countPage}}

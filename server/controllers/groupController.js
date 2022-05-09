@@ -33,6 +33,17 @@ class GroupController {
     }
   }
 
+  async like(req, res, next) {
+    try {
+      const {nameGroup, idTest}= req.body
+      const groupsData = await GroupService.likeGroupInTest(nameGroup, idTest)
+
+      return res.status(200).json(groupsData)
+    } catch {
+      next()
+    }
+  }
+
   async add(req, res, next) {
     try {
       const errors = validationResult(req)

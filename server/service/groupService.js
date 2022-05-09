@@ -49,6 +49,28 @@ class GroupService {
       return {groups: groups, countPage: countPage }
   }
 
+  async likeGroupInTest(nameGroup='', idTest='') {
+    const groups = await db.execute(
+      `SELECT id, name FROM groups 
+      WHERE name LIKE '%${nameGroup}%' LIMIT 5 `
+    ).then( result => result[0])
+    .catch( err => console.log(err))
+
+    if(groups.length === 1) {
+      const accessGroups = await db.execute(
+        `SELECT id FROM accesstest WHERE id_group=? AND id_test=?`, [groups[0].id, idTest]
+      )
+
+      if(accessGroups[0].length === 1 && groups[0].name === nameGroup) {
+        return {groups: groups, accessGroups: true}
+      } else {
+        return {groups: groups, accessGroups: false}
+      }
+    }
+
+    return {groups: groups, accessGroups: false}
+  }
+
   async add(name) {
     const candidate = await db.execute(`SELECT * FROM groups WHERE name=?`, [name])
     

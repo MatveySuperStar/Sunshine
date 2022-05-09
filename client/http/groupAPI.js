@@ -6,6 +6,13 @@ export const getGroups = async (page = 1) => {
   return {data: data.groups, countPage: data.countPage, currentPage: 1}
 }
 
+export const likeGroup = async (nameGroup, idTest) => {
+  const {data} = await $api.post(`api/group/likeGroup`, {nameGroup: nameGroup, idTest: idTest})
+  /*return jwt_decode(data.token)*/
+  console.log(data)
+  return {data: data.groups, accessGroups: data.accessGroups}
+}
+
 export const addGroup = async ({name, page}) => {
   console.log(page)
   const {data} = await $api.post(`api/group/add`, {name: name, page: page})

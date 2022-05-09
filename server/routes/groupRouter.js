@@ -9,6 +9,8 @@ router.get('/', GroupController.getAll)
 
 router.get('/accessTest', GroupController.accessTest)
 
+router.post('/likeGroup', GroupController.like)
+
 router.post('/add', check('name', 'Название группы не должно быть пустым').notEmpty(), GroupController.add)
 
 router.put('/put', [
