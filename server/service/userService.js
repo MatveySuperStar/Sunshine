@@ -66,25 +66,26 @@ class UserService {
     const user = await db.execute('SELECT * FROM users WHERE email=?', [email])
       .then( ([rows]) => rows[0])
       .catch( err => {console.log(err)})
-
-      console.log(user)
+      
     if(!user) {
-      throw ApiError.BadRequest('Такой почты не существует') 
+      throw ApiError.BadRequest('Такой почты не существует', 
+        [{param: 'email', msg: 'Такой почты не существует'}]) 
     }
 
     let comparePassword = bcrypt.compareSync(password, user.password)
 
     if(!comparePassword) {
-      throw ApiError.BadRequest('Пароли не совпадают') 
+      throw ApiError.BadRequest('Пароли не совпадает',
+      [{param: 'password', msg: 'Пароль не совпадает'}]) 
     }
 
-    let tokens = tokenService.generateToken({id: user.id, email: user.email, role: user.role})
+    let tokens = tokenService.generateToken({id: user.id, email: user.email, role: user.status})
 
     tokens.refreshToken = await tokenService.saveToken(user.id, tokens.refreshToken, cookeiToken, id_device)
     return {...tokens, user}
   }
 
-  async registration(name, surname, patronymic, email, password, phone, status = 'ученик', group = null) {
+  async registration(name, surname, patronymic, email, password, phone, status = 'Ученик', group = null) {
     const candidate = await db.execute(`SELECT * FROM users WHERE email=?`, [email])
     
     if(candidate[0][0]) {
@@ -92,14 +93,11 @@ class UserService {
     }
 
     const hashPassword = bcrypt.hashSync(password, 2)
-    const user = [name, surname, patronymic, email, hashPassword, phone, status, group]
+    const user = [name, surname, patronymic, email, hashPassword, phone, status ? status : 'Ученик', group != 0 ? group : null]
 
     const users = await db.execute(`INSERT INTO users
       (name, surname, patronymic, email, password, phone, status, id_group) 
       VALUES (?,?,?,?,?,?,?,?)`, user)
-      .then( ([rows]) => {
-       
-      })
       .catch( err => { throw new Error(err)} )
 
     return users
@@ -110,7 +108,7 @@ class UserService {
     return token
   }
 
-  async put(id, name, surname, patronymic, email, password, phone, status = 'student', id_group = null) {
+  async put(id, name, surname, patronymic, email, password, phone, status = 'Ученик', id_group = null) {
     
     if(!password) {
       password =  await db.execute(`SELECT password FROM users WHERE id=?`, [id])
@@ -120,8 +118,9 @@ class UserService {
       })
     }
 
-    const newUser = [name, surname, patronymic, email, password, phone, status, id_group]
+    const newUser = [name, surname, patronymic, email, password, phone, status ? status : 'Ученик', id_group != 0 ? id_group : null]
 
+    console.log(newUser)
     const users = await db.execute(`UPDATE users SET 
       name=?, surname=?, patronymic=?, email=?, password=?, phone=?, status=?, id_group=? 
       WHERE id='${id}'`, newUser)
@@ -143,7 +142,7 @@ class UserService {
 
   async refresh(refreshToken) {
     if(!refreshToken) {
-      throw ApiError.UnauthorizedError
+      throw ApiError.UnauthorizedError()
     }
 
     const userData = tokenService.validateRefreshToken(refreshToken)
@@ -157,7 +156,7 @@ class UserService {
       .then( ([rows]) => rows[0])
       .catch( err => {console.log(err)})
 
-    let tokens = tokenService.generateToken({id: user.id, email: user.email, role: user.role})
+    let tokens = tokenService.generateToken({id: user.id, email: user.email, role: user.status})
 
     tokens.refreshToken = await tokenService.saveToken(user.id, tokens.refreshToken, refreshToken)
     return {...tokens, user}

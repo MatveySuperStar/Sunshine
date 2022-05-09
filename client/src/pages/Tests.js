@@ -15,12 +15,21 @@ const Tests = () => {
   const groups = useSelector(state => state.groups.groups.data)
   const accessTest = useSelector(state => state.test.accessTest)
   const [cookies, setCookie, removeCookie] = useCookies();
-
+  const authUser = useSelector(state => state.authUser?.authUser)
+  
   const history =  useNavigate()
 
   const dispatch = useDispatch()
 
   const [nav, useNav] = useState([{name: 'all', active: false},{name: 'my', active: true}, {name: 'search', active: true}])
+
+  useEffect(async()=>{
+    dispatch(getAllGroupsAction({data: []}))
+    
+    const testsData = await getAllTests(authUser.user.id)
+
+    dispatch(addAllTestsAction(testsData))
+  }, [])
 
   const changeActive = async(e, name) => {
     e.preventDefault()
@@ -38,7 +47,7 @@ const Tests = () => {
 
       dispatch(addAllTestsAction(testsData))
     } else if(name === 'my') {
-      const testsData = await getAllTests(cookies.user.id)
+      const testsData = await getAllTests(authUser.user.id)
       
       dispatch(addAllTestsAction(testsData))
     }
@@ -56,14 +65,6 @@ const Tests = () => {
    dispatch(getAllGroupsAction({data: groups}))
   }
 
-  useEffect(async()=>{
-    dispatch(getAllGroupsAction({data: []}))
-    
-    const testsData = await getAllTests(cookies.user.id)
-
-    dispatch(addAllTestsAction(testsData))
-  }, [])
-
   const newTest = () => {
     history('/account/test')
   }
@@ -76,6 +77,7 @@ const Tests = () => {
     console.log( accessTest.idTest)
     return accessTest.idTest === idTest && accessTest.update === true ? 'd-flex' : 'd-none'
   }
+  
   return (
     <div className='container'>
       <div className='test_add'>

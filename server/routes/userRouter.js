@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/authMiddleware')
 const checkRole = require('../middleware/checkRoleMiddleware')
 const {check, body} = require('express-validator')
 
-router.get('/', /*authMiddleware,*/ UserController.getAll)
+router.get('/', checkRole('Преподаватель'), UserController.getAll)
 
 router.post('/registration', [
     check('email', 'Email не соответствует требованиям').isEmail(),
@@ -40,5 +40,7 @@ UserController.login)
 router.get('/refresh', UserController.refresh)
 
 router.put('/patchGroup', UserController.patchGroup)
+
+router.get('/logout', UserController.logout)
 
 module.exports = router

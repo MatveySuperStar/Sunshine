@@ -71,7 +71,7 @@ class TokenService {
   }
 
   async removeToken(refreshToken) {
-    const tokenData = db.execute('DELETE FROM tokens WHERE refreshToken=?',[refreshToken])
+    const tokenData = await db.execute('DELETE FROM tokens WHERE refreshToken=?',[refreshToken])
     return tokenData
   }
 

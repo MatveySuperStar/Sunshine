@@ -59,7 +59,7 @@ const About = ({refAbout}) => {
           </div>
         </div>
         <div className='row about_us_form'>
-          <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 map'>
+          <div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 map'>
               <YMaps>
                 <Map width={"100%"} height={"578.59px"} defaultState={{ center: [53.902283, 27.561805], zoom: 6 }} >
                   {places.data.map( place => {
@@ -68,7 +68,7 @@ const About = ({refAbout}) => {
                 </Map>
               </YMaps>
           </div>
-          <div className='col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6'>
+          <div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6'>
             <form className='row'>
               <h3> Форма связи с нами </h3>
               <div className='col-md-6'>
@@ -97,7 +97,11 @@ const About = ({refAbout}) => {
               </div>
               <div className='col-md-12'>
                 <p>Ваше сообщение</p>
-                <textarea value={emailData.message} onChange={(e) => dispatch(updateEmailMessageAction(e.target.value))}/>
+                <textarea style={{overflow: "hidden"}} onKeyUp={(e) => {
+                  if(e.target.scrollTop > 0){
+                    e.target.style.height = e.target.scrollHeight + "px";
+                  }
+                }} value={emailData.message} onChange={(e) => dispatch(updateEmailMessageAction(e.target.value))}/>
                 <span className='error'>{emailData.errors.message}</span>
               </div>
               <div className='col-md-12'>

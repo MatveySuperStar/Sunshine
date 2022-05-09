@@ -1,22 +1,24 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
-import Question from './Question';
+import Question from '../Test/Question';
 import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateQuestionTitle } from '../../store/reducers/testReducer';
+import TryQuestion from './TryQuestion';
+import { addAnswerCheckboxUserAction, addAnswerRadioUserAction, addAnswerStringUserAction } from '../../store/reducers/answerReducer';
 
-const Form = ({form}) => {
+const TryForm = ({form = {title: ''}}) => {
   const dispatch = useDispatch()
   const [activeTypes, setActiveTypes] = useState(false)
-
+/*
 
   const changeType = (type) => {
     setActiveTypes(!activeTypes)
     dispatch(changeTypeAction({id: form.id, type: type}))
   }
-
+/*
   const allTypes = () => {
     return form.types.map( type => {
       return (
-      <div className={`question_type`} onClick={() => changeType(type.type)}>
+      <div className={`question_type`} onClick={() => {changeType(type.type)}}>
         <img src={type.img} />
         <span>{type.rusType}</span>
       </div> 
@@ -34,18 +36,35 @@ const Form = ({form}) => {
       }    
      })
   }
+*/
+
+  const addAnswerCheckbox = (idForm, idAnswer) => {
+    dispatch(addAnswerCheckboxUserAction({idForm: idForm, idAnswer: idAnswer}))
+  }
+
+  const addAnswerRadio = (idForm, idAnswer) => {
+    dispatch(addAnswerRadioUserAction({idForm: idForm, idAnswer: idAnswer}))
+  }
+
+  const addAnswerText = (idForm, label) => {
+    dispatch(addAnswerStringUserAction({idForm: idForm, label: label}))
+  }
 
   const Questions = () => {
     return form.types.map( type => {
       if(type.active) {
         return type.questions.map( question => {
-          console.log(question)
-          return <Question
+          return <TryQuestion
             id_form={form.id}
-            img={type.activeImg || type.activeImg}
+            activeImg={type.activeImg}
+            img={type.img}
             type={type.type}
             questions={type.questions || []}
-            question={question}/>
+            question={question}
+            addAnswerCheckbox={addAnswerCheckbox}
+            addAnswerRadio={addAnswerRadio}
+            addAnswerText={addAnswerText}
+            />
         })
       }
     })
@@ -58,40 +77,20 @@ const Form = ({form}) => {
   const activeAnswer = () => {
     dispatch(activeAnswerAction({id: form.id}))
   }
+
   return (
-    <div className='col-md-8 form'>
+     <div className='col-md-8 form'>
       <div className='row'>
-        <div className='col-md-6'>
-          <textarea name='description' placeholder='Описание' rows={1}
-          value={form.title} onChange={(e)=>dispatch(updateQuestionTitle({id: form.id, title: e.target.value}))}/>
-        </div>
-        <div className='col-md-1'>
-          <img src="https://img.icons8.com/small/32/000000/gallery.png"/>
-        </div>
-        <div className='col-md-5'>
-          <div className='all_type'>
-            <div className={`burger_type ${activeTypes ? 'active' : 'noActive'}`}>
-              {allTypes()}
-            </div>
-            {activeType()}
-          </div>
+        <div className='col-md-12'>
+          <textarea name='description' placeholder='Вопрос' rows={1}
+          value={form.title} readOnly={true}/>
         </div>
       </div>
+      
       {Questions()}
-      <div className='row answer'>
-        <div className='col-md-8'>
-          <button onClick={activeAnswer}>Ответы</button>
-          <span>({form.raiting} баллов)</span>
-        </div>
-        <div className='col-md-2'>
-          <button onClick={deleteForm}>Удалить</button>
-        </div>
-        <div className='col-md-2'>
-          <button onClick={() => { dispatch(addFormAction()) }}>Добавить</button>
-        </div>
-      </div>
+      
     </div>
   );
 };
 
-export default Form;
+export default TryForm;

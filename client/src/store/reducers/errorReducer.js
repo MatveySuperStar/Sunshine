@@ -3,10 +3,10 @@ import { defaultState } from "../state"
 const CUSTOM_ERROR = "CUSTOM_ERROR"
 const DEFAULT_CUSTOM_ERROR = "DEFAULT_CUSTOM_ERROR"
 
-export const userErrorReducer = (state = defaultState, action) => {
+export const errorReducer = (state = defaultState, action) => {
   switch(action.type) {
     case CUSTOM_ERROR :
-      return {...state, customError: action.payload.error}
+      return {...state, customError: action.payload}
     case DEFAULT_CUSTOM_ERROR :
       return {...state, customError: []}
     default: 

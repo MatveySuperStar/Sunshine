@@ -56,38 +56,29 @@ const Footer = () => {
     <footer>
       <div className='container d-flex justify-content-center'>
         <div className='row'>
-          <div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3 footer_about'> 
-            <h3>О нас</h3>
-            <p>
-              обучение по коммуникативной методике, грамотный и внимательный подход к каждому студенту, 
-              подготовка к международным экзаменам, подготовка к ЦТ, работа с аутентичными учебниками и материалами, 
-              комплексное развитие навыков в процессе обучения, 
-              грамотные и внимательные преподаватели, наличие у представителей кэмбриджиских сертификатов
-            </p>
+          <div className='col-4 col-sm-4 col-md-6 col-lg-1 col-xl-1 footer_about'> 
+            <a><img src='./logo2.png' /></a>
           </div>
-          <div className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 footer_kurs'>
-            <h3>Наши услуги</h3>
-            <ul>
-              {kurs.map( item => <li key={item.text}><a> {item.text} </a></li>) }
-            </ul>
-          </div>
-          <div className='col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 footer_nav'>
-            <h3>Навигация</h3>
-            <ul>
-              {linksData.map( link => <li key={link.label}><a>{link.label}</a></li>)}
-            </ul>
-          </div>
-          <div className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-3 footer_feedback'> 
-            <h3>Контакты</h3>
-            <p>Телефон: +375 (33) 336-23-23</p>
-            <p>Email: </p>
-            <p>Адрес: Ленинская улица, 34, Кричев</p>
-            @Copyright 2022 Sunshine with <a href='https://github.com/MatveySuperStar'>MatveySuperStar</a>
-            <h3>Социальные сети</h3>
-            <div className='icons'>
-              {icons.map( icon => <a key={icon.label} href={icon.path}><img src={icon.label} /></a>) }
+          <div className='col-8 col-sm-8 col-md-6 col-lg-6 col-xl-7 footer_kurs'>
+            <div>
+              <p>+375 (33) 336-23-23</p>
+              <p>sunshine@gmail.com</p>
+              <p>Ленинская улица, 34, Кричев</p>
             </div>
           </div>
+          <div className='col-12 col-sm-12 col-md-12 col-lg-5 col-xl-4 wrapper_footer_feedback'>
+            <div className="row footer_feedback">
+              <div> 
+                <p>Присоединийся к нам в социальных сетях</p>
+              </div>
+              <div className='icons'>
+                {icons.map( icon => <a key={icon.label} href={icon.path}><img src={icon.label} /></a>) }
+              </div>
+            </div>
+          </div>
+          <div className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 footer_author'>
+              @Copyright 2022 Sunshine with <a href='https://github.com/MatveySuperStar'>MatveySuperStar</a>
+            </div>
         </div>
       </div>
     </footer>

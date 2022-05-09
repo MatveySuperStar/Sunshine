@@ -10,6 +10,9 @@ import { emailReducer } from "./reducers/emailReducer";
 import { testsReducer } from "./reducers/testsReducer";
 import { parametrsReducer } from "./reducers/parametrsReducer";
 import { placesReducer } from "./reducers/placesReducer";
+import { answerReducer } from "./reducers/answerReducer";
+import { errorReducer } from "./reducers/errorReducer";
+import { authUserReducer } from "./reducers/authUserReducer";
 
 const rootReducer = combineReducers({
   test: testReducer,
@@ -21,7 +24,11 @@ const rootReducer = combineReducers({
   userError: userErrorReducer,
   email: emailReducer,
   parametrs: parametrsReducer,
-  places: placesReducer
+  places: placesReducer,
+  answerUser: answerReducer,
+  error: errorReducer,
+  authUser: authUserReducer
+  
 })
 
 export const store = createStore(rootReducer, composeWithDevTools());

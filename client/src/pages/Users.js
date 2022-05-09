@@ -34,6 +34,7 @@ const Users = () => {
   const users = useSelector(state => state.users.users)
   const user = useSelector(state => state.user.user)
   const groups = useSelector(state => state.groups.groups)
+  const authUser = useSelector(state => state.authUser.authUser)
   const userError = useSelector(state => state.userError.userError)
 
   useEffect(async() => {
@@ -58,6 +59,19 @@ const Users = () => {
     }))
   }
 
+  const accessRole = () => {
+    if(authUser.user.status === "Админ") {
+      return [
+        {value: 'Ученик', name: 'Ученик'},
+        {value: 'Преподаватель', name: 'Преподаватель'}
+      ]
+    } else if(authUser.user.status === "Преподаватель") {
+      return [
+        {value: 'Ученик', name: 'Ученик'},
+      ]
+    }
+  }
+
   const currentPage = async(value) =>{
     dispatch(addCurrentPageAction({currentPage: value}))
     dispatch(updateUsersAction(await getUsers(value)))
@@ -76,9 +90,7 @@ const Users = () => {
     {label: 'Email', type: 'text', action: updateEmailAction, value: user.email, error: userError.email},
     {label: 'Пароль', type: 'password', action: updatePasswordAction, value: user.password, error: userError.password},
     {label: 'Телефон', type: 'phone', action: updatePhoneAction, value: user.phone, error: userError.phone},
-    {label: 'Статус', type: 'select', action: updateStatusAction, value: user.status, options: [
-      {value: 'Ученик', name: 'Ученик'},
-      {value: 'Преподаватель', name: 'Преподаватель'}]},
+    {label: 'Статус', type: 'select', action: updateStatusAction, value: user.status, options: accessRole()},
     {label: 'Группа', type: 'select', action: updateGroupAction, value: user.groupId, options: 
     [{value: 0, name: 'По умолчанию'}, 
     ...groups.data.map( group => 
@@ -105,11 +117,12 @@ const Users = () => {
   const addItem = async() => {
     const usersData = await addUser({...user, page: users.currentPage})
     
-    if(usersData.errors) {
+    console.log(usersData)
+    if(usersData.errors.length) {
       dispatch(userErrorAction(usersData.errors))
     } else {
     
-    dispatch(updateUsersAction({data: users.data, countPage: users.countPage}))
+    dispatch(updateUsersAction({data: usersData.data, countPage: usersData.countPage}))
     }
   }
 

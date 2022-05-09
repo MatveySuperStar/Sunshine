@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../scss/Head.scss';
 import backgroundImage from '../image/bacground-head.jpg' 
+import { useDispatch, useSelector } from 'react-redux';
 import BurgerMenu from './BurgerMenu';
 import exit from '../image/icons/exit.png';
 import { login } from '../../http/userAPI';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { customErrorAction, defaultCustomErrorAction } from '../store/reducers/errorReducer';
+import { authUserAction } from '../store/reducers/authUserReducer';
 
 const Head = ({refBenefits, refKurs, refAbout}) => {
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const errors = useSelector(state => state.error?.customError)
+  const dispatch = useDispatch()
   const history =  useNavigate()
   const [cookies, setCookie, removeCookie] = useCookies();
+  const authUser = useSelector(state => state.authUser.authUser)
 
   const authIn = async (e) => {
     e.preventDefault();
@@ -19,15 +25,18 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
 
       const data = await login(email, password)
       
-      setCookie('user', data.user)
-      setCookie('isAuth', {value: true})
-
-      console.log(cookies.user)
-      localStorage.setItem('tokenUser', data.user)
-      history('/account/')
+      if(data.status === 200) {
+        setCookie('refreshToken', data.data.refreshToken)
+        dispatch(defaultCustomErrorAction())
+        localStorage.setItem('token', data.data.accessToken)
+        dispatch(authUserAction({isAuth: true, user: data.data.user}))
+      
+        history('/account/')
+      } else {
+        dispatch(customErrorAction(data.errors))
+      }
     } catch(e) {
-      console.log('ff')
-    
+      console.log(e)
     }
   }
 
@@ -126,12 +135,12 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
             <div className='col-md-12'>
               <p>Логин</p>
               <input type='text' value={email} onChange={(e) => setEmail(e.target.value)} />
-              <p className='error'></p>
+              <p className='error'>{errors.find( error => error.param === 'email')?.msg}</p>
             </div>
             <div className='col-md-12'>
               <p>Пароль</p>
               <input type='password' value={password} onChange={(e) => setPassword(e.target.value)}/>
-              <p className='error'></p>
+              <p className='error'>{errors.find( error => error.param === 'password')?.msg}</p>
             </div>
             <div className='col-md-12'>
               <input type='submit' onClick={authIn}/>

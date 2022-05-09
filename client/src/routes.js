@@ -10,8 +10,67 @@ import Material from "./pages/Material";
 
 export const authRoutes = [
   {
-    path: USERS_ROUTE,
-    Component:'',
+    path: ACCOUNT_ROUTE,
+    Component: Account,
+    childRoutes: [
+      {
+        path: ACCOUNT_ROUTE,
+        role: [
+          "Admin",
+          "Ученик",
+          "Преподаватель"
+        ],
+        Component: Account,
+      },
+      {
+        path: USERS_ROUTE,
+        role: [
+          "Admin",
+          "Преподаватель"
+        ],
+        Component: Users,
+      },
+      {
+        path: GROUPS_ROUTE,
+        role: [
+          "Admin",
+          "Преподаватель"
+        ],
+        Component: Groups,
+      },
+      {
+        path: TESTS_ROUTE,
+        role: [
+          "Admin",
+          "Преподаватель"
+        ],
+        Component: Tests,
+      },
+      {
+        path: TEST_ROUTE,
+        role: [
+          "Admin",
+          "Преподаватель"
+        ],
+        Component: Test,
+      },
+      {
+        path: PLACES_ROUTE,
+        role: [
+          "Admin",
+        ],
+        Component: Places,
+      },
+      {
+        path: MATERIAL_ROUTE,
+        role: [
+          "Admin",
+          "Преподаватель",
+          "Ученик"
+        ],
+        Component: Material,
+      }
+    ]
   }
 ]
 
@@ -20,39 +79,4 @@ export const publicRoutes = [
     path: MAIN_ROUTE,
     Component: Main
   },
-  {
-    path: ACCOUNT_ROUTE,
-    Component: Account,
-    childRoutes: [
-      {
-        path: ACCOUNT_ROUTE,
-        Component: Account,
-      },
-      {
-        path: USERS_ROUTE,
-        Component: Users,
-      },
-      {
-        path: GROUPS_ROUTE,
-        Component: Groups,
-      },
-      {
-        path: TESTS_ROUTE,
-        Component: Tests,
-      },
-      {
-        path: TEST_ROUTE,
-        Component: Test,
-      },
-      {
-        path: PLACES_ROUTE,
-        Component: Places,
-      },
-      {
-        path: MATERIAL_ROUTE,
-        Component: Material,
-      }
-    ]
-  }
-
 ]

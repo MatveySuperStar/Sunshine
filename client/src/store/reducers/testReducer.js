@@ -60,10 +60,10 @@ const defaultForm = () => {
         rusType: "Строка", 
         img: "https://img.icons8.com/ios-filled/30/000000/multiline-text.png", 
         active: false, 
-        questions: {
+        questions: [{
           label: ' ',
           answer: ''
-        }
+        }]
       }
     ],
   }

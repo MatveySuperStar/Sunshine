@@ -4,27 +4,26 @@ footer {
   width: 100%;
   color:white;
 
+  p {
+    font-size: 18px;
+  }
+
   h3 {
     display: flex;
     color:white;
   }
 
   .footer_about {
-    p {
-      font-size: 18px;
-      
-    }
+      img {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
   }
 
   .footer_kurs {
-    ul{
-      padding: 0;
-      li{
-        list-style: none;
-        a{
-          font-size: 18px;
-        }
-      }
+    p {
+      margin: 0px;
     }
   }
 
@@ -45,7 +44,21 @@ footer {
   }
 
   .footer_feedback {
+    display: flex;
+    justify-content: center;
+
+    &>div {
+      display: flex;
+      justify-content: center;
+    }
+
+    p {
+      width:fit-content;
+      margin-bottom: 12px;
+    }
+
     .icons {
+      width: auto;
       display: flex;
       a{
         margin-right: 15px;
@@ -55,5 +68,10 @@ footer {
         }
       }
     }
+  }
+
+  .footer_author {
+    display: flex;
+    justify-content: center;
   }
 }
