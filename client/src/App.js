@@ -1,12 +1,13 @@
 import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import {Route, Routes} from 'react-router-dom'
-import Navbar from './pages/Account/Navbar';
+import Navbar from './pages/Account/Components/Navbar';
 import { publicRoutes, authRoutes } from './routes';
 import { checkAuth } from '../http/userAPI';
 import { useDispatch } from 'react-redux';
 import { authUserAction } from './store/reducers/authUserReducer';
 import { useCookies } from 'react-cookie';
+import LeftNavigation from './pages/Account/Components/LeftNavigation';
 
 
 const App = () => {
@@ -18,20 +19,19 @@ const App = () => {
     if(localStorage.getItem('token')) {
       const data = await checkAuth()
       localStorage.setItem('token', data.data.accessToken)  
-      console.log(data.data.user)
       dispatch(authUserAction({isAuth: true, user: data.data.user}))
-    } else {
-      console.log('sss')
-    }
-    const parametrs = await getAllParametrs()
-    dispatch(updateAccountParametrsAction(parametrs))
+      const parametrs = await getAllParametrs()
+      dispatch(updateAccountParametrsAction(parametrs))
+    } 
   }, [])
 
   return (
     <>
       {authUser.isAuth ?
       <>
-        <Navbar />
+      <Navbar />
+        <LeftNavigation />
+        {/*<Navbar />*/}
         <Routes>
           {
             publicRoutes.map(({path, Component}) => {

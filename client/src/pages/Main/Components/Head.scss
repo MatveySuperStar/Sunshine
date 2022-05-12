@@ -1,7 +1,113 @@
 .head {
-  background: url('../image/bacground-head.jpg') no-repeat;
+  background: url('../../../image/bacground-head.jpg') no-repeat;
   height: 1004px;
   width: 100%;
+  position: relative;
+
+  .main_text {
+    height: 100%;
+    
+    &>div {
+      height: 100%;
+      align-items: center;
+      
+      &>div {
+        margin-bottom: 100px;
+        
+        h1 {
+          color: white;
+          font-weight: bold;
+        }
+        &>div {
+          p {
+            font-size: 20px;
+            font-weight: 400;
+            color: white;
+          }
+
+          button {
+            border: 0px;
+            border-radius: 15px;
+            color: #FF8000;
+            background-color: #FFFFFF;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px;
+            width: 100%;
+
+            &:hover {
+              color: #FFFFFF;
+              background-color: #FF8000;
+            }
+          }
+        }
+      }
+    }
+
+  }
+  .walve {
+    position: absolute;
+    width: 100%;
+    height: 420px;
+    bottom: 0;
+  }
+
+  .people {
+    position: absolute;
+    height: 80%;
+    width: auto;
+    left: 60%;
+    bottom: 0;
+  }
+
+  
+  @media (min-width: 270px) {
+    .people {
+      display: none;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .people {
+      display: block;
+      top:20%;
+      left: 30%;
+    }
+  }
+  
+
+  @media (min-width: 1200px) {
+    .people {
+      top:20%;
+      left: 43%;
+    }
+  }
+
+
+  @media (min-width: 1350px) and (max-width: 1700px) {
+    .people {
+      top:20%;
+      left: 50%;
+    }
+  }
+
+  @media (min-width: 1700px) {
+    .people {
+      left: 60%;
+      top: 10%;
+    }
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    
+    img {
+      width: 100%;
+      height: auto;
+      cursor: pointer;
+    }
+  }
 
   nav {
     z-index: 100;
@@ -36,7 +142,7 @@
         align-items: center;
         height: 100%;
         padding: 0 15px;
-        font-size: 18pt;
+        font-size: 20pt;
         font-weight: bold;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         
@@ -86,17 +192,17 @@
         &.change {
           display: block;
             
-            :nth-child(1) {
-              transform: translateY(4px) rotateZ(-45deg);
-              background-color: white;
-            }
-            :nth-child(2) {
-              opacity: 0;
-            }
-            :nth-child(3) {
-              transform: translateY(-6px) rotateZ(45deg);
-              background-color: white;
-            }
+          :nth-child(1) {
+            transform: translateY(4px) rotateZ(-45deg);
+            background-color: white;
+          }
+          :nth-child(2) {
+            opacity: 0;
+          }
+          :nth-child(3) {
+            transform: translateY(-6px) rotateZ(45deg);
+            background-color: white;
+          }
         }
       }  
       
@@ -104,6 +210,7 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+        color: white;
         
       }
     }
@@ -163,7 +270,7 @@
           }
         }
       }
-    }
+    }   
 
     @media (max-width: 576px) {
       ul{
@@ -223,6 +330,7 @@
     
     
     @media (min-width: 992px) {
+      
     }
     
 
@@ -232,6 +340,7 @@
   }
 
   .modalAuth {
+    z-index: 100;
     display: flex;
     align-items: center;
     position: fixed;

@@ -1,5 +1,11 @@
 #root>nav {
+  padding: 12px 0px;
   background-color: #FF8000;
+  
+  img {
+    width: 100%;
+  }
+
   div>ul {
     display: flex;
     height: 100%;
@@ -13,17 +19,18 @@
       align-items: center;
       height: 100%;
       padding: 0 15px 0 0;
-      font-size: 16pt;
+      font-size: 18pt;
       font-weight: 500;
       
       a {
         cursor: pointer;
+        font-weight: bold;
         white-space: nowrap;
         text-decoration: none;
         color: white;
 
         &:hover{
-          color: #FF8000
+          color: #ffdebd
         }
       }
     } 

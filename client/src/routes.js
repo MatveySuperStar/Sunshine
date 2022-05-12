@@ -1,12 +1,11 @@
-import Account from "./pages/Account";
-import Groups from "./pages/Groups";
-import Main from "./pages/Main";
+import Account from "./pages/Account/Account";
+import Groups from "./pages/Account/Groups/Groups";
+import Main from "./pages/Main/Main";
 import Tests from './pages/Tests.js'
 import Test from './pages/Test/Test.js'
-import Users from "./pages/Users";
+import Users from "./pages/Account/Users/Users";
 import { ACCOUNT_ROUTE, MAIN_ROUTE, PLACES_ROUTE, GROUPS_ROUTE, USERS_ROUTE, TESTS_ROUTE, TEST_ROUTE, MATERIAL_ROUTE } from "./utils/consts";
-import Places from "./pages/Places";
-import Material from "./pages/Material";
+import Places from "./pages/Account/Places/Places";
 
 export const authRoutes = [
   {
@@ -68,7 +67,6 @@ export const authRoutes = [
           "Преподаватель",
           "Ученик"
         ],
-        Component: Material,
       }
     ]
   }

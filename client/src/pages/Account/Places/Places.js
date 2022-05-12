@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import { addPlace, deletePlace, getAllPlacesWithPage, putPlace } from '../../http/placesAPI';
+import { addPlace, deletePlace, getAllPlacesWithPage, putPlace } from '../../../../http/placesAPI';
 import { 
   addCurrentPagePlacesAction, 
   addPlaceAction, 
@@ -9,9 +9,9 @@ import {
   updatePlaceLatitudeAction,
    updatePlaceLongitudeAction, 
    updatePlaceNameAction, 
-   updatePlacesAction } from '../store/reducers/placesReducer';
-import Table from './Test/Table';
-import FormAdmin from './Test/FormAdmin';
+   updatePlacesAction } from '../../../store/reducers/placesReducer';
+import Table from '../../Test/Table';
+import FormAdmin from '../../Test/FormAdmin';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 
 const Places = () => {

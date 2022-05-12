@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import Benefits from '../components/Benefits';
-import Footer from '../components/Footer';
-import Head from '../components/Head';
-import About from '../components/About';
-import Kurs from '../components/Kurs';
-import '../scss/Main.scss';
+import Benefits from './components/Benefits';
+import Footer from './components/Footer';
+import Head from './components/Head';
+import About from './Components/About';
+import Kurs from './components/Kurs';
+import './Main.scss';
 
 const Main = () => {
   const refBenefits = useRef();

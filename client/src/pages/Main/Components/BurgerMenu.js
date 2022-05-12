@@ -1,23 +1,9 @@
 import React, { useState } from 'react';
+import { linksData } from '../Constants';
 
-const BurgerMenu = () => {
+const BurgerMenu = ({scroll, activeAuth}) => {
   
   const [activeBurgerMenu, setActiveBurgerMenu] = useState(false);
-
-  const linksData = [
-    {
-      label: 'Преимущества',
-      path: '#benefits'
-    },
-    {
-      label: 'Курсы',
-      path: '#kurs'
-    },
-    {
-      label: 'О нас',
-      path: '#about_us'
-    }
-  ]
 
   /*function menuOnClick() {
     document.querySelector(".menu-bar").classList.toggle("change");
@@ -37,6 +23,7 @@ const BurgerMenu = () => {
         {
           linksData.map( item => <li key={item.label}><a href={item.path} >{item.label}</a></li>)
         }
+        <li onClick={activeAuth}><a >Войти</a></li>
         </ul>
       </div>
       <div className={`menu-bg ${activeBurgerMenu ? 'change-bg' : ''}`}></div>

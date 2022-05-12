@@ -1,6 +1,8 @@
 .about_us {
   background-color: #0083FF;
   padding-bottom: 100px;
+  overflow: hidden;
+
 
   h2 {
     color: white;
@@ -20,11 +22,23 @@
     }
   }
 
-  .about_us__foto {
 
-    img{
-      width: 100%;
-      border-radius: 30px;
+  .about_us__foto {
+    
+    position: relative;
+    .slick-slider {
+     
+      .slick-slide {
+      
+       
+        padding: 0 8px;
+        position: relative;
+          img {
+            height: auto;
+            width: 100% !important;
+            border-radius: 50px;
+          }
+      }
     }
   }
 
@@ -32,12 +46,14 @@
     .ymaps-2-1-79-map{
       border-radius: 30px;
       overflow: hidden;
-      height: 578px;
+      height: auto;
+      width: 100%;
       z-index: 0;
     }
 
     form {
-      padding: 15px;
+      height: 100%;
+      padding: 24px;
       border: 0px;
       border-radius: 30px;
       background-color: #FF8000;
@@ -96,22 +112,79 @@
       font-size: 26px;
     }
 
+    .about_us__text {
+      margin-bottom: 12px;
+
+      p {
+        font-size: 16px;
+      }
+    }
+
+ 
+    
+
+    .about_us_form {
+      form {
+        padding: 12px;
+        margin: 12px 0px;
+        p {
+          font-size: 16px;
+        }
+
+        :last-child {
+          p {
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
     .about_us__foto {
-      :first-child {
-        margin-bottom: 10px;
+      img:first-child {
+        margin-bottom: 12px;
       }
     }
   }
 
   @media (min-width: 576px) {
+
+
     h2 {
       font-size: 36px;
+    }
+
+
+    .about_us_form {
+
+      form {
+        p {
+          font-size: 16px;
+        }
+      }
     }
 
   }
 
   
   @media (min-width: 768px) {
+    .about_us__text {
+      margin-bottom: 30px;
+
+      p {
+        font-size: 18px;
+      }
+    }
+
+    .about_us_form {
+
+      form {
+        p {
+          font-size: 18px;
+        }
+      }
+    }
+
+
     h2 {
       font-size: 40px;
     }
@@ -119,6 +192,21 @@
   
   
   @media (min-width: 992px) {
+    .about_us_form {
+      form {
+        margin: 0px;
+        p {
+          font-size: 18px;
+        }
+
+      :last-child {
+        p {
+          font-size: 16px;
+        }
+      }
+      }
+    }
+
     h2 {
       font-size: 46px;
     }
@@ -126,6 +214,13 @@
   
 
   @media (min-width: 1200px) {
-   
+    .about_us_form {
+      form {
+        padding: 24px;
+        p {
+          font-size: 20px;
+        }
+      }
+    }
   }
 }

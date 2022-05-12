@@ -1,0 +1,107 @@
+.characteristic {
+  
+
+  &>div>div>div {
+    border: 0px solid;
+    border-radius: 15px;
+    align-items: center;
+    margin: 12px 0;
+    box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+
+    img {
+      width: 100%;
+    }
+
+    .title {
+      font-size: 32px;
+      font-weight: 500;
+
+      p {
+        margin: 12px 0 0 0;
+      }
+    }
+
+    .number {
+      display: flex;
+      justify-content: flex-start;
+
+      h2 {
+        display: block;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.tests_box {
+  &>div>div {
+    border: 0px;
+    height: 280px;
+    border-radius: 30px;
+    padding: 12px;
+    margin: 12px 0px;
+    box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+    
+    h3 {
+      text-align: center;
+    }
+
+    p {
+      word-wrap:break-word;
+      width: auto;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #FF8000;
+      color: white
+    }
+  }
+}
+
+.personal_info {
+
+  h3 {
+    text-align: center;
+  }
+
+  &>div>div>div{
+    border: 0;
+    padding: 12px;
+    margin: 12px 0px;
+    box-shadow: -4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+
+    label {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 24px;
+    }
+  }
+}
+
+@media (min-width: 320px) {
+
+}
+
+@media (min-width: 576px) {
+  
+
+}
+
+
+@media (min-width: 768px) {
+
+}
+
+
+@media (min-width: 992px) {
+
+}
+
+
+@media (min-width: 1200px) {
+ 
+}

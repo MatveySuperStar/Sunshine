@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import FormAdmin from './Test/FormAdmin';
-import FormQuery from './Test/FormQuery';
-import Table from './Test/Table';
-import { getAllGroupsWithPageAction, updateAllGroupsAction } from '../store/reducers/groupsReducer';
+import FormAdmin from '../../Test/FormAdmin';
+import FormQuery from '../../Test/FormQuery';
+import Table from '../../Test/Table';
+import { getAllGroupsWithPageAction, updateAllGroupsAction } from '../../../store/reducers/groupsReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteGroup, getGroups, putGroup, addGroup } from '../../http/groupAPI';
-import TableNested from './Test/TableNested';
-import { getUsersInGroups } from '../../http/userAPI';
-import { updateAllUsersAction } from '../store/reducers/usersReducer';
-import { defaultGroupAction, updateGroupAction, updateGroupNameAction } from '../store/reducers/groupReducer';
-import { addCurrentPageGroupsAction } from '../store/reducers/groupsReducer';
-import { updateDataListUserLikeLike } from '../store/reducers/userReducer';
+import { deleteGroup, getGroups, putGroup, addGroup } from '../../../../http/groupAPI';
+import TableNested from '../../Test/TableNested';
+import { getUsersInGroups } from '../../../../http/userAPI';
+import { updateAllUsersAction } from '../../../store/reducers/usersReducer';
+import { defaultGroupAction, updateGroupAction, updateGroupNameAction } from '../../../store/reducers/groupReducer';
+import { addCurrentPageGroupsAction } from '../../../store/reducers/groupsReducer';
+import { updateDataListUserLikeLike } from '../../../store/reducers/userReducer';
 
 const Groups = () => {
 

@@ -18,6 +18,17 @@ class AccessTestService {
     return groups
   }
 
+  async getAll(idGroup) {
+    const accessData = await db.execute(`SELECT 
+    accesstest.date as date, test.title as title, test.description as description FROM accesstest LEFT JOIN test
+    ON accesstest.id_test = test.id  
+    WHERE accesstest.id_group = ${idGroup}`)
+      .then( ([rows]) => rows)
+      .catch( err => console.log(err))
+
+    return accessData
+  }
+
   async addAccessTest(idTest, idGroup, dateTime) {
       
     const groups = await db.execute(`INSERT INTO accesstest (id_test, id_group, date) VALUES (?,?,?)`,

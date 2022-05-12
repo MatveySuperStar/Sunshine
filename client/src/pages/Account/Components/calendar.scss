@@ -1,0 +1,46 @@
+.calendar {
+  position: relative;
+  width: 100%;
+  z-index: 1 !important;
+  
+  @media (min-width: 320px) {
+    .fc-header-toolbar {
+      flex-direction: column;
+
+      div:nth-child(2) {
+        h2 {
+          padding: 12px 0;
+        }
+      }
+    }
+  }
+
+  @media (min-width: 576px) {
+    
+
+  }
+
+
+  @media (min-width: 768px) {
+    .fc-header-toolbar {
+      flex-direction: row;
+
+      
+      div:nth-child(2) {
+        h2 {
+          padding: 0px 0;
+        }
+      }
+    }
+  }
+
+
+  @media (min-width: 992px) {
+
+  }
+
+
+  @media (min-width: 1200px) {
+  
+  }
+}

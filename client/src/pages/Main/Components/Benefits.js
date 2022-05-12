@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import '../scss/Benefits.scss';
-import lev from '../image/lev.png';
-import backgroundImage from '../image/Walves2.png' 
+import './Benefits.scss';
+import backgroundImage from '../../../image/Walves2.png' 
+import '../../../image/lev.png'
 
 const leftAnimation = {
   hidden: {
-    x: -1,
+    x: -100,
     opacity: 0,
   },
   visible: custom => ({
@@ -18,7 +18,7 @@ const leftAnimation = {
 
 const rightAnimation = {
   hidden: {
-    x: 1,
+    x: 100,
     opacity: 0,
   },
   visible: custom => ({
@@ -35,8 +35,10 @@ const Benefits = ({refBenefits}) => {
       initial="hidden"
       whileInView="visible"
       viewport={{ amount: 0.2 }}
-
-      ref={refBenefits} className='benefits' id='benefits'>
+      ref={refBenefits} 
+      className='benefits' 
+      id='benefits'
+    >
       <div className='container'>
         <h2>Наши Преимущества</h2>
         <div className='row'>

@@ -19,3 +19,8 @@ export const deleteAccessTest = async (idTest, idGroup) => {
   const {data} = await $api.delete(`api/accessTest/delete`, {data: {idTest:idTest, idGroup:idGroup}})
   return data
 }
+
+export const getUserTest = async (idGroup) => {
+  const {data} = await $api.get(`api/accessTest/?idGroup=${idGroup}`)
+  return data
+}

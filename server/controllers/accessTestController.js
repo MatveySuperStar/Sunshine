@@ -6,9 +6,9 @@ class AccessTestController {
 
   async getAll(req, res, next) {
     try{
-      const {idTest} = req.query
+      const {idGroup} = req.query
 
-      const accessTest = await accessTestService.getAccessTest(idTest)
+      const accessTest = await accessTestService.getAll(idGroup)
 
       return res.status(200).json(accessTest)
     } catch(e) {
