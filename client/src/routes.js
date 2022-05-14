@@ -15,7 +15,7 @@ export const authRoutes = [
       {
         path: ACCOUNT_ROUTE,
         role: [
-          "Admin",
+          "Админ",
           "Ученик",
           "Преподаватель"
         ],
@@ -24,7 +24,7 @@ export const authRoutes = [
       {
         path: USERS_ROUTE,
         role: [
-          "Admin",
+          "Админ",
           "Преподаватель"
         ],
         Component: Users,
@@ -32,7 +32,7 @@ export const authRoutes = [
       {
         path: GROUPS_ROUTE,
         role: [
-          "Admin",
+          "Админ",
           "Преподаватель"
         ],
         Component: Groups,
@@ -40,7 +40,7 @@ export const authRoutes = [
       {
         path: TESTS_ROUTE,
         role: [
-          "Admin",
+          "Админ",
           "Преподаватель"
         ],
         Component: Tests,
@@ -48,7 +48,7 @@ export const authRoutes = [
       {
         path: TEST_ROUTE,
         role: [
-          "Admin",
+          "Админ",
           "Преподаватель"
         ],
         Component: Test,
@@ -56,14 +56,14 @@ export const authRoutes = [
       {
         path: PLACES_ROUTE,
         role: [
-          "Admin",
+          "Админ",
         ],
         Component: Places,
       },
       {
         path: MATERIAL_ROUTE,
         role: [
-          "Admin",
+          "Админ",
           "Преподаватель",
           "Ученик"
         ],

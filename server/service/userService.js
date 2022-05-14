@@ -30,14 +30,26 @@ class UserService {
     return {users: users, countPage: countPage }
   }
 
-  async like(fio = ' ', phone='') {
+  async like(fio = ' ', phone='', idGroup='') {
+    
     const users = await db.execute(
-      `SELECT CONCAT_WS(' ', name, surname, patronymic) as fio, phone FROM users 
+      `SELECT id, CONCAT_WS(' ', name, surname, patronymic) as fio, phone FROM users 
       WHERE CONCAT_WS(' ', name, surname, patronymic) LIKE '%${fio}%' and phone LIKE '%${phone}%'  LIMIT 5 `
     ).then( result => result[0])
     .catch( err => console.log(err))
 
-    return {users: users}
+    if(users.length === 1) {
+      const user = await db.execute(
+        `SELECT id FROM users WHERE id=? AND id_group=?`, [users[0].id, idGroup]
+      )
+      
+      if(user[0].length === 1) {
+        return {users: users, existenceUser: true}
+      } else {
+        return {users: users, existenceUser: false}
+      }
+    }
+    return {users: users, existenceUser: false}
   }
 
   async patchGroup(fio = '', phone = '', idGroup) {
@@ -55,7 +67,7 @@ class UserService {
     groups.id as groupId,
     groups.name as groupName
     FROM users LEFT JOIN groups 
-    ON users.id_group = groups.id WHERE groups.id=?`, [idGroup])
+    ON users.id_group = groups.id WHERE groups.id=? ORDER BY users.status`, [idGroup])
       .then( result => result[0])
       .catch( err => console.log(err))
 
@@ -109,13 +121,15 @@ class UserService {
   }
 
   async put(id, name, surname, patronymic, email, password, phone, status = 'Ученик', id_group = null) {
-    
+
     if(!password) {
       password =  await db.execute(`SELECT password FROM users WHERE id=?`, [id])
       .then( result => result[0][0].password)
       .catch( err => {
         throw new Error(err) 
       })
+    } else {
+      password = bcrypt.hashSync(password, 2)
     }
 
     const newUser = [name, surname, patronymic, email, password, phone, status ? status : 'Ученик', id_group != 0 ? id_group : null]
@@ -128,6 +142,32 @@ class UserService {
       })
     
     return users
+  }
+
+  async putUserGroup(idUser, idGroup, isNull) {
+    if(isNull) {
+      console.log(idUser, idGroup, isNull)
+      const users = await db.execute(`UPDATE users SET 
+      id_group=NULL 
+      WHERE id=?`, [idUser])
+      .catch(e => {
+        throw new Error(e) 
+      })
+
+      return users
+    } else {
+      console.log(idUser)
+      console.log(idGroup)
+      
+      const users = await db.execute(`UPDATE users SET 
+        id_group=? 
+        WHERE id=?`, [idGroup, idUser])
+        .catch(e => {
+          throw new Error(e) 
+        })
+
+      return users
+    }
   }
 
   async delete(id) {

@@ -5,7 +5,7 @@ const authMiddleware = require('../middleware/authMiddleware')
 const checkRole = require('../middleware/checkRoleMiddleware')
 const {check, body} = require('express-validator')
 
-router.get('/', checkRole('Преподаватель'), UserController.getAll)
+router.get('/', /*checkRole('Преподаватель'),*/ UserController.getAll)
 
 router.post('/registration', [
     check('email', 'Email не соответствует требованиям').isEmail(),
@@ -27,6 +27,12 @@ router.put('/put', [
   check('patronymic', 'Заполните Отчество').notEmpty()
 ], 
 UserController.put)
+
+router.put('/putUserGroup', [
+  check('idGroup', '').notEmpty(),
+  check('idUser', 'Пользователь не найден').notEmpty(),
+], 
+UserController.putUserGroup)
 
 router.get('/like', 
 UserController.like)

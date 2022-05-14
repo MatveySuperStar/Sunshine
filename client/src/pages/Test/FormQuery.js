@@ -1,92 +1,89 @@
-import React from 'react';
+import React, {useCallback, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { defaultUserAction, updateFioUserLike, updatePhoneUserLike} from '../../store/reducers/userReducer';
-import { updateDataListUsersAction, updateUsersAction } from '../../store/reducers/usersReducer';
-import { deleteUser, addUser, putUser, getLikeUsers } from '../../../http/userAPI';
+import { updateFioUserLike, updatePhoneUserLike} from '../../store/reducers/userReducer';
+import { updateAllUsersAction, updateDataListUsersAction } from '../../store/reducers/usersReducer';
+import { getLikeUsers, putUserGroup } from '../../../http/userAPI';
 import { userErrorAction } from '../../store/reducers/userErrorReducer';
 
-const FormQuery = ({params, statusUpdate, openSubItem}) => {
+const FormQuery = ({group, statusUpdate, addItem, putItem, deleteItem, setIsSubStatusUpdate}) => {
   
   const dispatch = useDispatch()
   const usersList = useSelector(state => state.users.dataListUsers)
   const userLike = useSelector(state => state.user.userForLike)
+
+  const changeFio = useCallback(async (e) => {
+    dispatch(updateFioUserLike(e.target.value))
+    const likeData = await getLikeUsers(userLike, group.id)
+    dispatch(updateDataListUsersAction(likeData))
+    setIsSubStatusUpdate(likeData.existenceUser) 
+  },[dispatch, getLikeUsers, userLike, group, updateFioUserLike, updateDataListUsersAction, getLikeUsers, setIsSubStatusUpdate])
+
+  const changePhone = useCallback(async (e) => {
+    dispatch(updatePhoneUserLike(e.target.value))
+    const likeData = await getLikeUsers(userLike, group.id)
+    dispatch(updateDataListUsersAction(likeData))
+    setIsSubStatusUpdate(likeData.existenceUser) 
+  },[dispatch, getLikeUsers, userLike, group, setIsSubStatusUpdate])
+
+  const putuserGroup = useCallback(async() => {
+    const usersData = await putUserGroup(usersList[0].id, group.id, false) 
+    dispatch(updateAllUsersAction({data: usersData.data, idGroup: group.id}))
+  }, [usersList, updateAllUsersAction, group, dispatch, putUserGroup])
+
+  const deleteUserGroup = useCallback(async() => {
+    const usersData = await putUserGroup(usersList[0].id, group.id, true) 
+    dispatch(updateAllUsersAction({data: usersData.data, idGroup: group.id}))
+  }, [usersList, updateAllUsersAction, group, dispatch, putUserGroup])
+
+  const buttonsForm = useMemo(() => {
+    return (
+      !statusUpdate ?   
+        <div className='row buttons'>
+          <div className={`col-md-12`}>
+            <button onClick={async() => await putuserGroup()}>
+              Добавить в группу</button>
+          </div>
+        </div>
+      :
+        <div className='row buttons'>
+          <div className={`col-md-12`}>
+            <button onClick={async() => await deleteUserGroup()}>
+              Удалить из группы
+            </button>
+          </div>
+        </div>
+    )
+  }, [statusUpdate, putuserGroup, deleteUserGroup]);
+
   return (
     <>
-        {/*params.map( param => {
-          return(
-            param.type === 'select' ?
-            <div className='col-md-12'>
-              <label>{param.label}</label>
-              <select name="select" value={param.value} onChange={(e) => dispatch(param.action(e.target.value))}>
-                {param.options.map( option => <option 
-                value={option.value}>{option.name}</option>)}
-              </select>
-            </div>
-            : 
-            <div className='col-md-12'>
-              <label>{param.label}</label>
-              <input type={param.type} value={param.value} onChange={(e) => dispatch(param.action(e.target.value))}/>
-              <span className='error'>{param.error}</span>
-            </div>
-                )})*/}
-
-        <div className='col-md-12'>
-          <label>Добавить пользователя в группу</label>
-        </div>
-        <div className='col-md-12'>
-          <label>ФИО</label>
-          <input list="fio" value={userLike.fio} onChange={async(e) => {
-            dispatch(updateFioUserLike(e.target.value))
-            dispatch(updateDataListUsersAction(await getLikeUsers(userLike)))
-          }}/>
-          <datalist id='fio'>
-            {
-              usersList.map( dataList => {
-                return <option value={dataList.fio}>{dataList.fio}</option>
-              } )
-            }
-          </datalist>
-        </div>
-        <div className='col-md-12'>
-          <label>Телефон</label>
-          <input list='phone' value={userLike.phone} onChange={async(e) => {
-            dispatch(updatePhoneUserLike(e.target.value))
-            dispatch(updateDataListUsersAction(await getLikeUsers(userLike)))
-              }}/>
-          <datalist id='phone'>
-            {
-              usersList.map( dataList => {
-                return <option value={dataList.phone}>{dataList.phone}</option>
-              } )
-            }
-          </datalist>
-        </div>
-
-
-        <div className='row buttons'>
-          <div className={`${statusUpdate === 'noActive'  ? 'active' : 'noActive'} col-md-12`}>
-            <button onClick={async() => {
-             
-            }}>
-              Добавить</button>
-          </div>
-          <div className={`${statusUpdate} col-md-6 `}>
-            <button onClick={async() => {
-             
-            }
-              }>Изменить</button>
-          </div>
-          <div className={`${statusUpdate} col-md-6`}>
-            <button onClick={async() => {
-              
-            }
-              }>Удалить</button>
-          </div>
-          <div className={`${statusUpdate} col-md-6`}>
-            <button onClick={() => dispatch(defaultUserAction())}>Выйти</button>
-          </div>
-        </div>
-      </>
+      <div className='col-md-12'>
+        <label>Добавить пользователя в группу</label>
+      </div>
+      <div className='col-md-12'>
+        <label>ФИО</label>
+        <input list="fio" value={userLike.fio} onChange={async(e) => await changeFio(e)}/>
+        <datalist id='fio'>
+          {
+            usersList.map( dataList => {
+              return <option key={dataList.fio} value={dataList.fio}>{dataList.fio}</option>
+            } )
+          }
+        </datalist>
+      </div>
+      <div className='col-md-12'>
+        <label>Телефон</label>
+        <input list='phone' value={userLike.phone} onChange={async(e) => await changePhone(e)}/>
+        <datalist id='phone'>
+          {
+            usersList.map( dataList => {
+              return <option key={dataList.phone} value={dataList.phone}>{dataList.phone}</option>
+            } )
+          }
+        </datalist>
+      </div>
+      {buttonsForm}
+    </>
   );
 };
 

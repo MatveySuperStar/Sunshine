@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FormAdmin from '../../Test/FormAdmin';
 import FormQuery from '../../Test/FormQuery';
 import Table from '../../Test/Table';
@@ -21,13 +21,14 @@ const Groups = () => {
   const DataList = useSelector(state => state.user.userForLike)
   const users = useSelector(state => state.users.users)
   
+  const [isSubStatusUpdate, setIsSubStatusUpdate] = useState(false)
+
   useEffect(async()=> {
     dispatch(getAllGroupsWithPageAction(await getGroups(1)))
   }, []) 
 
   const params = [
-    {label: 'Название группы', type: 'text', value: group.name, action: updateGroupNameAction},
-    
+    {label: 'Название группы', type: 'text', value: group.name, action: updateGroupNameAction},  
   ]
 
   const getUsers = async (item) => {
@@ -55,7 +56,7 @@ const Groups = () => {
 
   const items = {
       data: groups.data.map( item => {
-      return { id: item.id, name: item.name, count: item.count}
+        return { id: item.id, name: item.name, count: item.count}
       }),
       legends: [
         'Имя',
@@ -132,10 +133,17 @@ const Groups = () => {
             addItem={addItem}
             putItem={putItem}
             deleteItem={deleteItem}
+            isSubItem={true}
           />
           </div>
           <div className={`${DataList.update ? 'active' : 'noActive'}`}>
-          <FormQuery  params={params} statusUpdate={statusUpdate} openSubItem={openSubItem}/>
+          <FormQuery  
+            params={params}  
+            group={group}
+            statusUpdate={isSubStatusUpdate} 
+            openSubItem={openSubItem} 
+            setIsSubStatusUpdate={setIsSubStatusUpdate}
+            />
           </div>
         </div>
         <div className='col-md-9'>
@@ -145,8 +153,9 @@ const Groups = () => {
             items={items}  
             countPage={groups.countPage}
             legends={legends} 
-            addUpdate={addUpdateGroup}/>
-        {/*<Table activeRow={()=>{}} items={items}  legends={legends} classBoot="col-md-4" />*/}
+            addUpdate={addUpdateGroup}
+            statusUpdate={statusUpdate}
+          />
         </div>
       </div>
     </div>

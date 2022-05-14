@@ -19,9 +19,8 @@ const App = () => {
     if(localStorage.getItem('token')) {
       const data = await checkAuth()
       localStorage.setItem('token', data.data.accessToken)  
+      setCookie('refreshToken', data.data.refreshToken)  
       dispatch(authUserAction({isAuth: true, user: data.data.user}))
-      const parametrs = await getAllParametrs()
-      dispatch(updateAccountParametrsAction(parametrs))
     } 
   }, [])
 

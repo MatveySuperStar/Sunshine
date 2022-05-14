@@ -17,7 +17,7 @@ import { getUserTest } from '../../../http/accessTestAPI';
 const Account = () => {
   const dispatch = useDispatch()
   
-  const parametrs = useSelector(state => state.parametrs.parametrs)
+  const parametrs = useSelector(state => state.parametrs?.parametrs)
   const authUser = useSelector(state => state.authUser?.authUser)
   const tests = useSelector(state => state.tests.tests)
   
@@ -33,7 +33,7 @@ const Account = () => {
   ];
 
   useEffect(async() => {
-    if(authUser.user.status === 'Преподаватель' || 'Админ') {
+    if(authUser.user.status === 'Админ') {
       const parametrs = await getAllParametrs()
       dispatch(updateAccountParametrsAction(parametrs))
     }
@@ -48,7 +48,7 @@ const Account = () => {
   return (
     <div className='container'>
     {
-      authUser.user.status === 'Преподаватель' || 'Админ' ?
+      authUser.user.status === 'Админ' ?
         <div className='characteristic'>
           <h2>Статистика</h2>
           <div className="row">
@@ -94,6 +94,7 @@ const Account = () => {
               }
             </div>
           </div>
+          { !!authUser.id_group &&
           <div className='col-md-6'>
             <div className='row'>
               <h3>Информация по группе</h3>
@@ -108,9 +109,10 @@ const Account = () => {
                 })
               }
             </div>
-          </div>
+          </div> }
         </div>    
       </div>
+      { !!authUser.id_group &&
       <div>
         <h2>Доступные тесты</h2>
         <div className='row tests_box'>
@@ -129,7 +131,7 @@ const Account = () => {
             })
           }
         </div>
-      </div>
+      </div> }
       <div>
         <h2>Календарь</h2>
         <Calendar user={authUser.user}/>

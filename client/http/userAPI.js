@@ -41,11 +41,11 @@ export const getUsers = async (page = 1) => {
   return {data: data.users, countPage: data.countPage, currentPage: 1}
 }
 
-export const getLikeUsers = async (user) => {
-  const {data} = await $api.get(`api/user/like?fio=${user.fio}&phone=${user.phone}`)
+export const getLikeUsers = async (user, idGroup) => {
+  const {data} = await $api.get(`api/user/like?fio=${user.fio}&phone=${user.phone}&idGroup=${idGroup}`)
 
   /*return jwt_decode(data.token)*/
-  return {data: data.users}
+  return {data: data.users, existenceUser: data.existenceUser}
 }
 
 
@@ -112,3 +112,14 @@ export const putUser = async ({id, email, name, surname, patronymic, phone, grou
 
   return {data: data.users, countPage: data.countPage}
 }
+
+export const putUserGroup = async (id, idGroup, isNull=false) => {
+  const {data} = await $api.put('api/user/putUserGroup', {
+    idUser: id,
+    idGroup: idGroup,
+    isNull: isNull
+  })
+
+  return {data: data.users, idGroup: idGroup}
+}
+

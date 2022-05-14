@@ -21,7 +21,7 @@ const LeftNavigation = () => {
     { path: "account/groups", active: false, title: "Группы", role: ['Админ', 'Преподаватель'] },
     { path: "account/places", active: false, title: "Местоположения", role: ['Админ'] },
     { href: "https://drive.google.com/drive/folders/1YChCSgHLfSVRztQANkghsx7bgNc27xIg?usp=sharing", title: "Учебный материал", role: ['Админ', 'Преподаватель', 'Ученик'] },
-    { path: "account/", active: false, title: "Выйти", clickHandler: logoutAccount,  role: ['Админ', 'Преподаватель', 'Ученик'] },
+    { path: "#", active: false, title: "Выйти", clickHandler: logoutAccount,  role: ['Админ', 'Преподаватель', 'Ученик'] },
   ]);
 
   const activeLink = useCallback(async(link) => {

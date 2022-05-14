@@ -23,8 +23,8 @@ class UserController {
 
   async like(req, res, next) {
     try {
-      const {fio, phone} = req.query
-      const users = await userService.like(fio, phone)
+      const {fio, phone, idGroup} = req.query
+      const users = await userService.like(fio, phone, idGroup)
 
       return res.status(200).json(users)
     } catch(e) {
@@ -105,11 +105,32 @@ class UserController {
       }
 
       const {id, name, surname, patronymic, email, password, phone, status, id_group, page} = req.body
+
       const a = await userService.put(id, name, surname, patronymic, email, password, phone, status, id_group)
       const usersData = await userService.getAll(page)
+
       return res.status(200).json(usersData)
     } catch(e) {
       next(e)
+    }
+  }
+
+  async putUserGroup(req, res, next) {
+    try {
+      const errors = validationResult(req);
+
+      if(!errors.isEmpty()){
+        return res.status(400).json({message: 'Ошибка при регистрации', errors});
+      }
+
+      const {idUser, idGroup, isNull} = req.body;
+
+      const a = await userService.putUserGroup(idUser, idGroup, isNull);
+      const users = await userService.getAllUsersInGroups(idGroup);
+
+      return res.status(200).json(users);
+    } catch(e) {
+      next(e);
     }
 
   }
@@ -129,8 +150,9 @@ class UserController {
   async refresh(req, res, next) {
     try {
       const {refreshToken} = req.cookies
+
       const userData = await userService.refresh(refreshToken)
-      
+
       res.cookie('refreshToken', userData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000,   httpOnly: true})
 
       return res.status(200).json(userData)
