@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import FormAdmin from '../../Test/FormAdmin';
-import FormQuery from '../../Test/FormQuery';
-import Table from '../../Test/Table';
+import FormAdmin from '../Components/FormAdmin';
+import FormQuery from './FormQuery';
+import Table from '../Components/Table';
 import { getAllGroupsWithPageAction, updateAllGroupsAction } from '../../../store/reducers/groupsReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteGroup, getGroups, putGroup, addGroup } from '../../../../http/groupAPI';
-import TableNested from '../../Test/TableNested';
+import TableNested from './TableNested';
 import { getUsersInGroups } from '../../../../http/userAPI';
 import { updateAllUsersAction } from '../../../store/reducers/usersReducer';
 import { defaultGroupAction, updateGroupAction, updateGroupNameAction } from '../../../store/reducers/groupReducer';

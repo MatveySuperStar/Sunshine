@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import Answer from './Answer';
-import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateRaitingQuestionAction} from '../../store/reducers/testReducer';
+import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateRaitingQuestionAction} from '../../../../store/reducers/testReducer';
 
 const FormAnswer = ({form}) => {
   const dispatch = useDispatch()

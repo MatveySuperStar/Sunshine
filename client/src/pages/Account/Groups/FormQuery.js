@@ -1,9 +1,9 @@
 import React, {useCallback, useMemo} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFioUserLike, updatePhoneUserLike} from '../../store/reducers/userReducer';
-import { updateAllUsersAction, updateDataListUsersAction } from '../../store/reducers/usersReducer';
-import { getLikeUsers, putUserGroup } from '../../../http/userAPI';
-import { userErrorAction } from '../../store/reducers/userErrorReducer';
+import { updateFioUserLike, updatePhoneUserLike} from '../../../store/reducers/userReducer';
+import { updateAllUsersAction, updateDataListUsersAction } from '../../../store/reducers/usersReducer';
+import { getLikeUsers, putUserGroup } from '../../../../http/userAPI';
+import { userErrorAction } from '../../../store/reducers/userErrorReducer';
 
 const FormQuery = ({group, statusUpdate, addItem, putItem, deleteItem, setIsSubStatusUpdate}) => {
   

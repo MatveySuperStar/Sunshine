@@ -1,11 +1,12 @@
 import Account from "./pages/Account/Account";
 import Groups from "./pages/Account/Groups/Groups";
 import Main from "./pages/Main/Main";
-import Tests from './pages/Tests.js'
-import Test from './pages/Test/Test.js'
+import Tests from './pages/Account/Tests/Tests.js'
+import Test from './pages/Account/Tests/Test/Test.js'
 import Users from "./pages/Account/Users/Users";
-import { ACCOUNT_ROUTE, MAIN_ROUTE, PLACES_ROUTE, GROUPS_ROUTE, USERS_ROUTE, TESTS_ROUTE, TEST_ROUTE, MATERIAL_ROUTE } from "./utils/consts";
+import { ACCOUNT_ROUTE, MAIN_ROUTE, PLACES_ROUTE, GROUPS_ROUTE, USERS_ROUTE, TESTS_ROUTE, TEST_ROUTE, MATERIAL_ROUTE, TRIAL_TEST_ROUTE } from "./utils/consts";
 import Places from "./pages/Account/Places/Places";
+import TryTest from "./pages/TryTest";
 
 export const authRoutes = [
   {
@@ -67,6 +68,15 @@ export const authRoutes = [
           "Преподаватель",
           "Ученик"
         ],
+      },
+      {
+        path: TRIAL_TEST_ROUTE,
+        role: [
+          "Админ",
+          "Преподаватель",
+          "Ученик"
+        ],
+        Component: TryTest
       }
     ]
   }
@@ -77,4 +87,5 @@ export const publicRoutes = [
     path: MAIN_ROUTE,
     Component: Main
   },
+
 ]

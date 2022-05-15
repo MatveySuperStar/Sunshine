@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useDispatch } from 'react-redux';
 import Question from './Question';
-import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateQuestionTitle } from '../../store/reducers/testReducer';
+import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateQuestionTitle } from '../../../../store/reducers/testReducer';
 
 const Form = ({form}) => {
   const dispatch = useDispatch()
@@ -39,7 +39,6 @@ const Form = ({form}) => {
     return form.types.map( type => {
       if(type.active) {
         return type.questions.map( question => {
-          console.log(question)
           return <Question
             id_form={form.id}
             img={type.activeImg || type.activeImg}
@@ -59,16 +58,16 @@ const Form = ({form}) => {
     dispatch(activeAnswerAction({id: form.id}))
   }
   return (
-    <div className='col-md-8 form'>
+    <div className='col-12 col-sm-12 col-md-12 col-lg-8 form'>
       <div className='row'>
-        <div className='col-md-6'>
+        <div className='col-12 col-md-6'>
           <textarea name='description' placeholder='Описание' rows={1}
           value={form.title} onChange={(e)=>dispatch(updateQuestionTitle({id: form.id, title: e.target.value}))}/>
         </div>
-        <div className='col-md-1'>
+        <div className='col-12 col-md-1'>
           <img src="https://img.icons8.com/small/32/000000/gallery.png"/>
         </div>
-        <div className='col-md-5'>
+        <div className='col-12 col-md-5'>
           <div className='all_type'>
             <div className={`burger_type ${activeTypes ? 'active' : 'noActive'}`}>
               {allTypes()}
@@ -79,14 +78,14 @@ const Form = ({form}) => {
       </div>
       {Questions()}
       <div className='row answer'>
-        <div className='col-md-8'>
+        <div className='col-12 col-sm-6 col-md-8'>
           <button onClick={activeAnswer}>Ответы</button>
           <span>({form.raiting} баллов)</span>
         </div>
-        <div className='col-md-2'>
+        <div className='col-12 col-sm-3 col-md-2'>
           <button onClick={deleteForm}>Удалить</button>
         </div>
-        <div className='col-md-2'>
+        <div className='col-12 col-sm-3 col-md-2'>
           <button onClick={() => { dispatch(addFormAction()) }}>Добавить</button>
         </div>
       </div>

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
-import { useDispatch } from 'react-redux';
-import Question from '../Test/Question';
+import { useDispatch, useSelector } from 'react-redux';
+import Question from '../Account/Tests/Test/Question';
 import { activeAnswerAction, addFormAction, changeTypeAction, deleteFormAction, updateQuestionTitle } from '../../store/reducers/testReducer';
 import TryQuestion from './TryQuestion';
 import { addAnswerCheckboxUserAction, addAnswerRadioUserAction, addAnswerStringUserAction } from '../../store/reducers/answerReducer';
 
-const TryForm = ({form = {title: ''}}) => {
+const TryForm = ({form = {title: ''}, userAnswers}) => {
   const dispatch = useDispatch()
   const [activeTypes, setActiveTypes] = useState(false)
 /*
@@ -55,6 +55,7 @@ const TryForm = ({form = {title: ''}}) => {
       if(type.active) {
         return type.questions.map( question => {
           return <TryQuestion
+            activeAnswer={userAnswers}
             id_form={form.id}
             activeImg={type.activeImg}
             img={type.img}
@@ -86,9 +87,7 @@ const TryForm = ({form = {title: ''}}) => {
           value={form.title} readOnly={true}/>
         </div>
       </div>
-      
       {Questions()}
-      
     </div>
   );
 };

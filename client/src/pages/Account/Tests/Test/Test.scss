@@ -1,3 +1,17 @@
+@mixin styleInput { 
+    outline: none;
+    width: 100%;
+    border: 0px;
+    border-bottom: 1px solid #FF8000;
+    overflow: hidden;
+
+    &[name='title'] {
+      height: auto;
+      font-size: 36px;
+      margin-bottom: 24px;
+    }
+}
+
 .wrapper_add {
   height: 240px;
   margin-top: 32px;
@@ -141,23 +155,17 @@
   padding: 24px;
   margin: 15px auto 0px auto;
 
-  textarea, input {
-    outline: none;
-    height: auto;
-    overflow: hidden;
-    width: 100%;
-    border: 0px;
-    font-size: 16px;
-    border-bottom: 1px solid #FF8000;
+  textarea[name='description'] {
+    font-size: 18px;
+    padding: 14px
+  }
+
+  [name="description"], .questions textarea, input { 
+    @include styleInput();
 
     &:focus {
       border-bottom: 3px solid #FF8000;
     }
-
-    &[name='description'] {
-      padding: 15px;
-    }
-
   }
 
   &>div {
@@ -237,6 +245,15 @@
   .answer {
     margin-top: 12px;
 
+    textarea {
+      @include styleInput();
+      
+
+      &:focus {
+        border-bottom: 3px solid green;
+      }
+    }
+
     button {
       padding: 12px;
       border: 0px;
@@ -248,6 +265,11 @@
         color:white
       }
     }
+
+    .answerActive {
+      border-bottom: 3px solid green;
+    }
+    
   }
 
     .active {
@@ -258,12 +280,6 @@
       display: none;
     }
 
-}
-
-.answerActive {
-  textarea {
-    border-bottom: 3px solid green;
-  }
 }
 
 .navbarQuetions {
@@ -315,4 +331,39 @@
     } 
   }
 
+}
+
+.testButtons {
+  margin-top: 12px; 
+
+  &>div {
+    display: flex;
+    justify-content: center;
+
+    button.updateTest {
+        font-size: 18px;
+        height: 40px;
+        border: 0px;
+        background-color: white;
+        color: #FF8000;
+
+        &:hover {
+          background-color: #FF8000;
+          color: white;
+        } 
+    }
+
+    button.addTest {
+        font-size: 18px;
+        height: 40px;
+        border: 0px;
+        background-color: white;
+        color: #FF8000;
+
+        &:hover {
+          background-color: #FF8000;
+          color: white;
+        } 
+    }
+  }
 }

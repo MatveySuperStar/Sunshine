@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllParametrs } from '../../../http/parametrsAPI';
 import { useCookies } from 'react-cookie';
-
+import {Link, Route, Routes,  useNavigate} from 'react-router-dom'
 import './account.scss'
 import { updateAccountParametrsAction } from '../../store/reducers/parametrsReducer';
 import Calendar from './Components/Calendar';
@@ -13,10 +13,10 @@ import { getAllTests } from '../../../http/testAPI';
 import { addAllTestsAction } from '../../store/reducers/testsReducer';
 import { getUserTest } from '../../../http/accessTestAPI';
 
-
 const Account = () => {
   const dispatch = useDispatch()
-  
+  const history =  useNavigate()
+
   const parametrs = useSelector(state => state.parametrs?.parametrs)
   const authUser = useSelector(state => state.authUser?.authUser)
   const tests = useSelector(state => state.tests.tests)
@@ -94,7 +94,7 @@ const Account = () => {
               }
             </div>
           </div>
-          { !!authUser.id_group &&
+          { !authUser.id_group &&
           <div className='col-md-6'>
             <div className='row'>
               <h3>Информация по группе</h3>
@@ -112,14 +112,17 @@ const Account = () => {
           </div> }
         </div>    
       </div>
-      { !!authUser.id_group &&
+      { !authUser.id_group &&
       <div>
         <h2>Доступные тесты</h2>
         <div className='row tests_box'>
           {
             tests.map( test => {
+              console.log(test)
               return (
-                <div className='col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3'>
+                <div onClick={() => {
+                  history(`/account/tryTest?idTest=${test.id}`)}
+                } className='col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3'>
                   <div className='row d-flex align-items-center'>
                     <div className='col-12'>
                       <h3>{test.title}</h3>

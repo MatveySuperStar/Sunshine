@@ -17,12 +17,12 @@ const App = () => {
   
   useEffect(async() => {
     if(localStorage.getItem('token')) {
-      const data = await checkAuth()
+      const data = await checkAuth(cookies.refreshToken)
       localStorage.setItem('token', data.data.accessToken)  
-      setCookie('refreshToken', data.data.refreshToken)  
+      setCookie('refreshToken', data.data.refreshToken, {httpOnly: false})  
       dispatch(authUserAction({isAuth: true, user: data.data.user}))
     } 
-  }, [])
+  }, [checkAuth])
 
   return (
     <>

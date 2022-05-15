@@ -14,9 +14,9 @@ export const login = async (email, password) => {
   }
 }
 
-export const checkAuth = async () => {
+export const checkAuth = async (refreshToken) => {
   try {
-    const response = await axios.get('http://localhost:5000/api/user/refresh', {withCredentials: true})
+    const response = await axios.get(`http://localhost:5000/api/user/refresh?refreshToken=${refreshToken}`, {withCredentials: true})
 
     return response
   } catch(e) {

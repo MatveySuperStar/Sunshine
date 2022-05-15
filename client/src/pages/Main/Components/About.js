@@ -1,8 +1,11 @@
 import React, {useEffect, useCallback, useRef} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import './About.scss'
-import foto from '../../../image/Foto1.jpg'
+import foto1 from '../../../image/Foto1.jpg'
 import foto2 from '../../../image/Foto2.jpg'
+import foto3 from '../../../image/Foto3.jpg'
+import foto4 from '../../../image/Foto4.jpg'
+import foto5 from '../../../image/Foto5.jpg'
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 import { 
   updateEmailEmailAction, 
@@ -139,19 +142,19 @@ const About = ({refAbout}) => {
           <motion.div custom={2} variants={topAnimation} className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12'>
             <Slider {...settings}>
               <div className='foto-img'>
-                <img  src={foto} />
+                <img  src={foto1} />
               </div >
               <div className='foto-img'>
-                <img  src={foto} />
+                <img  src={foto2} />
               </div>                
               <div className='foto-img'>
-                <img  src={foto} />
+                <img  src={foto3} />
               </div>                
               <div className='foto-img'>
-                <img  src={foto} />
+                <img  src={foto4} />
               </div>
               <div className='foto-img'>
-                <img  src={foto} />
+                <img  src={foto5} />
               </div>
             </Slider>
           </motion.div>

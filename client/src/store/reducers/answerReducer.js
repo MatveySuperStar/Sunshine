@@ -9,11 +9,11 @@ export const answerReducer = (state = defaultState, action) => {
   switch(action.type) {
     case ADD_ANSWER_RADIO_USER : {
       const isPut = state.answerUser.findIndex(item => item.id === action.payload.idForm)
-      console.log(isPut)
+      
       if(isPut != -1) {
         return {...state, answerUser: state.answerUser.map( form => {
           if(form.id === action.payload.idForm) {
-            return {...form, answer: {id: action.payload.idAnswer }}
+            return {...form, answer: [{id: action.payload.idAnswer }]}
           } else {
             return form
           }
@@ -24,20 +24,14 @@ export const answerReducer = (state = defaultState, action) => {
     }
     case ADD_ANSWER_CHECKBOX_USER : {
       const isCheck = state.answerUser.findIndex(item => item.id === action.payload.idForm )
-
       if(isCheck != -1) {
-        const answerId = state.answerUser.answer.findIndex(item => item.id === action.payload.idAnswer)
+        const answer = state.answerUser.find(item => item.id === action.payload.idForm)
+        const answerId = answer.answer.findIndex(item => item.id === action.payload.idAnswer)
 
         if(answerId != -1) {
           return {...state, answerUser: state.answerUser.map(form => {
             if(form.id === action.payload.idForm) {
-              return { ...form, answer: form.answer.map( question => {
-                if(question.id === action.payload.idAnswer) {
-                
-                } else {
-                  return question
-                }
-              })}
+              return { ...form, answer: form.answer.filter(question => question.id !== action.payload.idAnswer) }
             } else {
               return form
             }

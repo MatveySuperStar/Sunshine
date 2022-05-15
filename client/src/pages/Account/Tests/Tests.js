@@ -2,14 +2,14 @@ import React, {useState, useEffect} from 'react';
 import Test from  './Test/Test'
 import {Link, Route, Routes,  useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch  } from 'react-redux';
-import {getTest, getAllTests } from '../../http/testAPI';
-import { addAllTestsAction } from '../store/reducers/testsReducer';
+import {getTest, getAllTests } from '../../../../http/testAPI';
+import { addAllTestsAction } from '../../../store/reducers/testsReducer';
 import DateTimePicker from 'react-datetime-picker';
-import { addAccessTest, getAllTestsGroup, putAccessTest, deleteAccessTest } from '../../http/accessTestAPI';
-import { getAllGroupsAction } from '../store/reducers/groupsReducer';
-import { updateAccessDateAction, updateAccessGroupAction, updateAccessUpdateAction } from '../store/reducers/testReducer';
+import { addAccessTest, getAllTestsGroup, putAccessTest, deleteAccessTest } from '../../../../http/accessTestAPI';
+import { getAllGroupsAction } from '../../../store/reducers/groupsReducer';
+import { updateAccessDateAction, updateAccessGroupAction, updateAccessUpdateAction } from '../../../store/reducers/testReducer';
 import { useCookies } from 'react-cookie';
-import { likeGroup } from '../../http/groupAPI';
+import { likeGroup } from '../../../../http/groupAPI';
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 

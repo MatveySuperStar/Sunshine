@@ -10,8 +10,8 @@ import {
    updatePlaceLongitudeAction, 
    updatePlaceNameAction, 
    updatePlacesAction } from '../../../store/reducers/placesReducer';
-import Table from '../../Test/Table';
-import FormAdmin from '../../Test/FormAdmin';
+import Table from '../Components/Table';
+import FormAdmin from '../Components/FormAdmin';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
 
 const Places = () => {

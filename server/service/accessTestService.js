@@ -19,7 +19,7 @@ class AccessTestService {
   }
 
   async getAll(idGroup) {
-    const accessData = await db.execute(`SELECT 
+    const accessData = await db.execute(`SELECT accesstest.id as id,
     accesstest.date as date, test.title as title, test.description as description FROM accesstest LEFT JOIN test
     ON accesstest.id_test = test.id  
     WHERE accesstest.id_group = ${idGroup}`)

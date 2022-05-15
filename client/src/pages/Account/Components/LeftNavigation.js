@@ -49,7 +49,10 @@ const LeftNavigation = () => {
             if(link.role.includes(authUser.user.status)) {
               if(link.path) {
                 return ( 
-                  <li key={link.title} className={link.active ? 'active' : ''} onClick={async() => await activeLink(link)}>
+                  <li key={link.title} className={link.active ? 'active' : ''} onClick={async() => {
+                    setActiveMenu(false)
+                    await activeLink(link)
+                    }}>
                     <Link to={link.path}>{link.title}</Link>
                   </li>
                 )

@@ -8,7 +8,7 @@ export const getAllTests = async (idUser=NaN) => {
 
 export const getTest = async (id) => {
   const {data} = await $api.get(`api/test/getOne?id=${id}`)
-  console.log(data)
+  
   return data 
 }
 

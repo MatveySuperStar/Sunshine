@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../Components/Navbar'
-import '../../Test/Test.scss'
 import { getUsers, deleteUser, addUser, putUser } from '../../../../http/userAPI';
-import '../../Test/Table.scss'
+import '../Components/Table.scss'
 import { addCurrentPageAction, initUsersAction, updateUsersAction} from '../../../store/reducers/usersReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route } from 'react-router-dom';
@@ -20,8 +19,8 @@ import {
   defaultUserAction,
 } from '../../../store/reducers/userReducer';
    
-import Table from '../../Test/Table';
-import FormAdmin from '../../Test/FormAdmin';
+import Table from '../Components/Table';
+import FormAdmin from '../Components/FormAdmin';
 import { getAllGroupsAction } from '../../../store/reducers/groupsReducer';
 import { getAllGroups } from '../../../../http/groupAPI';
 import { defaultErrorUserAction } from '../../../store/reducers/userErrorReducer';

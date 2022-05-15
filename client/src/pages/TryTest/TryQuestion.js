@@ -1,11 +1,22 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addAnswerQuestionAction } from '../../store/reducers/testReducer';
+import './tryQuestions.scss'
 
-const TryQuestion = ({id_form, type, img, activeImg, question, questions=[], addAnswerCheckbox, addAnswerRadio, addAnswerText}) => {
+const TryQuestion = ({
+  id_form, 
+  type, img, 
+  activeImg, 
+  question, 
+  questions=[], 
+  addAnswerCheckbox, 
+  addAnswerRadio, 
+  addAnswerText, 
+  activeAnswer=[]}) => {
   
-  const dispatch = useDispatch()
-  const checkString = type === "string"
+  const dispatch = useDispatch();
+  const checkString = type === "string";
+  const checkLast = questions[questions.length - 1].id === question.id;
 
   const clickAnswer = () => {
     if(type === "radio") {
@@ -21,12 +32,15 @@ const TryQuestion = ({id_form, type, img, activeImg, question, questions=[], add
 
   return (
     <div>
-      <div className='row questions try_question'>
+      <div className='row try_question'>
+        { !checkString &&
+        !checkLast &&
         <div className='col-md-1'>
-          <img src={img}/>
-        </div>
-        { ! checkString ?
-          <div className={`${'col-md-8 d-flex justify-content-start'} ${question.answer ? 'answerActive' : ''} `} 
+          <img src={activeAnswer?.answer?.findIndex( state => state.id === question.id ) === -1 || activeAnswer.length === 0 ? img : activeImg} />
+        </div>}
+        { !checkString ?
+          !checkLast &&
+          <div className={`${'col-md-8 d-flex justify-content-start'} ${question.active ? 'answerActive' : ''} `} 
           onClick={clickAnswer}>
             <span>{question.label}</span>
           </div> 
