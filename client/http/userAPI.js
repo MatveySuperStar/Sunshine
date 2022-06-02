@@ -41,6 +41,13 @@ export const getUsers = async (page = 1) => {
   return {data: data.users, countPage: data.countPage, currentPage: 1}
 }
 
+export const getTeacher = async (idGroup) => {
+  const {data} = await $api.get(`api/user/getTeacher?idGroup=${idGroup}`)
+
+  /*return jwt_decode(data.token)*/
+  return data
+}
+
 export const getLikeUsers = async (user, idGroup) => {
   const {data} = await $api.get(`api/user/like?fio=${user.fio}&phone=${user.phone}&idGroup=${idGroup}`)
 
@@ -65,7 +72,7 @@ export const deleteUser = async (id, page) => {
 
 export const addUser = async ({email, name, surname, patronymic, phone, groupId=null, password, status, page}) => {
   try{
-  const data = await $api.post('api/user/registration', {
+  const {data} = await $api.post('api/user/registration', {
     email: email, 
     name: name, 
     surname: surname, 
@@ -75,18 +82,16 @@ export const addUser = async ({email, name, surname, patronymic, phone, groupId=
     password: password, 
     status: status, 
     page: page})
-     .catch((e) => {
-       if(e.response.data.errors.length !== 0) {
-        return e.response.data.errors
-       } else {
-        return {param: 'email', msg: e.response.data.message}
-       }
-     })
-  console.log(data)
+
+
   /*return jwt_decode(data.token)*/
-  return {data: data.data.users, countPage: data.data.countPage, errors: data.errors || []}
+  return {data: data.users, countPage: data.countPage}
   } catch(e) {
-    console.log(e)
+    if(e.response.data.errors.length !== 0) {
+      return e.response.data.errors
+     } else {
+      return {param: 'email', msg: e.response.data.message}
+     }
   }
 }
 

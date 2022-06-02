@@ -1,0 +1,37 @@
+nav.navRating {
+
+  display: flex;
+  justify-content: center;
+  a {
+   font-size: 30px;
+   font-weight: bold; 
+   margin: 15px;
+   text-decoration: none;
+   cursor: pointer;
+    color: black;
+
+   &.active {
+     color: #FF8000;
+     border-bottom: 3px solid #FF8000;
+   }
+  }
+}
+
+.rating {
+
+  button.delete {
+  
+      display: block;
+      
+      border: 0px;
+      background: none;
+      padding: 12px;
+      
+
+      &:hover {
+        border-radius: 15px;
+        color: #FF8000;
+        background-color: white;
+      }
+  }
+}

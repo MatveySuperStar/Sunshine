@@ -89,8 +89,7 @@ const Places = () => {
         </div>
       </div>
       <div className='row'>
-        <div className='add_form col-md-3'>
-          <div>
+        <div className='add_form col-12 col-md-6 col-xl-3'>
             <FormAdmin  
               params={params} 
               exitItem={exitItem} 
@@ -99,8 +98,8 @@ const Places = () => {
               putItem={putItem}
               deleteItem={deleteItem}
             />
-          </div>
         </div>
+        <div className='col-12 col-md-6 col-xl-4'>
           <Table 
           activeRow={activeRow} 
           items={items}  
@@ -110,7 +109,8 @@ const Places = () => {
           countPage={places.countPage}
           currentPage={currentPage}
              />
-        <div className='col-md-5'>
+        </div>
+        <div className='col-12 col-md-12 col-xl-5'>
         <YMaps>
           <Map width={"100%"} height={"100%"} defaultState={{ center: [53.902283, 27.561805], zoom: 6 }} >
             {places.data.map( place => {

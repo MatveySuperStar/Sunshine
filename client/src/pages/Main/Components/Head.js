@@ -66,9 +66,9 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
   
   useEffect(() => {
 
-    if(refBenefits.current.offsetTop - 100 > scroll) {
-      setLinks( links.map( item => { return {...item, exact: false} }))
-    }
+  if(refBenefits.current.offsetTop - 100 > scroll) {
+    setLinks( links.map( item => { return {...item, exact: false} }))
+  }
   if( links[0].exact != true ) {
     if(refKurs.current.offsetTop - 100 > scroll && refBenefits.current.offsetTop - 100 < scroll) {
       setLinks( links.map( item => item.path === '#benefits' ? {...item, exact: true} : {...item, exact: false}) )
@@ -86,28 +86,28 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
   }
   }, [scroll])
 
-  return (
-    <section className='head' style={{background: `url(${backgroundImage}) no-repeat`}}>
-      <nav className={scroll < 600 ? 'noActive' : 'active'}>
-        <div className='container'>
-          <div className='row'>
-            <div className='col-7 col-sm-6 col-md-3 col-lg-3 logo'>
-              <a><img onClick={() => window.scrollTo(0,0)} src={`${scroll < 600 ? whiteLogo : originalLogo}`} /></a>
-            </div>
-            <div className='col-5 col-sm-6 col-md-9 col-lg-9'>
-              <ul>
-                {
-                  links.map( item => <li key={item.path}><a className={item.exact ? 'active' : ''} onClick={() => moveScrollClick(item.path)} >{item.label}</a></li>)
-                }
-                <div className='button_enter'>
-                  <li><a onClick={() => setActiveModal(!activeModal)}>Войти</a></li>
-                </div>
-              </ul>
-              <BurgerMenu scroll={scroll} activeAuth={() => setActiveModal(!activeModal)} />
-            </div> 
+return (
+  <section className='head' style={{background: `url(${backgroundImage}) no-repeat`}}>
+    <nav className={scroll < 600 ? 'noActive' : 'active'}>
+      <div className='container'>
+        <div className='row'>
+          <div className='col-7 col-sm-6 col-md-3 col-lg-3 logo'>
+            <a><img onClick={() => window.scrollTo(0,0)} src={`${scroll < 600 ? whiteLogo : originalLogo}`} /></a>
           </div>
+          <div className='col-5 col-sm-6 col-md-9 col-lg-9'>
+            <ul>
+              {
+                links.map( item => <li key={item.path}><a className={item.exact ? 'active' : ''} onClick={() => moveScrollClick(item.path)} >{item.label}</a></li>)
+              }
+              <div className='button_enter'>
+                <li><a onClick={() => setActiveModal(!activeModal)}>Войти</a></li>
+              </div>
+            </ul>
+            <BurgerMenu scroll={scroll} activeAuth={() => setActiveModal(!activeModal)} />
+          </div> 
         </div>
-      </nav>
+      </div>
+    </nav>
       <div className='modalAuth' style={{display: activeModal || 'none'}}>
         <div className='container'>
           <form className='row'>
@@ -138,7 +138,7 @@ const Head = ({refBenefits, refKurs, refAbout}) => {
               Используйте то, что у вас есть, и делайте все, что можете</p>
             </div>
             <div className='col-md-5 col-lg-3'>
-              <button> Пройти </button>
+              <button onClick={() => history('/tryTest?idTest=16')}> Пройти </button>
             </div>
           </div>
         </div>

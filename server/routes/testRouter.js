@@ -12,6 +12,8 @@ router.post('/add', TestController.add)
 
 router.put('/put', TestController.put)
 
+router.get('/like', TestController.like)
+
 router.delete('/delete', TestController.delete)
 
 module.exports = router

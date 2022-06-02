@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import Test from  './Test/Test'
 import {Link, Route, Routes,  useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch  } from 'react-redux';
-import {getTest, getAllTests } from '../../../../http/testAPI';
+import {getTest, getAllTests, deleteTest, likeTest } from '../../../../http/testAPI';
 import { addAllTestsAction } from '../../../store/reducers/testsReducer';
 import DateTimePicker from 'react-datetime-picker';
 import { addAccessTest, getAllTestsGroup, putAccessTest, deleteAccessTest } from '../../../../http/accessTestAPI';
@@ -14,19 +14,22 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css";
 
 const Tests = () => {
-  const tests = useSelector(state => state.tests.tests)
-  const groups = useSelector(state => state.groups?.groups?.data)
-  const accessTest = useSelector(state => state.test.accessTest)
+  const tests = useSelector(state => state?.tests?.tests)
+  const groups = useSelector(state => state?.groups?.groups?.data)
+  const accessTest = useSelector(state => state?.test?.accessTest)
   const [cookies, setCookie, removeCookie] = useCookies();
   const authUser = useSelector(state => state.authUser?.authUser)
-  
+  const [choiceTest, setChoiceTest] = useState({name: 'my'})
+  const [textSearch, setTextSearch] = useState('');
+
   const [accessDeleteGroup, setAccessDeleteGroup] = useState(false)
 
   const history =  useNavigate()
 
   const dispatch = useDispatch()
 
-  const [nav, useNav] = useState([{name: 'all', active: false},{name: 'my', active: true}, {name: 'search', active: true}])
+  const [nav, useNav] = useState([{name: 'all', active: false},{name: 'my', active: true}])
+  const [search, setSearch] = useState(false)
 
   useEffect(async()=>{
     dispatch(getAllGroupsAction({data: []}))
@@ -46,12 +49,13 @@ const Tests = () => {
   /////////////
   const changeActive = async(e, name) => {
     e.preventDefault()
+    setChoiceTest({name: name})
 
     useNav(nav.map(item => {
       if(item.name === name) {
-        return {...item, active: item.active = true}
+        return {...item, active: true}
       } else {
-        return {...item, active: item.active = false}
+        return {...item, active: false}
       }
     }))
 
@@ -125,21 +129,58 @@ const Tests = () => {
           <div>
             <a className={`${returnActive('my') ? 'active' : ''}`} onClick={async(e) => changeActive(e, 'my')}>Мои тесты</a>
           </div>
-            <input className={`${returnActive('search') ? 'active' : ''}`} onClick={async(e) => changeActive(e, 'search')} type='text'></input>
+          <div>
+            <a className={`${search ? 'active' : ''}`} onClick={async() => {
+              if(search) {
+                const testsData = await likeTest('', nav.find(item=> item.active).name, authUser.user.id)
+                dispatch(addAllTestsAction(testsData.test))
+                setTextSearch('')
+              }
+              setSearch(!search)}
+            } type='text'>Поиск</a>
+          </div>
         </nav>
+      </div>
+      <div className={`row ${search ? 'd-flex' : 'd-none'}`}>
+        <div className='col-4'></div>
+        <div className='col-4'>
+          <input 
+            className='search_input' 
+            placeholder='Название теста'
+            value={textSearch}
+            onChange={async(e) => {
+              setTextSearch(e.target.value)
+              
+              const testsData = await likeTest(e.target.value, nav.find(item=> item.active === true).name, authUser.user.id)
+              
+              dispatch(addAllTestsAction(testsData.test))
+            }} />
+        </div>
       </div>
       <div className='row tests_items'>
       { tests.map( test => {
         return (
         <div className='col-md-12'>
           <div className='row item' onClick={()=>updateTest(test.id)}>
-            <div className='col-md-1'> <img src='https://img.icons8.com/dotty/30/000000/test.png'/></div>
-            <div className='col-md-7'> {test.title} </div>
-            <div className='col-md-2'> 
-              <div className='add' onClick={async(e)=> accessTestGroup(e, test.id, test)}>Доступ</div>
+            <div className={`col-2 col-sm-2 col-md-1 wrap_one`}> <img src='https://img.icons8.com/dotty/30/000000/test.png'/></div>
+            <div className={`col-8 col-sm-8 col-md-7 wrap_one`}> {test.title} </div>
+            <div className={`col-md-2 wrap_two`}   onClick={async(e)=> accessTestGroup(e, test.id, test)}> 
+              <div className='add'>Доступ</div>
             </div>
-            <div className='col-md-2'> 
-              <div className='delete' onClick={async(e)=> accessTestGroup(e, test.id)}>Удалить</div>
+            <div className={`col-md-2 wrap_three`} onClick={async(e)=> {
+              e.stopPropagation()
+              await deleteTest(test.id)
+              if(choiceTest.name === 'all') {
+                const testsData = await getAllTests()
+          
+                dispatch(addAllTestsAction(testsData))
+              } else if(choiceTest.name === 'my') {
+                const testsData = await getAllTests(authUser.user.id)
+                
+                dispatch(addAllTestsAction(testsData))
+              }
+              }}> 
+              <div className='delete'>Удалить</div>
             </div>
           </div>
 
@@ -157,7 +198,7 @@ const Tests = () => {
                   showTimeSelect
                   timeFormat="p"
                   timeIntervals={15}
-                  dateFormat="yyyy-mm-dd h:mm"
+                  dateFormat="yyyy-MM-dd h:mm"
                 />
               </div>
             </div>

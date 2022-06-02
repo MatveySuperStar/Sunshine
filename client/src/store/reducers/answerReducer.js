@@ -3,7 +3,7 @@ import { defaultState } from "../state"
 const ADD_ANSWER_RADIO_USER = "ADD_ANSWER_RADIO_USER"
 const ADD_ANSWER_CHECKBOX_USER = "ADD_ANSWER_CHECKBOX_USER"
 const ADD_ANSWER_STRING_USER = "ADD_ANSWER_STRING_USER"
-
+const ADD_DEFAULT_ANSWER_USER = "ADD_DEFAULT_ANSWER_USER"
 
 export const answerReducer = (state = defaultState, action) => {
   switch(action.type) {
@@ -64,6 +64,10 @@ export const answerReducer = (state = defaultState, action) => {
         return {...state, answerUser: [ ...state.answerUser, {id: action.payload.idForm, answer: [{label: action.payload.label}]} ]}
       }
     }
+    case ADD_DEFAULT_ANSWER_USER : {
+      return {...state, answerUser: []}
+    }
+
     default: 
     return {...state};
   }
@@ -72,3 +76,4 @@ export const answerReducer = (state = defaultState, action) => {
 export const addAnswerRadioUserAction = (payload) => ({type: ADD_ANSWER_RADIO_USER, payload})
 export const addAnswerCheckboxUserAction = (payload) => ({type: ADD_ANSWER_CHECKBOX_USER, payload})
 export const addAnswerStringUserAction = (payload) => ({type: ADD_ANSWER_STRING_USER, payload})
+export const addDefaultAnswerUser = (payload) => ({type: ADD_DEFAULT_ANSWER_USER, payload})

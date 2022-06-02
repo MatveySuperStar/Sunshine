@@ -25,8 +25,15 @@ export const addTest = async (tests, title, description, idUser) => {
   return data
 }
 
+export const likeTest = async (title, name, id) => {
+  const all = name === "all" ? true : false;
+  const {data} = await $api.get(`api/test/like?title=${title}&all=${all}&id=${id}`)
+  
+  return data
+}
+
 export const deleteTest = async (id) => {
-  const {data} = await $api.delete('api/test/delete', {id})
+  const {data} = await $api.delete('api/test/delete', {data: {id: id}})
   
   return data
 }

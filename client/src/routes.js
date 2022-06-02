@@ -4,9 +4,23 @@ import Main from "./pages/Main/Main";
 import Tests from './pages/Account/Tests/Tests.js'
 import Test from './pages/Account/Tests/Test/Test.js'
 import Users from "./pages/Account/Users/Users";
-import { ACCOUNT_ROUTE, MAIN_ROUTE, PLACES_ROUTE, GROUPS_ROUTE, USERS_ROUTE, TESTS_ROUTE, TEST_ROUTE, MATERIAL_ROUTE, TRIAL_TEST_ROUTE } from "./utils/consts";
+import { 
+  ACCOUNT_ROUTE, 
+  MAIN_ROUTE, 
+  PLACES_ROUTE, 
+  GROUPS_ROUTE, 
+  USERS_ROUTE, 
+  TESTS_ROUTE, 
+  TEST_ROUTE, 
+  MATERIAL_ROUTE, 
+  TRIAL_TEST_ROUTE, 
+  RATING_ROUTE, 
+  KURS_ROUTE
+} from "./utils/consts";
 import Places from "./pages/Account/Places/Places";
 import TryTest from "./pages/TryTest";
+import Kurs from "./pages/Account/Kurs/Kurs";
+import Rating from "./pages/Account/Rating/Rating";
 
 export const authRoutes = [
   {
@@ -77,7 +91,24 @@ export const authRoutes = [
           "Ученик"
         ],
         Component: TryTest
-      }
+      },
+      {
+        path: RATING_ROUTE,
+        role: [
+          "Админ",
+          "Преподаватель",
+          "Ученик",
+        ],
+        Component: Rating,
+      },
+      {
+        path: KURS_ROUTE,
+        role: [
+          "Админ",
+          "Преподаватель"
+        ],
+        Component: Kurs,
+      },
     ]
   }
 ]
@@ -86,6 +117,10 @@ export const publicRoutes = [
   {
     path: MAIN_ROUTE,
     Component: Main
+  },
+  {
+    path: TRIAL_TEST_ROUTE,
+    Component: TryTest
   },
 
 ]

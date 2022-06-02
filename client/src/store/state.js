@@ -4,6 +4,8 @@ function randomInt() {
 
 
 export const defaultState = {
+  kurs: {data:[], cointPage: 0, currentPage: 0},
+  oneKurs: {id:0, title: '', description: '', price: 0, time: 60, update: false},
   authUser: {
     isAuth: false,
     user: {}

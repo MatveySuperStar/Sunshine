@@ -51,10 +51,32 @@ class TestService {
     return {test: test}
   }
 
-  async deleteTest(id) {
+  async likeTest(title, all, id_user) {
 
-    const test = await db.execute(`DELETE test WHERE id=?
-    `, [id])
+    if(all === true) {
+      const test = await db.execute(`SELECT * FROM test WHERE title LIKE '%${title}%'
+      `)
+        .then( ([rows]) => rows)
+        .catch( err => console.log(err))
+
+      return {test: test}
+    } else {
+      const test = await db.execute(`SELECT * FROM test WHERE title LIKE '%${title}%' and id_user=${id_user}
+      `)
+        .then( ([rows]) => rows)
+        .catch( err => console.log(err))
+
+      return {test: test}
+    }
+  }
+
+  async deleteTest(id) {
+    console.log(id)
+    const test = await db.execute("DELETE FROM test WHERE id=?", [id])
+      .then( ([rows]) => rows)
+      .catch( err => console.log(err))
+    
+    const raiting = await db.execute("DELETE FROM testrating WHERE id_test=?", [id])
       .then( ([rows]) => rows)
       .catch( err => console.log(err))
 

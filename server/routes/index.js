@@ -7,6 +7,8 @@ const testRouter = require('./testRouter')
 const parametrsRouter = require('./parametrsRouter')
 const accessTestRouter = require('./accessTestRouter')
 const placesRouter = require('./placesRouter')
+const raitingRouter = require('./raitingRouter')
+const kursRouter = require('./kursRouter')
 
 router.use('/user', userRouter)
 router.use('/group', groupRouter)
@@ -15,5 +17,7 @@ router.use('/test', testRouter)
 router.use('/parametrs', parametrsRouter)
 router.use('/accessTest', accessTestRouter)
 router.use('/places', placesRouter)
+router.use('/raiting', raitingRouter)
+router.use('/kurs', kursRouter)
 
 module.exports = router

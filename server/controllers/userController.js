@@ -21,6 +21,18 @@ class UserController {
     }
   }
 
+  async getTeacher(req, res, next) {
+    try{
+      const {idGroup} = req.query
+
+      const teacher = await userService.getTeacher(idGroup)
+
+      return res.status(200).json(teacher)
+    } catch(e) {
+      next(e)
+    }
+  }
+
   async like(req, res, next) {
     try {
       const {fio, phone, idGroup} = req.query

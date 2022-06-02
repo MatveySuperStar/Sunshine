@@ -61,6 +61,18 @@ class TestController {
     }
   }
 
+  async like(req, res, next) {
+    try{
+      const {title, all, id} = req.query
+      const testData = await testService.likeTest(title, all, id)
+
+      return res.status(200).json(testData)
+      
+    } catch(e) {
+      next(e)
+    }
+  }
+
   async delete(req, res, next) {
     try{
       const {id} = req.body

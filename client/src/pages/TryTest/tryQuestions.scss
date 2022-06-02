@@ -1,0 +1,38 @@
+.try_question {
+  width: 100%;
+  img {
+    cursor: pointer;
+  }
+  & div {
+    margin: 10px 0px;
+    span {
+      font-size: 18px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    textarea {
+      border: 0px;
+      width: 100%;
+      font-size: 18px;
+      border-bottom: 1px solid #FF8000;
+      outline: none;
+    }
+  }
+  .answerActive span{
+    padding:5px ;
+    border-radius: 10px;
+    background-color: rgba(#FF8000, 0.8);
+    color: white;
+  }
+
+  .answerActive textarea{
+    border-bottom: 3px solid #FF8000;
+  }
+}
+
+.testButtons {
+  margin-top: 20px;
+  padding: 15px;
+  margin-bottom: 100px;
+}

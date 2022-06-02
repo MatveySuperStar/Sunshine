@@ -10,16 +10,22 @@ import {
   defaultTestHeaderAction 
 } from '../store/reducers/testReducer';
 import { getTest } from '../../http/testAPI';
+import { addRaiting } from '../../http/raitingAPI';
+import { addDefaultAnswerUser } from '../store/reducers/answerReducer';
 
 const TryTest = () => {
   const dispatch = useDispatch()
+
   const tests = useSelector(state => state.test.test)
   const header = useSelector(state => state.test.testHeader)
   const userAnswers = useSelector(state => state.answerUser?.answerUser)
+  const authUser = useSelector(state => state.authUser?.authUser)
   const [params] = useSearchParams()
+
+  const navigate =  useNavigate()
   
   const getTestinReacts = useCallback(async(id) => {
-    const testData = await getTest(12)
+    const testData = await getTest(id)
     
     dispatch(getTestAction({
       title: testData.title, 
@@ -29,9 +35,13 @@ const TryTest = () => {
   }, [dispatch, getTest, getTestAction])
 
   useEffect(async() => {
-    if(params.get('idTest') > 0) {
+    console.log(params.get('try'))
+    if(params.get('try')) {
+      await getTestinReacts(params.get(16))
+    }
+    else if(params.get('idTest') > 0) {
      
-      await getTestinReacts(12)
+      await getTestinReacts(params.get('idTest'))
     }
   }, [])
 
@@ -94,7 +104,22 @@ const TryTest = () => {
             answers.map(state => ball += Number(state.raiting))
 
             let allBall = Math.round((ball/allRaiting) * 10)
-            alert(`Ваш балл  ${allBall}`)
+            
+            if(params.get('idTest') === 16) {
+              alert(`Ваш балл  ${allBall}`)
+              navigate('/')
+        
+            } else {
+              await addRaiting({
+                idTest: params.get('idTest'),
+                idUser: authUser.user.id,
+                answers: userAnswers,
+                raiting: allBall
+              })
+              dispatch(addDefaultAnswerUser())
+              alert(`Ваш балл  ${allBall}`)
+              navigate('/account')
+            }
           }
           }>
             Закончить тест

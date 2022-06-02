@@ -1,4 +1,4 @@
-import React, {useMemo, useState, useCallback} from 'react'
+import React, {useMemo, useState, useEffect, useCallback} from 'react'
 import './leftNavigation.scss'
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom'
@@ -20,9 +20,22 @@ const LeftNavigation = () => {
     { path: "account/tests", active: false, title: "Тесты", role: ['Админ', 'Преподаватель'] },
     { path: "account/groups", active: false, title: "Группы", role: ['Админ', 'Преподаватель'] },
     { path: "account/places", active: false, title: "Местоположения", role: ['Админ'] },
+    { path: "account/kurs", active: false, title: "Курсы", role: ['Админ', 'Преподаватель'] },
+    { path: "account/rating", active: false, title: "Рейтинги", role: ['Админ', 'Преподаватель'] },
+    { path: "account/rating", active: false, title: "Мой Рейтинг", role: ['Ученик'] },
     { href: "https://drive.google.com/drive/folders/1YChCSgHLfSVRztQANkghsx7bgNc27xIg?usp=sharing", title: "Учебный материал", role: ['Админ', 'Преподаватель', 'Ученик'] },
     { path: "#", active: false, title: "Выйти", clickHandler: logoutAccount,  role: ['Админ', 'Преподаватель', 'Ученик'] },
   ]);
+
+  const [scroll, setScroll] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    setScroll(window.scrollY)   
+  }, [window.scrollY]);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+  }, [])
 
   const activeLink = useCallback(async(link) => {
     setLinksData(linksData.map( state => {
@@ -67,7 +80,7 @@ const LeftNavigation = () => {
   },[linksData, authUser]);
 
   return (
-    <div className={`wrapper ${activeMenu ? 'is-nav-open' : ''}`}>
+    <div className={`wrapper ${ scroll > 120 ? 'p_fixed' : 'p_abs'} ${activeMenu ? 'is-nav-open' : ''}`}>
       <div className="nav">
           <button
               className="nav__icon"

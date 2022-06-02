@@ -13,6 +13,8 @@ import { placesReducer } from "./reducers/placesReducer";
 import { answerReducer } from "./reducers/answerReducer";
 import { errorReducer } from "./reducers/errorReducer";
 import { authUserReducer } from "./reducers/authUserReducer";
+import { oneKursReducer } from "./reducers/oneKursReducer";
+import { kursReducer } from "./reducers/kursReducer";
 
 const rootReducer = combineReducers({
   test: testReducer,
@@ -27,7 +29,9 @@ const rootReducer = combineReducers({
   places: placesReducer,
   answerUser: answerReducer,
   error: errorReducer,
-  authUser: authUserReducer
+  authUser: authUserReducer,
+  oneKurs: oneKursReducer,
+  kurs: kursReducer
   
 })
 

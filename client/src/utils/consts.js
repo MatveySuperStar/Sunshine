@@ -8,3 +8,6 @@ export const PRESS_TEST_ROUTE = '/press'
 export const TRIAL_TEST_ROUTE = 'tryTest'
 export const TEST_ROUTE = 'test'
 export const MATERIAL_ROUTE = 'material'
+export const RATING_ROUTE = 'rating'
+export const KURS_ROUTE = 'kurs'
+

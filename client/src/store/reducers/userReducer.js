@@ -17,7 +17,7 @@ const UPDATE_FIO_USER_LIKE = "UPDATE_FIO_USER_LIKE"
 const UPDATE_PHONE_USER_LIKE = "UPDATE_PHONE_USER_LIKE"
 const UPDATE_DATA_LIST_USER_LIKE = "UPDATE_DATA_LIST_USER_LIKE"
 
-const defaultUser = {id: 0, email: '', name: '', surname: '', patronymic: '', phone: '', group: '', status: '', update: false}
+const defaultUser = {id: 0, email: '', name: '', password: '', surname: '', patronymic: '', phone: '', group: '', status: '', update: false}
 
 export const userReducer = (state = defaultState, action) => {
   switch(action.type) {

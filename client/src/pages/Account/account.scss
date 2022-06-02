@@ -1,5 +1,15 @@
+@mixin customH2{
+  h2 {
+    padding: 12px;
+  }
+
+
+}
+
+@include customH2;
+
 .characteristic {
-  
+
 
   &>div>div>div {
     border: 0px solid;
@@ -34,6 +44,7 @@
 }
 
 .tests_box {
+
   &>div>div {
     border: 0px;
     height: 280px;
@@ -61,6 +72,7 @@
 
 .personal_info {
 
+  
   h3 {
     text-align: center;
   }
@@ -82,19 +94,7 @@
   }
 }
 
-@media (min-width: 320px) {
 
-}
-
-@media (min-width: 576px) {
-  
-
-}
-
-
-@media (min-width: 768px) {
-
-}
 
 
 @media (min-width: 992px) {

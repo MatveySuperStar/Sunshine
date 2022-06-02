@@ -84,7 +84,12 @@ const TryForm = ({form = {title: ''}, userAnswers}) => {
       <div className='row'>
         <div className='col-md-12'>
           <textarea name='description' placeholder='Вопрос' rows={1}
-          value={form.title} readOnly={true}/>
+          value={form.title} readOnly={true}
+          onKeyUp={(e)=>{
+            if(e.target.scrollTop > 0){
+              e.target.style.height = e.target.scrollHeight + "px";
+            }
+          }}/>
         </div>
       </div>
       {Questions()}

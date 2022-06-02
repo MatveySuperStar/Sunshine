@@ -24,7 +24,7 @@ const Table = ({activeRow, addUpdate, items, legends, countPage, currentPage, cl
   }
   
   return (
-    <div className={`${classBoot} main_table`}>
+    <div className={`main_table`}>
       <table className='main_table'>
         <thead>
           <tr>

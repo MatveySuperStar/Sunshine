@@ -52,6 +52,23 @@ class UserService {
     return {users: users, existenceUser: false}
   }
 
+  async getTeacher(idGroup) {
+    let teacher = await db.execute(`SELECT 
+    users.name as name,
+    users.surname as surname,
+    users.patronymic as patronymic,
+    users.email as email,
+    users.phone as phone,
+    users.status as status,
+    groups.name as nameGroup FROM users 
+    LEFT JOIN groups ON users.id_group = groups.id
+    WHERE id_group=? and status='Преподаватель'`, [idGroup])
+    .then( ([rows]) => rows[0])
+    .catch( err => {console.log(err)})
+
+    return teacher
+  }
+
   async patchGroup(fio = '', phone = '', idGroup) {
     
   }
@@ -94,10 +111,19 @@ class UserService {
     let tokens = tokenService.generateToken({id: user.id, email: user.email, role: user.status})
 
     tokens.refreshToken = await tokenService.saveToken(user.id, tokens.refreshToken, cookeiToken, id_device)
+
     return {...tokens, user}
   }
 
-  async registration(name, surname, patronymic, email, password, phone, status = 'Ученик', group = null) {
+  async registration(
+    name, 
+    surname, 
+    patronymic, 
+    email, 
+    password, 
+    phone, 
+    status = 'Ученик', 
+    group = null) {
     const candidate = await db.execute(`SELECT * FROM users WHERE email=?`, [email])
     
     if(candidate[0][0]) {

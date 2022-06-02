@@ -30,11 +30,11 @@ import { userErrorAction } from '../../../store/reducers/userErrorReducer';
 
 const Users = () => {
   const dispatch = useDispatch()
-  const users = useSelector(state => state.users.users)
-  const user = useSelector(state => state.user.user)
-  const groups = useSelector(state => state.groups.groups)
-  const authUser = useSelector(state => state.authUser.authUser)
-  const userError = useSelector(state => state.userError.userError)
+  const users = useSelector(state => state.users?.users)
+  const user = useSelector(state => state.user?.user)
+  const groups = useSelector(state => state.groups?.groups)
+  const authUser = useSelector(state => state.authUser?.authUser)
+  const userError = useSelector(state => state.userError?.userError)
 
   useEffect(async() => {
     dispatch(getAllGroupsAction(await getAllGroups()))
@@ -115,17 +115,19 @@ const Users = () => {
 
   const addItem = async() => {
     const usersData = await addUser({...user, page: users.currentPage})
-    
-    console.log(usersData)
-    if(usersData.errors.length) {
+
+    if(usersData.errors != undefined) {
       dispatch(userErrorAction(usersData.errors))
     } else {
-    
-    dispatch(updateUsersAction({data: usersData.data, countPage: usersData.countPage}))
+      dispatch(defaultUserAction())
+      dispatch(defaultErrorUserAction())
+      dispatch(updateUsersAction({data: usersData.data, countPage: usersData.countPage}))
     }
   }
 
   const putItem = async() => {
+    dispatch(defaultUserAction())
+    dispatch(defaultErrorUserAction())
     dispatch(updateUsersAction(await putUser({...user, page: users.currentPage})))
   }
 
@@ -142,7 +144,7 @@ const Users = () => {
         </div>
       </div>
       <div className='row'>
-        <div className='add_form col-md-3'>
+        <div className='add_form col-12 col-md-12 col-xl-3'>
           <FormAdmin  
             params={params} 
             statusUpdate={statusUpdate} 
@@ -151,7 +153,7 @@ const Users = () => {
             putItem={putItem}
             deleteItem={deleteItem}/>
         </div>
-        <div className='col-md-9'>
+        <div className='col-12 col-md-12 col-xl-9'>
           <Table 
             addUpdate={addUpdateUser} 
             items={items} 

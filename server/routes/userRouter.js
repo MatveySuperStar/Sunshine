@@ -7,6 +7,8 @@ const {check, body} = require('express-validator')
 
 router.get('/', /*checkRole('Преподаватель'),*/ UserController.getAll)
 
+router.get('/getTeacher', /*checkRole('Преподаватель'),*/ UserController.getTeacher)
+
 router.post('/registration', [
     check('email', 'Email не соответствует требованиям').isEmail(),
     check('password', 'Пароль должен иметь от 5 до 15 символов').isLength({min: 5, max: 15}),
