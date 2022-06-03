@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './Kurs.scss'
 import backgroundImage from '../../../image/Walves3.png'
 import { useDispatch } from 'react-redux';
-import { updateEmailDatalistKursAction } from '../../../store/reducers/emailReducer';
+import { updateEmailDatalistKursAction, updateEmailKursAction } from '../../../store/reducers/emailReducer';
 import { motion } from 'framer-motion';
 import { getKurs } from '../../../../http/kursAPI';
 
 
-const Kurs = ({refKurs}) => {
+const Kurs = ({refKurs, refAbout, refMenu}) => {
 
   const dispatch = useDispatch()
   const [kurs, setKurs] = useState([]) 
@@ -16,9 +16,13 @@ const Kurs = ({refKurs}) => {
     const textKurs = kurs.map(item => item.text)
     dispatch(updateEmailDatalistKursAction(textKurs))
     const nowKurs = await getKurs();
-    setKurs(nowKurs.data)
+    setKurs(nowKurs.data.map( state => {return {...state, active: false}}))
   }, [])
   
+  const clickHandler = useCallback((title)=>{
+    dispatch(updateEmailKursAction(title));
+    window.scrollTo(0, refMenu.current.offsetTop - 100);
+  }, [refAbout, window, updateEmailKursAction])
 
   const topAnimation = {
     hidden: {
@@ -45,8 +49,18 @@ const Kurs = ({refKurs}) => {
         <div className='row kurs_boxes'>
           {kurs.map( (item, index) => {
             return (
-            <motion.div custom={index} variants={topAnimation} key={item.title} className='col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3'>
-              <div><p>{item.title}</p><p>{item.time ? `${item.time} мин - ` : ''} {item.price} руб</p></div>
+            <motion.div custom={index} variants={topAnimation} key={item.title} 
+            className={`col-12 ${item.active ? 'col-sm-12 col-md-6 col-lg-6 col-xl-6 active' : 'col-sm-6 col-md-6 col-lg-4 col-xl-3'}`}>
+              <div className={`${item.active ? 'active' : ''}`} 
+              onClick={()=>setKurs(kurs.map(state => state.id === item.id ? {...state, active: !state.active} : {...state, active: false}))}>
+                <p className='title_desc'>
+                  <span>{item.title}</span> 
+                  {item.active && <span>{item.time ? `${item.time} мин - ` : ''} {item.price} руб</span>}</p>
+                {item.active && <p className='desc'>{item.description}</p>}
+                {item.active ? 
+                  <button onClick={() => clickHandler(item.title)}>Записаться</button> : 
+                  <p>{item.time ? `${item.time} мин - ` : ''} {item.price} руб</p>}
+              </div>
             </motion.div>
             )
           })}

@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useRef} from 'react'
+import React, {useEffect, useCallback, useRef, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import './About.scss'
 import foto1 from '../../../image/Foto1.jpg'
@@ -22,13 +22,20 @@ import { motion } from 'framer-motion';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { text } from '../Constants';
 
-const About = ({refAbout}) => {
+const About = ({refAbout, refMenu}) => {
+  const [activeButton, setActiveButton] = useState(false);
   const emailData = useSelector(state => state.email.email);
   const places = useSelector(state => state.places.places);
+  const kursRef = useRef();
 
   const dispatch = useDispatch();
   const mapRef = useRef();
+
+  useEffect(() => {
+    kursRef.current.style.height = kursRef.current.scrollHeight + "px";
+  }, [emailData.kurs.value, kursRef.current])
 
   const clickHandler = useCallback(async(e) => {
     e.preventDefault()
@@ -41,6 +48,12 @@ const About = ({refAbout}) => {
       alert('сообщение отправлено')
     }
   }, [emailData])
+
+  const downKeyUp = useCallback((e) => {
+    if(e.target.scrollTop > 0){
+      e.target.style.height = e.target.scrollHeight + "px";
+    } 
+  }, [])
 
   useEffect(async ()=>{
     const places = await getAllPlacesWithPage(1)
@@ -127,11 +140,19 @@ const About = ({refAbout}) => {
 
         <motion.div custom={1} variants={topAnimation} className='about_us__text'>
           <p>
-            Обучение по коммуникативной методике, грамотный и внимательный подход к каждому студенту, 
-            подготовка к международным экзаменам, подготовка к ЦТ, работа с аутентичными учебниками и материалами, 
-            комплексное развитие навыков в процессе обучения, 
-            грамотные и внимательные преподаватели, наличие у представителей кэмбриджиских сертификатов.
+            { activeButton ? text : text.slice(0, 100)+"..."}
           </p>
+          <button 
+            className={`${activeButton ? 'active' : ''}`} 
+            onClick={() => setActiveButton(!activeButton)}>
+            <div>
+              {activeButton ?
+              <img src="https://img.icons8.com/metro/ffffff/collapse-arrow.png"/>
+              :
+              <img src="https://img.icons8.com/metro/FF8000/expand-arrow--v1.png"/>
+              }
+            </div>
+          </button>
         </motion.div>
         <motion.div 
           initial="hidden"
@@ -174,7 +195,7 @@ const About = ({refAbout}) => {
                 </Map>
               </YMaps>
           </motion.div>
-          <motion.div custom={2} variants={rightAnimation} className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6'>
+          <motion.div ref={refMenu} custom={2} variants={rightAnimation} className='col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6'>
             <form className='row'>
               <h3> Форма связи с нами </h3>
               <div className='col-md-6'>
@@ -184,7 +205,7 @@ const About = ({refAbout}) => {
               </div>
               <div className='col-md-6'>
                 <p>Предпочитаемый курс</p>
-                <input list='kursdatalist'  value={emailData.kurs.value} onChange={(e) => dispatch(updateEmailKursAction(e.target.value))}/>
+                <textarea ref={kursRef} list='kursdatalist' value={emailData.kurs.value} onChange={(e) => dispatch(updateEmailKursAction(e.target.value))}/>
                 <datalist id='kursdatalist'>
                   {
                     emailData.kurs.datalist.map(item => <option key={item} value={item}>{item}</option>)
@@ -193,7 +214,7 @@ const About = ({refAbout}) => {
               </div>
               <div className='col-md-6'>
                 <p>Email</p>
-                <input type='email' value={emailData.email} onChange={(e) => dispatch(updateEmailEmailAction(e.target.value))}/>
+                <textarea type='email' onKeyUp={downKeyUp} value={emailData.email} onChange={(e) => dispatch(updateEmailEmailAction(e.target.value))}/>
                 <span className='error'>{emailData.errors.email}</span>
               </div>
               <div className='col-md-6'>
@@ -203,11 +224,7 @@ const About = ({refAbout}) => {
               </div>
               <div className='col-md-12'>
                 <p>Ваше сообщение</p>
-                <textarea style={{overflow: "hidden"}} onKeyUp={(e) => {
-                  if(e.target.scrollTop > 0){
-                    e.target.style.height = e.target.scrollHeight + "px";
-                  }
-                }} value={emailData.message} onChange={(e) => dispatch(updateEmailMessageAction(e.target.value))}/>
+                <textarea className='message' style={{overflow: "hidden"}} onKeyUp={downKeyUp} value={emailData.message} onChange={(e) => dispatch(updateEmailMessageAction(e.target.value))}/>
                 <span className='error'>{emailData.errors.message}</span>
               </div>
               <div className='col-md-12'>

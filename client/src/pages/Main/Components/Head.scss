@@ -36,6 +36,8 @@
             width: 100%;
 
             &:hover {
+              margin: -2px;
+              border: 2px solid white;
               color: #FFFFFF;
               background-color: #FF8000;
             }
@@ -101,10 +103,10 @@
   .logo {
     display: flex;
     align-items: center;
-    
+
     img {
-      width: 100%;
-      height: auto;
+      width: auto;
+      max-height: 70px;
       cursor: pointer;
     }
   }
@@ -115,18 +117,27 @@
     width: 100%;
     padding: 10px 0;
     transition: 0.5s ease;
-
+    
     .button_enter {
       display: flex;
       width: 100%;
       justify-content: end;
 
       a {
-        color: black;
+        color: #FF8000;
         border-radius: 15px;
         background-color: white;
         padding: 10px;
+
+        
+        &:hover {
+          margin: -2px;
+          border: 2px solid white;
+          color: #FFFFFF;
+          background-color: #FF8000;
+        }
       }
+      
     }
 
     ul {
@@ -237,7 +248,7 @@
 
     &.active { //When ScrollY reaches 600px
       transition: 0.5s ease;
-      background-color: rgba($color: #FFFFFF, $alpha: 0.7);
+      background-color: #FFFFFF;
   
       &>div>div>div>ul>li {
         a {
@@ -256,6 +267,11 @@
           border-radius: 15px;
           background-color: #FF8000;
   
+          &:hover, &.active{
+            color: #FF8000;
+            border: 2px solid #FF8000;
+            background-color: white;
+          }
         }
       }
     }
@@ -286,7 +302,10 @@
               font-size:32px;
 
               &:hover{
-                color: #0083FF;
+                border-radius: 15px;
+                padding: 0 15px;
+                background-color: white;
+                color: #FF8000;
               }
             }
           }
@@ -308,7 +327,10 @@
               font-size:32px;
 
               &:hover{
-                color: #0083FF;
+                border-radius: 15px;
+                padding: 0 15px;
+                background-color: white;
+                color: #FF8000;
               }
             }
           }
@@ -349,17 +371,20 @@
     background-color: rgba($color: #FF8000, $alpha: 0.5);
 
     form{
+      position: relative;
       border-radius: 15px;
       margin: 0 auto;
       background-color: white;
       width: 600px;
-      padding: 70px;
+      padding: 50px;
       
       img {
+        position: absolute;
         display: block;
-        margin-left: auto;
+        padding: 5px 5px 0 0;
         width: auto;
         height: 30px;
+        top:0px;
         right: 0px;
         cursor: pointer;
       }
