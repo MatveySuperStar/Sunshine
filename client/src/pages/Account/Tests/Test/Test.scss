@@ -218,6 +218,15 @@
     }
   }
 
+  .all_files {
+    cursor: pointer;
+  }
+
+  .img_form {
+    height: 150px;
+    width: auto;
+  }
+
   .questions {
 
     &>div:last-child {

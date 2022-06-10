@@ -1,0 +1,21 @@
+.voice_techology {
+  margin: 10px 0;
+  audio {
+    width: 100%;
+  }
+
+  button {
+    height: 100%;
+    width: 100%;
+    margin: auto 0px;
+    background-color: white;
+    border: 0px;
+    color: #FF8000;
+    font-weight: 500;
+
+    &:hover {
+      background-color: #FF8000;
+      color: white;
+    }
+  }
+}

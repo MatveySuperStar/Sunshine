@@ -28,10 +28,17 @@ const UPDATE_ACCESS_ACCESS = "UPDATE_ACCESS_ACCESS"
 const DEFAULT_ACCESS = "DEFAULT_ACCESS"
 const UPDATE_ACCESS_UPDATE = "UPDATE_ACCESS_UPDATE"
 
+const ADD_FORM_FILE = "ADD_FORM_FILE"
+const DELETE_FORM_FILE = "DELETE_FORM_FILE"
+const UPDATE_FORM_FILE = "UPDATE_FORM_FILE"
+const ADD_QUESTION_FILE = "ADD_FORM_FILE"
+const DELETE_QUESTION_FILE = "DELETE_QUESTION_FILE"
+
 const defaultForm = () => { 
   return  {
     id: randomInt(),
     raiting: 0,
+    files: [],
     types: [
       { 
         type: "radio", 
@@ -40,8 +47,8 @@ const defaultForm = () => {
         activeImg: "https://img.icons8.com/ios-glyphs/30/000000/circled.png",
         active: true, 
         questions: [
-          {id: randomInt(), label: "Вопрос 1", answer: false, active: false},
-          {id: randomInt(), label: "Вопрос 2", answer: false, active: false}
+          {id: randomInt(), label: "Вопрос 1", answer: false, active: false, files: []},
+          {id: randomInt(), label: "Вопрос 2", answer: false, active: false, files: []}
         ]
       },
       {
@@ -51,8 +58,8 @@ const defaultForm = () => {
         activeImg: "https://img.icons8.com/ios/30/000000/checked-checkbox--v1.png",
         active: false, 
         questions: [
-          {id: randomInt(), label: "Вопрос 1", answer: false, active: false},
-          {id: randomInt(), label: "Вопрос 2", answer: false, active: false}
+          {id: randomInt(), label: "Вопрос 1", answer: false, active: false, files: []},
+          {id: randomInt(), label: "Вопрос 2", answer: false, active: false, files: []}
         ]
       }, 
       {
@@ -121,6 +128,7 @@ export const testReducer = (state = defaultState, action) => {
         }
       } )}
     }
+
     case ADD_QUESTION : {
       return {...state, test: state.test.map(item => {
         if(item.id === action.payload.id) {
@@ -174,6 +182,82 @@ export const testReducer = (state = defaultState, action) => {
         }
       })}
     }
+
+    case ADD_FORM_FILE : {
+      return {...state,  test: state.test.map(item => {
+          if(item.id === action.payload.idForm) {
+            return {...item, files: [...item.files, {id: randomInt(), type: action.payload.type, href: action.payload.href}]}
+          } else {
+            return item;
+          }
+        })
+    }}
+
+    case UPDATE_FORM_FILE : {
+      return {...state,  test: state.test.map(item => {
+          if(item.id === action.payload.idForm) {
+            return {...item, files: item.files.map( subitem => {
+              if(subitem.id === action.payload.idFile) {
+                return {...subitem, href: action.payload.href}
+              } else {
+                return subitem
+              }
+            })}
+          } else {
+            return item;
+          }
+        })
+    }}
+
+    case DELETE_FORM_FILE : {
+      return {...state, 
+        test: {...state.test, files: state.test.files.filter(item => item.id !== action.payload.id)}}
+    }
+
+    case ADD_QUESTION_FILE : {
+      return {...state, test: state.test.map(item => {
+        if(item.id === action.payload.id) {
+          return { ...item, types: item.types.map( type => {
+            if(type.type === action.payload.type) {
+              return {...type, questions: type.questions.map( subitem => {
+                if(subitem.id === action.payload.idQueston) {
+                  return {...subitem, files: [...subitem.files, {id: randomInt(), href: action.payload.files}]}
+                } else {
+                  return subitem
+                }
+              })}  
+            } else {
+              return type
+            }
+          })}
+        } else {
+          return item
+        }
+      })} 
+    }
+
+    case DELETE_QUESTION_FILE : {
+      return {...state, test: state.test.map(item => {
+        if(item.id === action.payload.id) {
+          return { ...item, types: item.types.map( type => {
+            if(type.type === action.payload.type) {
+              return {...type, questions: type.questions.map( subitem => {
+                if(subitem.id === action.payload.idQueston) {
+                  return {...subitem, files: subitem.files.filter( state => state.id !== action.payload.idImg)}
+                } else {
+                  return subitem
+                }
+              })}  
+            } else {
+              return type
+            }
+          })}
+        } else {
+          return item
+        }
+      })}
+    }
+
     case ACTIVE_ANSWER : {
       return { ...state, test: state.test.map( item => {
         if(item.id === action.payload.id) {
@@ -298,3 +382,9 @@ export const updateAccessGroupAction = (payload) => ({type: UPDATE_ACCESS_GROUP,
 export const updateAccessAccessAction = (payload) => ({type: UPDATE_ACCESS_ACCESS, payload})
 export const defaultAccessAction = (payload) => ({type: DEFAULT_ACCESS, payload})
 export const updateAccessUpdateAction = (payload) => ({type: UPDATE_ACCESS_UPDATE, payload})
+
+export const addFormFileAction = (payload) => ({type: ADD_FORM_FILE, payload})
+export const deleteFormFileAction = (payload) => ({type: DELETE_FORM_FILE, payload})
+export const updateFormFileAction = (payload) => ({type: UPDATE_FORM_FILE, payload})
+export const addQuestionFileAction = (payload) => ({type: ADD_QUESTION_FILE, payload})
+export const deleteQuestionFileAction = (payload) => ({type: DELETE_QUESTION_FILE, payload})

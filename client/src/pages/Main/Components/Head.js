@@ -91,10 +91,10 @@ return (
     <nav className={scroll < 600 ? 'noActive' : 'active'}>
       <div className='container'>
         <div className='row'>
-          <div className='col-7 col-sm-6 col-md-3 col-lg-3 logo'>
+          <div className='col-7 col-sm-7 col-md-3 col-lg-4 col-xl-3 logo'>
             <a><img onClick={() => window.scrollTo(0,0)} src={`${scroll < 600 ? whiteLogo : originalLogo}`} /></a>
           </div>
-          <div className='col-5 col-sm-6 col-md-9 col-lg-9'>
+          <div className='col-5 col-sm-5 col-md-9 col-lg-8 col-xl-9'>
             <ul>
               {
                 links.map( item => <li key={item.path}><a className={item.exact ? 'active' : ''} onClick={() => moveScrollClick(item.path)} >{item.label}</a></li>)

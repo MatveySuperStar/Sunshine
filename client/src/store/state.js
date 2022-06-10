@@ -63,6 +63,7 @@ export const defaultState = {
       title: '',
       raiting: 0,
       answer: false, 
+      files: [],
       types: [
         { 
           type: "radio", 
@@ -71,8 +72,8 @@ export const defaultState = {
           activeImg: "https://img.icons8.com/ios-glyphs/30/000000/circled.png",
           active: true, 
           questions: [
-            {id: randomInt(), label: "Вопрос 1", answer: false, active: false},
-            {id: randomInt(), label: "Вопрос 2", answer: false, active: false}
+            {id: randomInt(), label: "Вопрос 1", answer: false, active: false, files: []},
+            {id: randomInt(), label: "Вопрос 2", answer: false, active: false, files: []}
           ],
         },
         {
@@ -82,8 +83,8 @@ export const defaultState = {
           activeImg: "https://img.icons8.com/ios/30/000000/checked-checkbox--v1.png",
           active: false, 
           questions: [
-            {id: randomInt(), label: "Вопрос 1", answer: false, active: false},
-            {id: randomInt(), label: "Вопрос 2", answer: false, active: false}
+            {id: randomInt(), label: "Вопрос 1", answer: false, active: false, files: []},
+            {id: randomInt(), label: "Вопрос 2", answer: false, active: false, files: []}
           ]
         }, 
         {

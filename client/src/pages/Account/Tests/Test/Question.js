@@ -32,7 +32,7 @@ const Question = ({id_form, type, img, question, questions=[]}) => {
 
         <div className='col-12 col-sm-3 col-md-3'>
           <div className='row justify-content-end'>
-            <div className={`col-4 col-md-4 ${question.answer ? 'active' : 'noActive'}`}>
+            <div className={`col-4 col-md-4 ${question.answer ? 'visible' : 'invisible'}`}>
               <img src="https://img.icons8.com/emoji/30/000000/check-mark-emoji.png"/>
             </div>
             <div className='col-4 col-md-4'>
